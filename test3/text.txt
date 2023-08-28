@@ -1,0 +1,136 @@
+UDP
+
+TCP
+
+
+OSI 7 layers
+Application (Game Events) {Input Updates, State Updates}
+Presentation (Game Packetization) {Serialization, Buffering}
+Session (Connection & Data Exchange) {Sockets}
+Transport {Tcp Udp}
+Network {IP}
+Data Link {(Mac) Ethernet}
+Physical
+
+
+Architecture.
+
+The connetion is always between twho devices, 
+and each side uses its own IP and port number. 
+Usually, one side is called the client , 
+the other side the server.
+
+The server is continually waiting for incoming connections. 
+This is called listening which is always done on a ceratin IP and port number.
+
+
+IP addresses.
+
+Both Srv and cli use an ip and port num.
+The ip adress of both 
+server and client is configured during network setup unless it is allocated dynamically.
+A machine may have more than one network interface card
+(NIC), in which case it may have more than one IP adress.
+When developing Network Programs the port number of the
+server is usually specified within the code, whereas the client
+port number is allocated by the o/s.
+The loopback adress 127.0.0.1 refers to the current machine. 
+This can be used during development to test both
+client and server on a single machine.
+
+
+Ports
+For machine to send and receive data.
+21 port is ftp (file transfer protocol).
+
+Sockets
+Definition: A pip between two computers on a network through which data flows.
+Tcp:streaming Socket (secure connection between client and server).
+Udp: Datagram socket (less reliable).
+
+Binding the ip and port makes a server socket unbound -> bound
+Binding is basically adding info to socket. 
+After the socket is bound, it is put into the listening state, waiting
+for incoming connections on the port (in this example port 5555) unbound -> bound -> listening.
+
+for a client to connect to the server it creates its own socket.
+client makes a request. once the request is admited. The listening server is duplicated. The
+reason why the listening socket will keep listening for other connections.
+
+
+unix:
+
+server:
+
+Initialize 
+create a socket. socket()
+bind the socket. bind()
+listen on the socket. listen().
+accept a connection. accept(), connect()
+send and receive data. recv(), send(), recvfrom(), sendto().
+disconect. closesocket().
+
+Creating:
+int socket(int af, int type, int protocol); 
+af: the adress family specification . AF_INET for udp or tcp.
+type: the type spec. for the new socket(SOCK_STREAM for tcp and SOCK_DGRAM for udp).
+protocol: the protocol to be used (IPPROTO_TCP for tcp).
+
+Bind:
+int bind(Socket s, const struct sockaddr* name, int socklen);
+s:Descriptor identifying an unbound socket.
+name: Adress to assign to the socket from the sockaddr structure.
+socklen: length in bytes of the adress structure.
+Error: returns SOCKET_ERROR if error or 0 if ok.
+
+sockaddr * [XSI] Structure used by kernel to store most addresses.
+sockaddr_in  * Socket address, internet style. 
+
+the typecast is for compatibility.
+
+struct sockaddr_in {
+    short sin_family;
+    unsigned short sin_port;
+    struct in_addr sin_addr;
+    char sin_zero[8];
+};
+sin_family: address family must be AF_INET.
+sin_port: IP port.
+sin_addr: IP adress.
+sin_zero: padding to make structure the same size as SOCKADDR. the htons fuction returns the
+value in TCP/IP network byte order.
+
+Listen:
+int listen(Socket s, int backlog);
+s: Descriptor identifying a bound, unconnected socket.
+backlog: The maximum number of connections allowed.
+
+if no error occurs, listen returns zero. SOCKET_ERROR if error.
+
+
+Accept:
+Socket accept(Socket s, struct sockaddr* addr, int * addrlen);
+s: Descriptor that identifies a socket that has been placed 
+in a listening state with the listen() function.
+addr: optional structure containing the client adress information.
+addrlen: Optional size of the adress structure.
+accept returns an other socket which is dedicated on listening the client.
+
+
+
+client:
+
+Initialize.
+Create a socket. socket().
+Connect to the server. connect().
+send and receive data.
+Disconnect, closesocket().
+
+
+Connect:
+int connect(Socket s, const struct sockaddr* addr, socklen_t addrlen);
+s: Descriptor that identifies a socket.
+addr: structure containing server IP adress and port.
+addrlen: size in bytes of addr structure.
+connect will wait 75 seconds for server to respond.
+returns 0 if successful or socket_error if not.
