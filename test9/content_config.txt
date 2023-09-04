@@ -1,0 +1,3 @@
+/hello.html = Hello, World!
+/about.html = This is the about page.
+/contact.html = Contact us at contact@example.com.

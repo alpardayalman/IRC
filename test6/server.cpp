@@ -14,9 +14,11 @@ std::vector<int> clientSockets;  // Store client sockets
 
 // Function to broadcast a message to all connected clients
 void broadcastMessage(const char* message, int senderSocket) {
-    for (int clientSocket : clientSockets) {
-        if (clientSocket != senderSocket) {
-            send(clientSocket, message, strlen(message), 0);
+    for(std::vector<int>::iterator it = clientSockets.begin(); it != clientSockets.end(); ++it)
+    {
+        int socket = static_cast<int>((*it));
+        if (socket != senderSocket) {
+            send(socket, message, strlen(message), 0);
         }
     }
 }
