@@ -1,0 +1,2 @@
+Okulda calistirmiyor.
+SOCK_RAW kullanarak yapabiliyoruz sudo izinine ihtiyac var. (neden i don't kno, ogrenen olursa anlatsin.)
