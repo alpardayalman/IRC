@@ -1,8 +1,4 @@
-UDP
-
-TCP
-
-
+Vocabulary check: UDP,TCP,FTP
 OSI 7 layers
 Application (Game Events) {Input Updates, State Updates}
 Presentation (Game Packetization) {Serialization, Buffering}
@@ -10,7 +6,7 @@ Session (Connection & Data Exchange) {Sockets}
 Transport {Tcp Udp}
 Network {IP}
 Data Link {(Mac) Ethernet}
-Physical
+Physical.
 
 
 Architecture.
@@ -43,6 +39,8 @@ Ports
 For machine to send and receive data.
 21 port is ftp (file transfer protocol).
 
+----------------------------------------------------------------------------------------
+
 Sockets
 Definition: A pip between two computers on a network through which data flows.
 Tcp:streaming Socket (secure connection between client and server).
@@ -58,17 +56,57 @@ client makes a request. once the request is admited. The listening server is dup
 reason why the listening socket will keep listening for other connections.
 
 
-unix:
+Data Transfer:
+On layered models ( cf. how the data is physically transmitted) :
 
-server:
+Data < TFTP < UDP < IP < Ethernet
 
-Initialize 
+Pratical application of a layered model :
+Application Layer (telnet, ftp, etc.)
+Host-to-Host Transport Layer (TCP, UDP)
+Internet Layer (IP and routing)
+Network Access Layer (Ethernet, wi-fi, or whatever)
+
+
+About building a simple packet : " All you have to do for stream sockets is send() the data out."
+
+
+Host byte Order : sur les ordis parfois les valeurs sont stored à l'envers (cf. little Endian avec Intel - vs Big Endian). 
+Pour être sûrs que tout rentre dans l'ordre : h(ost) to n(etwork) s(hort) <----
+=> la htons() fonction s'occupe de tout convertir dans le bon ordre!
+
+----------------------------------------------------------------------------------------
+
+Socket closer look.
+-----------
+
+Server:
+Initialize.
 create a socket. socket()
 bind the socket. bind()
 listen on the socket. listen().
 accept a connection. accept(), connect()
 send and receive data. recv(), send(), recvfrom(), sendto().
 disconect. closesocket().
+
+Cheat sheet :
+Socket: Create a new communication
+Bind: Attach a local address to a socket
+Listen: Announce willingness to accept connections
+Accept: Block caller until a connection request arrives
+Connect: Actively attempt to establish a connection
+Send: Send some data over a connection
+Receive: Receive some data over a connection
+Close: Release the connection
+
+Server Socket
+1. create a socket - Get the file descriptor! (socket())
+2. bind to an address -What port am I on? (bind())
+3. listen on a port, and wait for a connection to be established. (listen())
+4. accept the connection from a client. (accept(), connect())
+5. send/recv - the same way we read and write for a file. (send(), recv())
+6. shutdown to end read/write.
+7. close to releases data. (close())
 
 Creating:
 int socket(int af, int type, int protocol); 
@@ -88,7 +126,72 @@ sockaddr_in  * Socket address, internet style.
 
 the typecast is for compatibility.
 
-struct sockaddr_in {
+Listen:
+int listen(Socket s, int backlog);
+s: Descriptor identifying a bound, unconnected socket.
+backlog: The maximum number of connections allowed.
+
+if no error occurs, listen returns zero. SOCKET_ERROR if error.
+
+Accept:
+Socket accept(Socket s, struct sockaddr* addr, int * addrlen);
+s: Descriptor that identifies a socket that has been placed 
+in a listening state with the listen() function.
+addr: optional structure containing the client adress information.
+addrlen: Optional size of the adress structure.
+accept returns an other socket which is dedicated on listening the client.
+
+-----
+Client - side:
+
+1. create a socket.
+2. connect to a server.
+3. send/recv - repeat until we have or receive data
+4. shutdown to end read/write.
+5. close to releases data.
+
+
+Connect:
+int connect(Socket s, const struct sockaddr* addr, socklen_t addrlen);
+s: Descriptor that identifies a socket.
+addr: structure containing server IP adress and port.
+addrlen: size in bytes of addr structure.
+connect will wait 75 seconds for server to respond.
+returns 0 if successful or socket_error if not.
+
+----------------------------------------------------------------------------------------
+
+Detailed Structs.
+
+Structs
+
+int Socket descriptor; 
+
+1) struct addrinfo {
+  int ai_flags; // AI_PASSIVE, AI_CANONNAME, etc.
+  int ai_family; // AF_INET, AF_INET6, AF_UNSPEC
+  int ai_socktype; // SOCK_STREAM, SOCK_DGRAM
+  int ai_protocol; // use 0 for "any"
+  size_t ai_addrlen; // size of ai_addr in bytes
+  struct sockaddr *ai_addr; // struct sockaddr_in or _in6
+  char *ai_canonname; // full canonical hostname
+  struct addrinfo *ai_next; // linked list, next node
+};
+
+getaddrinfo() = returns a pointer to a new linked list of the struct addrinfo filled out.
+
+Inside the struct addrinfo, there is the struct sockaddr:
+2) struct sockaddr {
+  unsigned short sa_family; // address family, AF_xxx
+  char sa_data[14]; // 14 bytes of protocol
+  address
+};
+
+sa_data contains a destination address and port number for the socket.
+
+To deal with Ipv4:
+
+3)struct sockaddr_in {
     short sin_family;
     unsigned short sin_port;
     struct in_addr sin_addr;
@@ -100,37 +203,69 @@ sin_addr: IP adress.
 sin_zero: padding to make structure the same size as SOCKADDR. the htons fuction returns the
 value in TCP/IP network byte order.
 
-Listen:
-int listen(Socket s, int backlog);
-s: Descriptor identifying a bound, unconnected socket.
-backlog: The maximum number of connections allowed.
+=> "So even though connect() wants a struct sockaddr*, 
+you can still use a struct sockaddr_in and cast it at the last minute!"
 
-if no error occurs, listen returns zero. SOCKET_ERROR if error.
+More details on the struct:
+sin_zero should be set to all 0 using memset()
+sin_familiy corresponds to sa_family in sockaddr and should be set to AF_INET
+sin_port must be in Network Byte Order using htons()
 
+sin_addr is a struct in_addr, which is :
+4) struct in_addr {
+  uint32_t s_addr; // that's a 32-bit int (4 bytes)
+};
 
-Accept:
-Socket accept(Socket s, struct sockaddr* addr, int * addrlen);
-s: Descriptor that identifies a socket that has been placed 
-in a listening state with the listen() function.
-addr: optional structure containing the client adress information.
-addrlen: Optional size of the adress structure.
-accept returns an other socket which is dedicated on listening the client.
+5) struct sockaddr_storage that is
+designed to be large enough to hold both IPv4 and IPv6 structures.
+"See, for some calls,
+sometimes you don’t know in advance if it’s going to fill out your struct sockaddr
+with an IPv4 or IPv6 address. So you pass in this parallel structure, very similar to
+struct sockaddr except larger, and then cast it to the type you need " (struct sockaddr_in for IPv4 for intstance)
 
+struct sockaddr_storage {
+  sa_family_t ss_family; // address family
+  
+  // all this is padding, implementation specific, ignore it:
+  char __ss_pad1[_SS_PAD1SIZE];
+  int64_t __ss_align;
+  char __ss_pad2[_SS_PAD2SIZE];
+};
 
+----------------------------------------------------------------------------------------
 
-client:
+IP Adresses
 
-Initialize.
-Create a socket. socket().
-Connect to the server. connect().
-send and receive data.
-Disconnect, closesocket().
+inet_pton() => converts an IP address in numbers into a struct in(6)_addr 
+- pton => printable to network -
 
+Example : 
+struct sockaddr_in sa;
+inet_pton(AF_INET, "10.12.110.57", &(sa.sin_addr));
 
-Connect:
-int connect(Socket s, const struct sockaddr* addr, socklen_t addrlen);
-s: Descriptor that identifies a socket.
-addr: structure containing server IP adress and port.
-addrlen: size in bytes of addr structure.
-connect will wait 75 seconds for server to respond.
-returns 0 if successful or socket_error if not.
+Pour les conversions inverses, il faut utiliser inet_ntop().
+
+char ip4[INET_ADDRSTRLEN];
+struct sockaddr_in sa; 
+inet_ntop(AF_INET, &(sa.sin_addr), ip4, INET_ADDRSTRLEN);
+
+----------------------------------------------------------------------------------------
+
+Systems calls
+= we get into the ones that allow you to access the network functionality of any box
+that supports the sockets API
+
+Order of these system calls :
+1) getaddrinfo()
+2) socket() => get the file descriptor
+
+  int socket(int domain, int type, int protocol);
+  int socket(IPv4, SOCK_STREAM, tcp);
+3) bind() => what port am i on?
+4) connect()
+5) listen()
+6) accept()
+7) send() et recv()
+8) close() et shutdown()
+9) getpeername()
+10) gethostname()
