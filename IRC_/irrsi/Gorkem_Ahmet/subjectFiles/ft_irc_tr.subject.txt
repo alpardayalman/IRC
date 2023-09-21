@@ -1,0 +1,124 @@
+/*
+	--->💬 ft_irc v6 <---
+	---> Internet Relay Chat / İnternet Aktarmalı Sohbet <---
+	Özet: Bu proje kendi IRC sunucunuzu yaratmakla ilgilidir.
+		Sunucunuza bağlanmak ve test etmek için gerçek bir IRC istemcisi kullanacaksınız.
+		İnternet, bağlı bilgisayarların birbirleriyle etkileşime girmesine izin veren katı standartlar protokolleri tarafından yönetilir.
+
+	---> 𝐈. Introduction / Giriş  <---
+		Internet Relay Chat veya IRC, Internet üzerinde metin tabanlı bir iletişim protokolüdür.
+			Herkese açık veya özel olabilen gerçek zamanlı mesajlaşma sunar.
+			Kullanıcılar doğrudan mesaj alışverişinde bulunabilir ve grup kanallarına katılabilir.
+
+		IRC istemcileri, kanallara katılmak için IRC sunucularına bağlanır.
+			IRC sunucuları bir ağ oluşturmak için birbirine bağlanır.
+
+	---> 𝐈𝐈. General Rules / Genel Kurallar  <---
+		• Programınız hiçbir koşulda (bellek tükendiğinde bile) çökmemeli ve beklenmedik bir şekilde kapanmamalıdır.
+			Böyle bir durumda projeniz işlevsiz kabul edilecek ve notunuz 0 olacaktır.
+		• Kaynak dosyalarınızı derleyecek bir Makefile teslim etmelisiniz.
+			Yeniden derlenmemelidir(relink).
+		• Makefile dosyanız en azından şu kuralları içermelidir:
+			'$(NAME)', 'all', 'clean', 'fclean' ve 're'
+		• Kodunuzu 'c++' ve '-Wall -Wextra -Werror' bayraklarıyla(flags) derleyin.
+		• Kodunuz C++ 98 standardına uygun olmalıdır.
+			Ardından, '-std=c++98' bayrağını(flag) eklerseniz derlenmesi gerekir.
+		• Her zaman yapabileceğiniz en fazla C++ özelliğini kullanarak geliştirmeye çalışın (örneğin, <string.h> yerine <cstring>'i seçin).
+			C işlevlerini kullanmanıza izin verilir, ancak mümkünse her zaman C++ sürümlerini tercih edin.
+		• Herhangi bir 'harici kitaplık' ve 'Boost kitaplığı' YASAKTIR.
+
+	---> 𝐈𝐈𝐈. Mandatory Part / Zorunlu Kısım  <---
+-----------------------------------------------------------------------------------------------------------------------------
+|	-> Program adı:					ircserv																					|
+|	-> Teslim edilecek dosyalar:	Makefile, *.{h, hpp}, *.cpp, *.tpp, *.ipp, isteğe bağlı bir yapılandırma dosyası		|
+|	-> Makefile:					NAME, all, clean, fclean, re															|
+|	-> Argümanlar:					port: The listening port / dinleme bağlantı noktası										|
+|									password: The connection password / bağlantı şifresi									|
+|	-> Harici fonksiyonlar:			C++ 98'deki her yapı,																	|
+|									socket, close, setsockopt, getsockname, getprotobyname, gethostbyname, getaddrinfo,		|
+|									freeaddrinfo, bind, connect, listen, accept, htons, htonl, ntohs, inet_addr, inet_ntoa,	|
+|									send, recv, signal, lseek, fstat, fcntl, poll (ya da aynı işleve sahip bir fonksiyon)	|
+|	-> Libft yetkisi:				yok																						|
+|	-> Tanım:						C++ 98'de bir IRC sunucusu																|
+-----------------------------------------------------------------------------------------------------------------------------
+		C++ 98'de bir IRC sunucusu geliştirmelisiniz.
+		Bir istemci(client) OLUŞTURMAMALISINIZ!.
+		Sunucudan(server) sunucuya iletişimi ele ALMAMALISINIZ!.
+
+		Yürütülebilir dosyanız aşağıdaki gibi çalıştırılacaktır:
+			'./ircserv <port> <password>'
+
+		• port: IRC sunucunuzun gelen IRC bağlantılarını dinleyeceği port numarası.
+		• password: Bağlantı şifresi.
+			Sunucunuza bağlanmaya çalışan herhangi bir IRC istemcisi tarafından gerekli olacaktır.
+
+		ℹ️ Konuda ve değerlendirme ölçeğinde poll()'den bahsedilse bile, select(), kqueue() veya epoll() gibi herhangi bir eşdeğeri kullanabilirsiniz.
+
+	---> 𝐈𝐈𝐈. ⓵ Requirements / Gereksinimler  <---
+		• Sunucu aynı anda birden fazla istemciyi yönetebilmeli ve asla askıda kalmamalıdır.
+		• Fork oluşturma izni verilmez.
+			Tüm Input/Output işlemleri blokesiz olmalıdır.
+		• Tüm bu işlemleri (okuma(read), yazma(write), aynı zamanda dinleme(listen) vb.) işlemek için yalnızca 1 poll() (veya eşdeğeri) kullanılabilir.
+
+		🚨 Çünkü bloke olmayan dosya tanımlayıcıları kullanmanız gerektiğinde, read/recv veya write/send fonksiyonlarını poll() (veya eşdeğer işlevler) olmadan kullanmanız mümkündür ve sunucunuz bloklanmaz.
+		🚨 Ancak daha fazla sistem kaynağı tüketir.
+		🚨 Bu nedenle, poll() (veya eşdeğeri) kullanmadan herhangi bir dosya tanıtıcıda read/recv veya write/send çalışırsanız, notunuz 0 olacaktır.
+
+		• Birkaç IRC istemcisi mevcuttur.
+			Bunlardan birini referans olarak seçmelisiniz.
+			Referans olarak aldığınız istemciniz değerlendirme sürecinde kullanılacaktır.
+		• Referans istemciniz herhangi bir hata ile karşılaşmadan sunucunuza bağlanabilmelidir.
+		• İstemci ve sunucu arasındaki iletişim TCP/IP (v4 veya v6) aracılığıyla yapılmalıdır.
+		• Referans istemcinizi sunucunuzla kullanmak, onu herhangi bir resmi IRC sunucusuyla kullanmaya benzer olmalıdır.
+			Ancak, yalnızca aşağıdaki özellikleri uygulamanız gerekir:
+			◦ Referans istemcinizi kullanarak kimlik doğrulaması yapabilmeniz, bir takma ad, bir kullanıcı adı belirleyebilmeniz, bir kanala katılabilmeniz, özel mesajlar gönderebilmeniz ve alabilmeniz gerekir.
+			◦ Bir istemciden bir kanala gönderilen tüm mesajların, kanala katılan diğer tüm istemcilere iletilmesi gerekir.
+			◦ Operatörler ve düzenli(uygun) kullanıcılarınızın olması gerekmektedir.
+			◦ Ardından, operatörlere özgü komutları uygulamanız gerekir.
+		• Elbette sizden temiz bir kod yazmanız bekleniyor.
+
+	---> 𝐈𝐈𝐈. ⓶ For MacOS only / Yalnızca MacOS için   <---
+
+		ℹ️ MacOS, write()'ı diğer Unix OS'lerle aynı şekilde uygulamadığından, fcntl()'yi kullanmanıza izin verilir.
+		ℹ️ Diğer Unix işletim sistemlerindekine benzer bir davranış elde etmek için dosya tanıtıcıları(fd) engellemesiz(non-blocking) modda kullanmalısınız.
+
+		🚨 Ancak, fcntl() işlevini yalnızca aşağıdaki şekilde kullanmanıza izin verilir:
+			'fcntl(fd, F_SETFL, O_NONBLOCK);'
+		🚨 Başka herhangi bir bayrak yasaktır.
+
+	---> 𝐈𝐈𝐈. ⓷ Test example / Test örneği <---
+
+		Olası her hatayı ve sorunu (kısmi veri alma(receiving partial data), düşük bant genişliği(low bandwidth) vb.) kesinlikle doğrulayın.
+
+		Sunucunuzun kendisine gönderdiğiniz her şeyi doğru bir şekilde işlemesini sağlamak için nc kullanarak aşağıdaki basit test yapılabilir:
+			-----------------------------
+			|	\$> nc 127.0.0.1 6667	|
+			|	com^Dman^Dd				|
+			|	\$>						|
+			-----------------------------
+
+			Komutu birkaç parça halinde göndermek için ctrl+D tuşlarını kullanın: 'com', sonra 'man', ardından 'd\n'.
+			Bir komutu işlemek için, yeniden oluşturmak üzere önce alınan paketleri toplamanız gerekir.
+
+	---> 𝐈𝐕. Bonus part / Bonus kısım <---
+
+		İşte IRC sunucunuza ekleyebileceğiniz ekstra özellikler, böylece daha da gerçek bir IRC sunucusu gibi görünür:
+			• Dosya aktarımını yönetin.
+			• Bir bot ekleyin.
+
+		🚨 Bonus kısım, yalnızca zorunlu kısım MÜKEMMEL ise değerlendirilecektir.
+		🚨 Kusursuz demek, zorunlu olan kısım bütün olarak yapılmış ve arızasız çalışıyor demektir.
+		🚨 TÜM zorunlu gereksinimleri geçmediyseniz, bonus bölümünüz hiç değerlendirilmeyecektir.
+
+	---> 𝐕. Submission and peer-evaluation / Sunum ve akran değerlendirmesi <---
+
+		Git deponuzdaki ödevinizi her zamanki gibi teslim edin.
+			Savunma sırasında yalnızca deponuzdaki çalışma değerlendirilecektir.
+			Doğru olduklarından emin olmak için dosyalarınızın adlarını iki kez kontrol etmekten çekinmeyin.
+
+		Teslim edilmeyecek ve notlandırılmayacak olsalar bile, projeniz için test programları oluşturmanız önerilir.
+			Bu testler, sunucunuzu savunma sırasında test etmek için özellikle yararlı olabilir, ancak aynı zamanda bir gün başka bir ft_irc'i değerlendirmek zorunda kalırsanız, meslektaşınızınkini de test edebilir.
+			Gerçekten de, değerlendirme sürecinde ihtiyacınız olan testleri kullanmakta özgürsünüz.
+
+		ℹ️ Değerlendirme sürecinde referans istemciniz(client) kullanılacaktır.
+*/

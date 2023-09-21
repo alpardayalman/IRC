@@ -1,0 +1,119 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gsever <gsever@student.42kocaeli.com.tr    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/18 18:46:27 by gsever            #+#    #+#              #
+#    Updated: 2023/07/21 14:30:41 by gsever           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#!!!!!!!!! NOTE: < here > you need change with your customize. !!!!!!!
+NAME		= ircserv
+
+#	Flags for compile
+CC			= c++
+FLAGS		= -Wall -Werror -Wextra -std=c++98 -Wshadow -O3
+
+#	All process use for compiling.
+UNAME		:= $(shell uname -s)
+NUMPROC		:= 8
+
+OS			:= NULL
+
+INCLUDES_DIRECTORY = includes
+INCLUDES	= $(wildcard $(INCLUDES_DIRECTORY)/*.hpp)
+SOURCES_DIRECTORY = sources
+SOURCES		= $(wildcard $(SOURCES_DIRECTORY)/*.cpp)
+OBJECTS_DIRECTORY = objects
+OBJECTS		= $(addprefix $(OBJECTS_DIRECTORY)/, $(notdir $(SOURCES:%.cpp=%.o)))
+
+TOTAL_FILES := $(words $(SOURCES))
+CURRENT_FILES = 0
+
+PROGRESS_CHAR = "▓"
+EMPTY_CHAR = "░"
+PROGRESS_WIDTH = 50
+
+define update_progress
+	CURRENT_FILES=$(shell echo $$(($(CURRENT_FILES)+1)))
+	CURRENT_PROGRESS=$(shell echo $$((($(CURRENT_FILES) * $(PROGRESS_WIDTH)) / $(TOTAL_FILES))))
+	printf "\r\033[K"
+	printf "$(GREEN)Compiled files:$(RESET) %d/%d [" $(CURRENT_FILES) $(TOTAL_FILES)
+	printf "%0.s$(PROGRESS_CHAR)" $(shell seq 1 $(CURRENT_PROGRESS))
+	printf "%0.s$(EMPTY_CHAR)" $(shell seq 1 $$(($(PROGRESS_WIDTH) - $(CURRENT_PROGRESS))))
+	printf "]"
+endef
+
+define progress_done
+	printf "\n$(GREEN)Done!$(RESET)\n"
+endef
+
+#	COLORS --> 🟥 🟩 🟦
+BLACK	= \033[0;30m
+RED		= \033[0;31m
+GREEN	= \033[0;32m
+YELLOW	= \033[0;33m
+BLUE	= \033[0;34m
+PURPLE	= \033[0;35m
+CYAN	= \033[0;36m
+WHITE	= \033[0;37m
+END		= \033[m
+RESET	= \033[0m
+X		= \033[m
+
+#	COLORS BOLD--> B🟥 B🟩 B🟦
+B_CYAN		= \033[1;36m
+B_BLUE		= \033[1;34m
+B_YELLOW	= \033[1;33m
+B_GREEN		= \033[1;32m
+B_RED		= \033[1;31m
+B_RESET		= \033[1m
+
+ifeq ($(UNAME), Linux)
+	NUMPROC := $(shell grep -c ^processor /proc/cpuinfo)
+	OS = "You are connected from -$(CYAN)$(UNAME)$(X)- 🐧 Welcome -$(CYAN)$(USER)$(X)- 😄!"
+else ifeq ($(UNAME), Darwin)
+	NUMPROC := $(shell sysctl -n hw.ncpu)
+	OS = "You are connected from 42 school's iMac 🖥 ! Welcome $(CYAN)$(USER)$(X)"
+	ifeq ($(USER), yuandre)
+		OS = "You are connected from -$(CYAN)MacBook$(X)- 💻 Welcome -$(CYAN)$(USER)$(X)-!"
+	endif
+endif
+
+.PHONY: all clean fclean re
+
+all:
+# @$(MAKE) $(NAME)
+	@$(MAKE) $(NAME) -j $(NUMPROC) --no-print-directory
+
+# Compiling
+$(OBJECTS_DIRECTORY)/%.o: $(SOURCES_DIRECTORY)/%.cpp | $(OBJECTS_DIRECTORY)
+	@$(CC) $(FLAGS) -c $< -o $@
+	@$(call update_progress)
+
+$(NAME): $(OBJECTS)
+	@$(CC) $(FLAGS) $(OBJECTS) -o $(NAME)
+	@printf "\r\033[K"
+	@printf "%-50b %b" "$(GREEN)CREATED $(NAME)" "[FINISHED]$(X)\n"
+	@echo $(OS) Compiled with $(NUMPROC) cores!
+	@$(call progress_done)
+
+# Objects file creating
+$(OBJECTS_DIRECTORY):
+	@mkdir -p $@
+	@echo "$(NAME): $(GREEN)$@ was created$(RESET)"
+
+clean:
+	@rm -rf $(OBJECTS_DIRECTORY)
+	@echo "$(NAME): $(RED)$(OBJECTS_DIRECTORY) was deleted$(RESET)"
+
+fclean: clean
+	@rm -f $(NAME)
+	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
+
+re:
+	@$(MAKE) fclean --no-print-directory
+	@$(MAKE) all --no-print-directory
