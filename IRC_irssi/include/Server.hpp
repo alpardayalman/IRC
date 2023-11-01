@@ -19,6 +19,10 @@ class Server {
         int                     reuse;
         const std::string       server_name;
         std::vector<Client>     clients; // client vectoru.
+        fd_set                  readFds;
+        fd_set                  writeFds;
+        fd_set                  readFdsSup;
+        fd_set                  writeFdsSup;
 
     public:
         Server(size_t port_number, char * password);
@@ -30,5 +34,5 @@ class Server {
         void    socketListen( void ) const;
         void    run( void );
         int     findMaxFd( void ) const;
-        bool    AddUser_checkPassword(std::string& s, Client& c);
+        bool    checkPassword(std::string& s, Client& c);
 };
