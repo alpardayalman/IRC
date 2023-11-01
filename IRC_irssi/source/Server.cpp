@@ -1,4 +1,5 @@
 #include "../include/Server.hpp"
+#include "../include/Utilities.hpp"
 
 Server::Server(size_t port_number, char * password) : port_number(port_number), password(std::string(password)) , reuse(1) {
     std::cout << this->port_number << " " << this->password << std::endl;
@@ -78,14 +79,14 @@ void    Server::run( void ) {
             this->readFdsSup = this->readFds;
             this->writeFdsSup = this->writeFds;
             state = select(this->clients.size() + 4, &this->readFdsSup, &this->writeFdsSup, NULL, 0);
-            std::cout << ++k << " ";
+            std::cout << ++k << " ";// select'te bekliyor.
         }
 
         if (FD_ISSET(this->server_fd, &this->readFdsSup))
         {
             tmp.cliFd = accept(this->server_fd, (sockaddr *)&cliAddr, &cliSize);
             tmp.port = ntohs(cliAddr.sin_port);
-            std::cout << "Top G:" << inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN) << std::endl; // insanlar okuyabilsin diye.
+            inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN); // insanlar okuyabilsin diye.
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
             std::cout << "New Client Connected!" << std::endl;
@@ -113,9 +114,10 @@ void    Server::run( void ) {
                     buffer[readed] = 0;
 
                     // BUFFER'i sondan ve bastan trim etmek gerekiyor --> somebody please.
+                    // neyse yaptim
                     // INFO
                     std::string s = buffer;
-
+                    s = Utilities::trim(s); // trimming the shit out of them.
                     if (s.find("/INFO") != (unsigned long) -1) { // there is a newline at the end.
                         std::cout << "NICK:" <<(*begin).nick << " USER:" << (*begin).user << std::endl;
                     }
