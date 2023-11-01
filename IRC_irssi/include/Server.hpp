@@ -7,6 +7,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include "Client.hpp"
+#include <vector>
 
 class Server {
     private:
@@ -16,6 +18,8 @@ class Server {
         bool                    is_running;
         int                     reuse;
         const std::string       server_name;
+        std::vector<Client>     clients; // client vectoru.
+
     public:
         Server(size_t port_number, char * password);
         ~Server();
@@ -24,6 +28,7 @@ class Server {
         void    createSocket( void );
         void    serveraddrSocket( void ) const;
         void    socketListen( void ) const;
-
-
+        void    run( void );
+        int     findMaxFd( void ) const;
+        bool    AddUser_checkPassword(std::string& s, Client& c);
 };
