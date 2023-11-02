@@ -24,6 +24,8 @@ class Server {
         fd_set                  writeFds;
         fd_set                  readFdsSup;
         fd_set                  writeFdsSup;
+        char                    buffer[1024];
+
 
     public:
         Server(size_t port_number, char * password);
@@ -36,4 +38,10 @@ class Server {
         void    run( void );
         int     findMaxFd( void ) const;
         bool    checkPassword(std::string& s, Client& c);
+
+
+        int     Pass(std::string &s, Client& cli);
+        int     Info(std::string &s, Client& cli);
+        int     PrivMsg(std::string &s, Client& cli);
+
 };
