@@ -116,8 +116,9 @@ void    Server::run( void ) {
                     std::string s = this->buffer;
                     s = Utilities::trim(s); // trimming the shit out of them.
 
-                    // PASSWORDU direk istemek lazim yoksa icerde takilabilion.
-
+                    // EMIRCAN: abi moduler olasun diye su bagsettigimiz gibi bir map guzel olur map['INFO'] = &Server::Info tarzi.
+                    // Talha: mayali su chanel isinde ilerlersen cok hizlaniriz
+                    // Emre: her client girdiginde atabilecegimiz bir assci art fonksiyonu olsa cok matrak olur.
                     if (!Pass(s, (*begin))) { // PASSWORD problemi bitti (my bad for my inatcilik)
                         FD_CLR((*begin).cliFd, &this->readFds);
                         FD_CLR((*begin).cliFd, &this->writeFds);
