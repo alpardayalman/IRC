@@ -128,7 +128,7 @@ void    Server::run( void ) {
                         // command(*begin);
                     else if  (this->checkPassword(s, (*begin))) {
                         (*begin).passcheku = 1;
-                        write((*begin).cliFd, "Password is corect\n", 20);
+                        Utilities::fd_write_color((*begin).cliFd, "Password is corect\n", GREEN);
                         write((*begin).cliFd, "/PRIVMSG for sending message\n", 30);
                         std::cout << "Client: " << (*begin).cliFd <<  " has the password correctly"<<std::endl;
                     }
@@ -196,6 +196,7 @@ bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIREL
     // PASS <PSW>
     // NICK <NICK>
     // USER <USR> <USR> <IP> :<REALNAME>
+    
     bool res = false;
     std::vector<std::string> arr;
     std::stringstream iss(s);
@@ -219,7 +220,6 @@ bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIREL
                     c.user = s;
                 }
             }
-            // std::cout << " res: "<< c.pass << " " << c.user << " " << c.user << "\n";
         }
     }
     else {
@@ -230,7 +230,6 @@ bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIREL
         ss >> pass;
         if (!cmd.compare("/PASS")) {
             c.pass = pass;
-            std::cout << "pass:" << c.pass << '\n';
             if (c.pass == password)
                 res=true;
         }
