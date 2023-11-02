@@ -112,7 +112,7 @@ void    Server::run( void ) {
                 else
                 {
                     buffer[readed] = 0;
-
+                    // command_fondle("buffer", client);
                     // BUFFER'i sondan ve bastan trim etmek gerekiyor --> somebody please.
                     // neyse yaptim
                     // INFO
@@ -125,20 +125,24 @@ void    Server::run( void ) {
                     // PASSWORD
                     if ((*begin).passcheku)
                         std::cout << (*begin).cliFd << std::endl;
+                        // command(*begin);
                     else if  (this->checkPassword(s, (*begin))) {
                         (*begin).passcheku = 1;
                         write((*begin).cliFd, "Password is corect\n", 20);
+                        write((*begin).cliFd, "/PRIVMSG for sending message\n", 30);
                         std::cout << "Client: " << (*begin).cliFd <<  " has the password correctly"<<std::endl;
                     }
                     else {
                         FD_CLR((*begin).cliFd, &this->readFds);
                         FD_CLR((*begin).cliFd, &this->writeFds);
                         write((*begin).cliFd, "Password is incorect\n", 22);
+                        std::cout << "client msg:" << buffer << std::endl;
                         std::cout << "Client: " << (*begin).cliFd <<  " has the password incorrectly GTFO"<<std::endl;
                         close((*begin).cliFd);
                         this->clients.erase(begin);
                     }
 
+                    // msg taking
                     if (s.find("/PRIVMSG") != (unsigned long) -1) {
                         for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end();++it)
                         {
@@ -157,12 +161,12 @@ void    Server::run( void ) {
 
 
 
-        //write eventinde.
+        //privmsg eventinde. (write)
         for(std::vector<Client>::iterator begin = this->clients.begin(); begin != this->clients.end() && state;++begin)
         {
             if (FD_ISSET((*begin).cliFd, &this->writeFdsSup))
             {
-                std::cout <<" write" << std::endl;   
+                std::cout <<" write" << std::endl;
                 readed = write((*begin).cliFd, (char *)(*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
                 (*begin).messageBox.erase((*begin).messageBox.begin());
 
@@ -188,19 +192,48 @@ void    Server::run( void ) {
 
 
 bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELIM ALLAH ASKINA
-    
-    if (c.passcheku)
-    {
-        return 1;
-    }
-    else if (s.find("/PASS") != (unsigned long) -1) {
-        int i = 5;
-        for (;s[i] == 32;i++);
-        for (int a = 0; this->password.c_str()[a]; a++) {// password make it better (Emircan)
-            if (s[i + a] != this->password.c_str()[a])
-                return 0;
+    // CAP LS
+    // PASS <PSW>
+    // NICK <NICK>
+    // USER <USR> <USR> <IP> :<REALNAME>
+    bool res = false;
+    std::vector<std::string> arr;
+    std::stringstream iss(s);
+    if (!s.find("CAP LS")){
+        for (; std::getline(iss, s, '\n'); ) {
+            Utilities::trim(s);
+            std::stringstream pss(s);
+            for (int i = 0; pss >> s;i++) {
+                if (!s.compare("PASS")) {
+                    pss >> s;
+                    c.pass = s;
+                    if (c.pass == password)
+                        res=true;
+                }
+                else if (!s.compare("NICK")) {
+                    pss >> s;
+                    c.nick = s;
+                }
+                else if (!s.compare("USER")) {
+                    pss >> s;
+                    c.user = s;
+                }
+            }
+            // std::cout << " res: "<< c.pass << " " << c.user << " " << c.user << "\n";
         }
-        return 1;
     }
-    return 0;
+    else {
+        std::stringstream ss(s);
+        std::cout << "s:" << s << '\n';
+        std::string cmd, pass;
+        ss >> cmd;
+        ss >> pass;
+        if (!cmd.compare("/PASS")) {
+            c.pass = pass;
+            std::cout << "pass:" << c.pass << '\n';
+            if (c.pass == password)
+                res=true;
+        }
+    }
+    return res;
 }

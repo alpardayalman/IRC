@@ -16,6 +16,9 @@ TARGET = $(BIN_DIR)/exec
 
 all: $(TARGET)
 
+run: $(TARGET)
+	@./bin/exec 333 123
+
 $(TARGET): $(OBJ_FILES) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJ_FILES)
 
