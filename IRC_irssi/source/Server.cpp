@@ -70,7 +70,7 @@ void    Server::run( void ) {
     FD_ZERO(&this->writeFdsSup);
 
     FD_SET(this->server_fd, &this->readFds);
-    int k = -1;
+
     while (1)
     {
         while (state == 0)
@@ -78,7 +78,6 @@ void    Server::run( void ) {
             this->readFdsSup = this->readFds;
             this->writeFdsSup = this->writeFds;
             state = select(this->clients.size() + 4, &this->readFdsSup, &this->writeFdsSup, NULL, 0);
-            std::cout << ++k << " ";// select'te bekliyor.
         }
 
         if (FD_ISSET(this->server_fd, &this->readFdsSup))
@@ -98,7 +97,9 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->readFdsSup))
             {
+#ifdef DEBUG
                 std::cout <<"Read" << std::endl;
+#endif
                 readed = read((*begin).cliFd, this->buffer, 1024);
                 if (readed <= 0)
                 {
@@ -117,36 +118,21 @@ void    Server::run( void ) {
 
                     // PASSWORDU direk istemek lazim yoksa icerde takilabilion.
 
-                    if (s.find("/INFO") != (unsigned long) -1) { // there is a newline at the end.
-                        if (!Info(s, (*begin))) {
-                            FD_CLR((*begin).cliFd, &this->readFds);
-                            FD_CLR((*begin).cliFd, &this->writeFds);
-                            write((*begin).cliFd, "Password is incorect\n", 22);
-                            std::cout << "Client: " << (*begin).cliFd <<  " has the password incorrectly GTFO"<<std::endl;
-                            close((*begin).cliFd);
-                            this->clients.erase(begin);                   
-                        }
+                    if (!Pass(s, (*begin))) { // PASSWORD problemi bitti (my bad for my inatcilik)
+                        FD_CLR((*begin).cliFd, &this->readFds);
+                        FD_CLR((*begin).cliFd, &this->writeFds);
+                        write((*begin).cliFd, "Password is incorect\n", 22);
+                        std::cout << "Client: " << (*begin).cliFd <<  " has the password incorrectly GTFO"<<std::endl;
+                        close((*begin).cliFd);
+                        this->clients.erase(begin);
                     }
-                    if (s.find("/PASS") != (unsigned long) -1) {
-                        if (!Pass(s, (*begin))) {
-                            FD_CLR((*begin).cliFd, &this->readFds);
-                            FD_CLR((*begin).cliFd, &this->writeFds);
-                            write((*begin).cliFd, "Password is incorect\n", 22);
-                            std::cout << "Client: " << (*begin).cliFd <<  " has the password incorrectly GTFO"<<std::endl;
-                            close((*begin).cliFd);
-                            this->clients.erase(begin);
-                        }
+
+                    if (s.find("/INFO") != (unsigned long) -1) { // there is a newline at the end.
+                        Info(s, (*begin));
                     }
 
                     if (s.find("/PRIVMSG") != (unsigned long) -1) {
-                        if (!PrivMsg(s, (*begin))) {
-                            FD_CLR((*begin).cliFd, &this->readFds);
-                            FD_CLR((*begin).cliFd, &this->writeFds);
-                            write((*begin).cliFd, "Password is incorect\n", 22);
-                            std::cout << "Client: " << (*begin).cliFd <<  " has the password incorrectly GTFO"<<std::endl;
-                            close((*begin).cliFd);
-                            this->clients.erase(begin);     
-                        }
+                        PrivMsg(s, (*begin));
                     }
                 }
                 state = 0;
@@ -159,7 +145,9 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->writeFdsSup))
             {
+#ifdef DEBUG
                 std::cout <<" write" << std::endl;   
+#endif
                 readed = write((*begin).cliFd, (char *)(*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
                 (*begin).messageBox.erase((*begin).messageBox.begin());
 
@@ -179,54 +167,4 @@ void    Server::run( void ) {
             }
         }
     }
-}
-
-
-
-
-
-bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELIM ALLAH ASKINA
-    // CAP LS
-    // PASS <PSW>
-    // NICK <NICK>
-    // USER <USR> <USR> <IP> :<REALNAME>
-    
-    bool res = false;
-    std::vector<std::string> arr;
-    std::stringstream iss(s);
-    if (!s.find("CAP LS")){
-        for (; std::getline(iss, s, '\n'); ) {
-            Utilities::trim(s);
-            std::stringstream pss(s);
-            for (int i = 0; pss >> s;i++) {
-                if (!s.compare("PASS")) {
-                    pss >> s;
-                    c.pass = s;
-                    if (c.pass == password)
-                        res=true;
-                }
-                else if (!s.compare("NICK")) {
-                    pss >> s;
-                    c.nick = s;
-                }
-                else if (!s.compare("USER")) {
-                    pss >> s;
-                    c.user = s;
-                }
-            }
-        }
-    }
-    else {
-        std::stringstream ss(s);
-        std::cout << "s:" << s << '\n';
-        std::string cmd, pass;
-        ss >> cmd;
-        ss >> pass;
-        if (!cmd.compare("/PASS")) {
-            c.pass = pass;
-            if (c.pass == password)
-                res=true;
-        }
-    }
-    return res;
 }
