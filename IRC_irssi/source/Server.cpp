@@ -5,6 +5,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["PASS"] = &Server::Pass;
     t_cmdFunct["INFO"] = &Server::Info;
     t_cmdFunct["PRIVMSG"] = &Server::PrivMsg;
+    t_cmdFunct["JOIN"] = &Server::Join;
 
 }
 
@@ -31,14 +32,15 @@ void    Server::commandHandler(std::vector<std::string> param, Client& begin) {
         return;
     std::string cmd = param[0];
     param.erase(param.begin());
-    std::cout << "cmd: " << cmd << std::endl;
-    std::cout << "param: " << param[0] << std::endl;
+    // std::cout << "cmd: " << cmd << std::endl;
+    // std::cout << "param: " << param[0] << std::endl;
     if (t_cmdFunct.find(cmd) != t_cmdFunct.end()){
-        std::cout << "Command is found." << std::endl;
+        // std::cout << "Command is found." << std::endl;
         (this->*t_cmdFunct[cmd])(param[0], begin);
     }
     else
-        std::cout << "Command is not found." << std::endl;
+        ;
+        // std::cout << "Command is not found." << std::endl;
 }
 
 void Server::createSocket( void ) {
@@ -74,7 +76,7 @@ void    Server::socketListen( void ) const {
     std::cout << "Success: Server socket is listening." << std::endl;
 }
 
-#define DEBUG_1
+// #define DEBUG_1
 /*
  * Server Multiplexing
 */
