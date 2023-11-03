@@ -67,4 +67,5 @@
     hexchat ve nc ayrimi yapip ona gore bir mesaj gonderelim.
     Good luck folks.
     to do listteki protocolslere bir goz atalim.
+    son saniye update'i sinyalimiz calisiyor ve neden bilmiyorum
 -----------------------------------------
