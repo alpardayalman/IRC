@@ -1,4 +1,8 @@
-#include </Users/tacikgoz/Desktop/IRC/IRC_irssi/include/Server.hpp>
+#include "Server.hpp"
+
+// Bu class mi what the hell, ama kb mergleme demistin dayanamadim. Buradan ilerleriz eline saglik xoxo. (Biseye benzet lutfen)
+// Debug islerini Utilitieslere eklersen super olur.
+// PASSwordu yazdiktan sonra sadece JOIN yazinca server dusuyor...
 
 int  findChanel(std::string& name, std::vector<Chanel> chanels) {
     for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {

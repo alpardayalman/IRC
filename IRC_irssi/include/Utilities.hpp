@@ -4,6 +4,7 @@
 #include <string>
 #include <thread>
 #include <chrono>
+#include <sstream>
 
 // ============= color =============
 # define BLACK		"\033[0;30m"
@@ -22,12 +23,15 @@ class Utilities {
     private:
         Utilities() {}
         ~Utilities() {}
-        static std::string ltrim(const std::string &s);
-        static std::string rtrim(const std::string &s);
+        static std::string                      ltrim(const std::string &s);
+        static std::string                      rtrim(const std::string &s);
 
     public:
-        static int checkPortNumber(char *port_number);
-        static std::string trim(const std::string &s);
-        static void fd_write_color(int fd, const std::string &s, const char *color);
-        static void write_ascii_art(void);
+        static int                              checkPortNumber(char *port_number);
+        static std::string                      trim(const std::string &s);
+        static std::vector<std::string>         tokenParam(std::string& s);
+
+        // ART & DESIGN ®
+        static void                             write_ascii_art(void);
+        static void                             fd_write_color(int fd, const std::string &s, const char *color);
 };

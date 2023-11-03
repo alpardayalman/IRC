@@ -61,3 +61,17 @@ void Utilities::write_ascii_art(void){
     }
     std::cout << std::endl;
 }
+
+
+std::vector<std::string> Utilities::tokenParam(std::string& s) {
+    std::istringstream iss(s);
+    std::vector<std::string> parameters;
+    int paramlen;
+    std::string param;
+    iss >> param;
+    parameters.push_back(param);
+    paramlen = param.length();
+    s.erase(0, paramlen + 1);
+    parameters.push_back(s);
+    return parameters;
+}

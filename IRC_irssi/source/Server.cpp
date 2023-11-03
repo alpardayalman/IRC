@@ -27,7 +27,7 @@ Server::~Server() {
 ** Socket creation.
 */
 
-void    Server::commandHandler(std::vector<std::string> param, Client& begin) {
+void    Server::commandHandler(std::vector<std::string> param, Client& begin) { // what'sup with this function? Emir temize alabilecek misin por favor? Else absurt gozukuyor.
     if (param.size() == 0)
         return;
     std::string cmd = param[0];
@@ -76,7 +76,6 @@ void    Server::socketListen( void ) const {
     std::cout << "Success: Server socket is listening." << std::endl;
 }
 
-// #define DEBUG_1
 /*
  * Server Multiplexing
 */
@@ -122,7 +121,7 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->readFdsSup))
             {
-#ifdef DEBUG
+#ifdef DEBUG_SERVER // Debug'un adlarini file'lara uygun bir sekilde yazalim ve definelama isini Utilities.hpp'de yapalim
                 std::cout <<"Read" << std::endl;
 #endif
                 readed = read((*begin).cliFd, this->buffer, 1024);
@@ -137,38 +136,19 @@ void    Server::run( void ) {
                 else
                 {
                     this->buffer[readed] = 0;
-                    // INFO
-                    // {
-                    // asagida trim edilmis buffer'i s olarak tutuyoruz ve cmd fonksiyonlarimizi ona gore yaptik. 
-                    // tokenleri
+
+                    // Initial Tokenizer.
                     std::string k = this->buffer;
                     std::string s = Utilities::trim(k); // trimming the shit out of them.
+                    std::vector<std::string> parameters = Utilities::tokenParam(s);
 
-                    // istream ve tokenleme.
-                    std::istringstream iss(s);
-                    std::string command;
-                    std::vector<std::string> parameters;
-                    int paramlen;
-                    // Extract the command
-                    // iss >> command;
 
-                    // Extract parameters
-                    std::string param;
-                    iss >> param;
-                    parameters.push_back(param);
-                    paramlen = param.length();
-                    s.erase(0, paramlen + 1);
-                    parameters.push_back(s);
-#ifdef DEBUG_1
+#ifdef DEBUG_SERVER
                     for (int i = 0; i < (int)parameters.size(); i++) {
                         std::cout << i <<": " << parameters[i] << std::endl;
                     }
 #endif
 
-                    // }
-                    // EMIRCAN: abi moduler olasun diye su bagsettigimiz gibi bir map guzel olur map['INFO'] = &Server::Info tarzi.
-                    // Talha: mayali su chanel isinde ilerlersen cok hizlaniriz
-                    // Emre: her client girdiginde atabilecegimiz bir assci art fonksiyonu olsa cok matrak olur.
                     Server::commandHandler(parameters, (*begin));
                     if (!Pass(k, (*begin))) {
                         FD_CLR((*begin).cliFd, &this->readFds);
@@ -189,7 +169,7 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->writeFdsSup))
             {
-#ifdef DEBUG
+#ifdef DEBUG_SERVER
                 std::cout <<" write" << std::endl;   
 #endif
                 readed = write((*begin).cliFd, (char *)(*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
@@ -202,7 +182,7 @@ void    Server::run( void ) {
                 {
                     FD_CLR((*begin).cliFd, &this->readFds);
                     FD_CLR((*begin).cliFd, &this->writeFds);
-                    close((*begin).cliFd); // BUNLA KAPATIYOZ CLIENTI maliz komple
+                    close((*begin).cliFd);
                     this->clients.erase(begin);
                     std::cout << "A client disconnected!" << std::endl;
                 }
