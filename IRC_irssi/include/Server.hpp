@@ -11,6 +11,14 @@
 #include "Client.hpp"
 #include "Chanel.hpp"
 #include <vector>
+#include <map>
+#include <string>
+
+class Client;
+class Server;
+
+typedef int (Server::*CmdFunct)(std::string& , Client&);
+typedef std::map<std::string, CmdFunct>::iterator itCmdFunct;
 
 class Server {
     private:
@@ -28,7 +36,10 @@ class Server {
         char                    buffer[1024];
         std::vector<Chanel>     chanels;
 
+
     public:
+        void    initCommands( void );
+        void    commandHandler(std::vector<std::string>, Client&);
         Server(size_t port_number, char * password);
         ~Server();
     
@@ -42,8 +53,9 @@ class Server {
 
 
         // Commands ––
+        std::map<std::string, CmdFunct> t_cmdFunct;
         int     Pass(std::string &s, Client& cli);
-        bool    checkPassword(std::string& s, Client& c);
+        int     checkPassword(std::string& s, Client& c);
         int     Info(std::string &s, Client& cli);
         int     PrivMsg(std::string &s, Client& cli);
 

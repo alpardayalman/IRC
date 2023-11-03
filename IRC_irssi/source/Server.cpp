@@ -1,11 +1,19 @@
 #include "../include/Server.hpp"
 #include "../include/Utilities.hpp"
 
+void Server::initCommands( void ) {
+    t_cmdFunct["PASS"] = &Server::Pass;
+    t_cmdFunct["INFO"] = &Server::Info;
+    t_cmdFunct["PRIVMSG"] = &Server::PrivMsg;
+
+}
+
 Server::Server(size_t port_number, char * password) : port_number(port_number), password(std::string(password)) , reuse(1) {
     std::cout << this->port_number << " " << this->password << std::endl;
     createSocket();
     serveraddrSocket();
     socketListen();
+    initCommands();
     run();
 }
 Server::~Server() {
@@ -17,6 +25,21 @@ Server::~Server() {
 /*
 ** Socket creation.
 */
+
+void    Server::commandHandler(std::vector<std::string> param, Client& begin) {
+    if (param.size() == 0)
+        return;
+    std::string cmd = param[0];
+    param.erase(param.begin());
+    std::cout << "cmd: " << cmd << std::endl;
+    std::cout << "param: " << param[0] << std::endl;
+    if (t_cmdFunct.find(cmd) != t_cmdFunct.end()){
+        std::cout << "Command is found." << std::endl;
+        (this->*t_cmdFunct[cmd])(param[0], begin);
+    }
+    else
+        std::cout << "Command is not found." << std::endl;
+}
 
 void Server::createSocket( void ) {
 
@@ -114,26 +137,26 @@ void    Server::run( void ) {
                     this->buffer[readed] = 0;
                     // INFO
                     // {
-                    // Bu kisimda tokenlemek gerekiyor su sekilde (örnek) cmd[0] = "/PASS" cmd[1] = "geri kalani". 
-                    // PRIVMSG bircok input aldigi icin cmd[1] geri kalanini alacak prvmsg kisminda bolecegiz. vs.
                     // asagida trim edilmis buffer'i s olarak tutuyoruz ve cmd fonksiyonlarimizi ona gore yaptik. 
                     // tokenleri
-                    std::string s = this->buffer;
-                    s = Utilities::trim(s); // trimming the shit out of them.
+                    std::string k = this->buffer;
+                    std::string s = Utilities::trim(k); // trimming the shit out of them.
 
                     // istream ve tokenleme.
                     std::istringstream iss(s);
                     std::string command;
                     std::vector<std::string> parameters;
-
+                    int paramlen;
                     // Extract the command
-                    iss >> command;
+                    // iss >> command;
 
                     // Extract parameters
                     std::string param;
-                    while (iss >> param) {
-                        parameters.push_back(param);
-                    }
+                    iss >> param;
+                    parameters.push_back(param);
+                    paramlen = param.length();
+                    s.erase(0, paramlen + 1);
+                    parameters.push_back(s);
 #ifdef DEBUG_1
                     for (int i = 0; i < (int)parameters.size(); i++) {
                         std::cout << i <<": " << parameters[i] << std::endl;
@@ -144,22 +167,14 @@ void    Server::run( void ) {
                     // EMIRCAN: abi moduler olasun diye su bagsettigimiz gibi bir map guzel olur map['INFO'] = &Server::Info tarzi.
                     // Talha: mayali su chanel isinde ilerlersen cok hizlaniriz
                     // Emre: her client girdiginde atabilecegimiz bir assci art fonksiyonu olsa cok matrak olur.
-
-                    if (!Pass(s, (*begin))) {
+                    Server::commandHandler(parameters, (*begin));
+                    if (!Pass(k, (*begin))) {
                         FD_CLR((*begin).cliFd, &this->readFds);
                         FD_CLR((*begin).cliFd, &this->writeFds);
                         write((*begin).cliFd, "Password is incorect\n", 22);
                         std::cout << "Client: " << (*begin).cliFd <<  " has the password incorrectly GTFO"<<std::endl;
                         close((*begin).cliFd);
                         this->clients.erase(begin);
-                    }
-
-                    if (command == "INFO") { // there is a newline at the end.
-                        Info(s, (*begin));
-                    }
-
-                    if (command == "PRIVMSG") {
-                        PrivMsg(s, (*begin));
                     }
                 }
                 state = 0;

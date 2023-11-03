@@ -1,6 +1,7 @@
 #include "../include/Server.hpp"
 
 int     Server::PrivMsg(std::string &s, Client& cli) {
+    std::cout << "PrivMsg command is called." << std::endl;
     if (!cli.passcheku)
         return 0;
     for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end();++it)

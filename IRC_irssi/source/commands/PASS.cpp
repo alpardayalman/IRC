@@ -2,6 +2,7 @@
 #include "../include/Utilities.hpp"
 
 int     Server::Pass(std::string &s, Client& cli) {
+    std::cout << "Pass command is called." << s << std::endl;
     if (cli.passcheku)
         return 1;
     else if  (this->checkPassword(s, cli)) {
@@ -13,16 +14,15 @@ int     Server::Pass(std::string &s, Client& cli) {
     else {
         return 0;
     }
-    return 1;
+    return 0;
 }
 
-bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELIM ALLAH ASKINA
+int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELIM ALLAH ASKINA
     // CAP LS
     // PASS <PSW>
     // NICK <NICK>
     // USER <USR> <USR> <IP> :<REALNAME>
-
-    bool res = false;
+    int res = 0;
     std::vector<std::string> arr;
     std::stringstream iss(s);
     if (!s.find("CAP LS")){
@@ -30,11 +30,17 @@ bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIREL
             Utilities::trim(s);
             std::stringstream pss(s);
             for (; pss >> s;) {
+                Utilities::trim(s);
                 if (!s.compare("PASS")) {
                     pss >> s;
                     c.pass = s;
-                    if (c.pass == password)
-                        res=true;
+                    Utilities::trim(c.pass);
+                    if (c.pass == password) {
+                        res=1;
+                        for (int i = 0; password[i]; i++) {
+                            printf("%d ", password[i]);
+                        }
+                    }
                 }
                 else if (!s.compare("NICK")) {
                     pss >> s;
@@ -58,7 +64,7 @@ bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIREL
         if (!cmd.compare("PASS")) {
             c.pass = pass;
             if (c.pass == password)
-                res=true;
+                res=1;
         }
 #ifdef DEBUG
         for (int i = 0; c.pass[i]; i++) {
