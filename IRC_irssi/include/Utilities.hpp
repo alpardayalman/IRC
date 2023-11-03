@@ -2,6 +2,8 @@
 #include <iostream>
 #include <unistd.h>
 #include <string>
+#include <thread>
+#include <chrono>
 
 // ============= color =============
 # define BLACK		"\033[0;30m"
@@ -27,4 +29,5 @@ class Utilities {
         static int checkPortNumber(char *port_number);
         static std::string trim(const std::string &s);
         static void fd_write_color(int fd, const std::string &s, const char *color);
+        static void write_ascii_art(void);
 };
