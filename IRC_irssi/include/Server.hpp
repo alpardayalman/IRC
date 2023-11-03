@@ -17,6 +17,8 @@
 class Client;
 class Server;
 
+typedef std::vector<Chanel>::iterator    ChanelIterator;
+typedef std::vector<Client>::iterator    ClientIterator;
 typedef int (Server::*CmdFunct)(std::string& , Client&);
 typedef std::map<std::string, CmdFunct>::iterator itCmdFunct;
 
@@ -34,10 +36,11 @@ class Server {
         fd_set                  readFdsSup;
         fd_set                  writeFdsSup;
         char                    buffer[1024];
-        std::vector<Chanel>     chanels;
 
 
     public:
+        std::vector<Chanel>     chanels;
+
         void    initCommands( void );
         void    commandHandler(std::vector<std::string>, Client&);
         Server(size_t port_number, char * password);
@@ -58,5 +61,6 @@ class Server {
         int     checkPassword(std::string& s, Client& c);
         int     Info(std::string &s, Client& cli);
         int     PrivMsg(std::string &s, Client& cli);
+        int     Join(std::string &s, Client &cli);
 
 };
