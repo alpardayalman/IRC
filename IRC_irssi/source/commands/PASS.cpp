@@ -55,7 +55,7 @@ bool    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIREL
         std::string cmd, pass;
         ss >> cmd;
         ss >> pass;
-        if (!cmd.compare("/PASS")) {
+        if (!cmd.compare("PASS")) {
             c.pass = pass;
             if (c.pass == password)
                 res=true;

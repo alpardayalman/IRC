@@ -7,7 +7,7 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
     {
         if (it->cliFd != cli.cliFd)
         {
-            (*it).messageBox.push_back(s);
+            (*it).messageBox.push_back(s+'\n');
             FD_SET((*it).cliFd, &this->writeFds);
         }
     }

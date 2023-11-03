@@ -8,7 +8,6 @@ else
 endif
 CFLAGS	= -Wall -Wextra -Werror
 INCLUDE	= -Iinclude/
-
 SRC		= $(shell find source -name "*.cpp")
 SRCDIR	= $(sort $(dir $(SRC))) 
 SRCFLS	= $(notdir $(SRC))

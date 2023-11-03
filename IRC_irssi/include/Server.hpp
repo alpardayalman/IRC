@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include "Client.hpp"
+#include "Chanel.hpp"
 #include <vector>
 
 class Server {
@@ -25,7 +26,7 @@ class Server {
         fd_set                  readFdsSup;
         fd_set                  writeFdsSup;
         char                    buffer[1024];
-
+        std::vector<Chanel>     chanels;
 
     public:
         Server(size_t port_number, char * password);
@@ -37,10 +38,12 @@ class Server {
         void    socketListen( void ) const;
         void    run( void );
         int     findMaxFd( void ) const;
-        bool    checkPassword(std::string& s, Client& c);
 
 
+
+        // Commands ––
         int     Pass(std::string &s, Client& cli);
+        bool    checkPassword(std::string& s, Client& c);
         int     Info(std::string &s, Client& cli);
         int     PrivMsg(std::string &s, Client& cli);
 

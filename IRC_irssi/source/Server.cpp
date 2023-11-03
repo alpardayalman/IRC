@@ -51,7 +51,7 @@ void    Server::socketListen( void ) const {
     std::cout << "Success: Server socket is listening." << std::endl;
 }
 
-
+#define DEBUG_1
 /*
  * Server Multiplexing
 */
@@ -113,13 +113,39 @@ void    Server::run( void ) {
                 {
                     this->buffer[readed] = 0;
                     // INFO
+                    // {
+                    // Bu kisimda tokenlemek gerekiyor su sekilde (örnek) cmd[0] = "/PASS" cmd[1] = "geri kalani". 
+                    // PRIVMSG bircok input aldigi icin cmd[1] geri kalanini alacak prvmsg kisminda bolecegiz. vs.
+                    // asagida trim edilmis buffer'i s olarak tutuyoruz ve cmd fonksiyonlarimizi ona gore yaptik. 
+                    // tokenleri
                     std::string s = this->buffer;
                     s = Utilities::trim(s); // trimming the shit out of them.
 
+                    // istream ve tokenleme.
+                    std::istringstream iss(s);
+                    std::string command;
+                    std::vector<std::string> parameters;
+
+                    // Extract the command
+                    iss >> command;
+
+                    // Extract parameters
+                    std::string param;
+                    while (iss >> param) {
+                        parameters.push_back(param);
+                    }
+#ifdef DEBUG_1
+                    for (int i = 0; i < (int)parameters.size(); i++) {
+                        std::cout << i <<": " << parameters[i] << std::endl;
+                    }
+#endif
+
+                    // }
                     // EMIRCAN: abi moduler olasun diye su bagsettigimiz gibi bir map guzel olur map['INFO'] = &Server::Info tarzi.
                     // Talha: mayali su chanel isinde ilerlersen cok hizlaniriz
                     // Emre: her client girdiginde atabilecegimiz bir assci art fonksiyonu olsa cok matrak olur.
-                    if (!Pass(s, (*begin))) { // PASSWORD problemi bitti (my bad for my inatcilik)
+
+                    if (!Pass(s, (*begin))) {
                         FD_CLR((*begin).cliFd, &this->readFds);
                         FD_CLR((*begin).cliFd, &this->writeFds);
                         write((*begin).cliFd, "Password is incorect\n", 22);
@@ -128,11 +154,11 @@ void    Server::run( void ) {
                         this->clients.erase(begin);
                     }
 
-                    if (s.find("/INFO") != (unsigned long) -1) { // there is a newline at the end.
+                    if (command == "INFO") { // there is a newline at the end.
                         Info(s, (*begin));
                     }
 
-                    if (s.find("/PRIVMSG") != (unsigned long) -1) {
+                    if (command == "PRIVMSG") {
                         PrivMsg(s, (*begin));
                     }
                 }

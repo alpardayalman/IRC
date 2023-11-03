@@ -4,7 +4,7 @@
 
 class Chanel {
     private:
-        Client* clients;
+        // Client* clients;
 
     public:
 
