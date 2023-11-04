@@ -5,6 +5,7 @@
 #include <thread>
 #include <chrono>
 #include <sstream>
+#include <vector>
 
 // ============= color =============
 # define BLACK		"\033[0;30m"
