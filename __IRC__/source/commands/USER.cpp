@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-#define debugUSER
+#define DEBUG_USER
 
 int     Server::User(std::string &s, Client &cli) {
     std::stringstream ss(s);
@@ -8,7 +8,7 @@ int     Server::User(std::string &s, Client &cli) {
     if (!s.empty()) {
         cli.user = s;
     }
-#ifdef debugUSER
+#ifdef DEBUG_USER
         std::cout << "user:" << cli.user << "|" << std::endl;
 #endif
     return 0;

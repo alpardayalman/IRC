@@ -20,6 +20,12 @@
 # define RESET		"\033[0m"
 // ============= color =============
 
+// ============= Define ============
+#define RPL_JOIN(nick, ip, channel)					":" + nick + "!" + nick + "@" + ip + " JOIN " + channel + "\r\n"
+
+// ============= Define ============
+
+
 class Utilities {
     private:
         Utilities() {}

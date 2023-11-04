@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-#define debugNICK
+#define DEBUG_NICK
 
 int     Server::Nick(std::string &s, Client &cli) {
     std::stringstream ss(s);
@@ -8,7 +8,7 @@ int     Server::Nick(std::string &s, Client &cli) {
     if (!s.empty()) {
         cli.nick = s;
     }
-#ifdef debugNICK
+#ifdef DEBUG_NICK
         std::cout << "nick:" << cli.nick << "|" << std::endl;
 #endif
     return 0;

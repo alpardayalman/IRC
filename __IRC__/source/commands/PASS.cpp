@@ -17,7 +17,7 @@ int     Server::Pass(std::string &s, Client& cli) {
     return 0;
 }
 
-int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELIM ALLAH ASKINA
+int    Server::checkPassword(std::string& s, Client& c) {
     // CAP LS \n PASS <PSW> \n NICK <NICK> \n USER <USR> <USR> <IP> :<REALNAME>
     int res = 0;
     std::vector<std::string> arr;
@@ -49,7 +49,7 @@ int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELI
     }
     else {
         std::stringstream ss(s);
-#ifdef DEBUG
+#ifdef DEBUG_PASS
         std::cout << "s:" << s << '\n';
 #endif
         std::string cmd, pass;
@@ -60,7 +60,7 @@ int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELI
             if (c.pass == password)
                 res=1;
         }
-#ifdef DEBUG
+#ifdef DEBUG_PASS
         for (int i = 0; c.pass[i]; i++) {
             printf("%d ", c.pass[i]);
         }

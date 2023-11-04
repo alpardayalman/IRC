@@ -15,6 +15,7 @@
 - [ ] Leaks.
 - [ ] Functions to know.
 - [ ] Everyone's last word for this project.
+- [ ] DIFI hanmen key exchangge. (let's look into that.)
 -----------------------------------------
 
 <img src="IRC_/assets/irc.png">
@@ -61,11 +62,22 @@
 -----------------------------------------
 ## 4/11/2023
   ### Fourth day.
-    Debug isini duzeltelim.
-    Pass gibi Nick ve User'i zorunlu tutalim.
-    Ilk join'imizi atip bir channelde konusabilelim. ve hexchatte bir channel yaratabilelim.
+    Made slight changes to the github repo.
+    Nick and User added (Need to do slight changes to User to get the information in the right way).
+    Channel class was updated, 1 user cannot join the same channel 2 times.
+    Major step in hexchat we were able to create a channel. Number 5 indeed.
+    ^D signal works.
+    great day.
+    Congrats indeed. Wp team.
+-----------------------------------------
+## 5/11/2023
+  ### Fifth day.
+    Debug isini duzeltelim. Her page'e ozel Debug olsun ve tanimlamalari Utilities de tutalim orn NICK.cpp #ifdef DEBUG_NICK, DEBUG_NICK_I, DEBUG_NICK_II..
+    User'da aldigimiz formati degistirelim gorkemlerinki gibi 4 sifat girilsin. (3. input hatirladigim kadariyla.)
     hexchat ve nc ayrimi yapip ona gore bir mesaj gonderelim.
-    Good luck folks.
     to do listteki protocolslere bir goz atalim.
-    son saniye update'i sinyalimiz calisiyor ve neden bilmiyorum
+    remote iki client (farkli bilgisayardan) ortak bir chanelldan biribirine mesaj atabilsin.
+    Diger Komutlara bakalim. (Pong, Ping kolay denilenleri hizlica ekleyelim.)
+    Bu yazdiklarim 5'i icin degil direk bir sonraki zamana.
+    Her gonderilen mesaj ve read write farkli renklerde server terminaline basilsin debugging isini cok kolaylastirir.
 -----------------------------------------
