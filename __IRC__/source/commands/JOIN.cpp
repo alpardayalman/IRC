@@ -53,6 +53,7 @@ int    Server::Join(std::string &s, Client& cli) {
                 Chanel  newChanel(chaName);
                 this->chanels.push_back(newChanel);
                 this->chanels.back().clients.push_back(cli);
+                send(cli.cliFd, ":gangbi!gangbi@127.0.0.1 JOIN join\r\n", 38, 0);
             }
 #ifdef ShowUser
     showClients(chanels.back());

@@ -20,6 +20,7 @@ int     Server::Pass(std::string &s, Client& cli) {
 int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELIM ALLAH ASKINA
     // CAP LS \n PASS <PSW> \n NICK <NICK> \n USER <USR> <USR> <IP> :<REALNAME>
     int res = 0;
+    std::cout << s << std::endl;
     std::vector<std::string> arr;
     std::stringstream iss(s);
     if (!s.find("CAP LS")){
