@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include "Utilities.hpp"
 #include "Client.hpp"
 #include "Chanel.hpp"
 #include <vector>
@@ -62,5 +63,6 @@ class Server {
         int     Info(std::string &s, Client& cli);
         int     PrivMsg(std::string &s, Client& cli);
         int     Join(std::string &s, Client &cli);
-
+        int     Nick(std::string &s, Client &cli);
+        int     User(std::string &s, Client &cli);
 };

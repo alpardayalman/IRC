@@ -19,30 +19,46 @@ void showClients(Chanel &cha) {
     std::cout << std::endl;
 }
 
-#define ShowUser
+int isClientIn(Chanel &cha, int cliFd) {
+    for (ClientIterator it = cha.clients.begin(); it != cha.clients.end(); it++) {
+        if ((*it).cliFd == cliFd)
+            return 0;
+    }
+    return 1;
+}
+
+// #define ShowUser
 #define DebugJ
 
 int    Server::Join(std::string &s, Client& cli) {
     std::stringstream ss(s);
     std::string chaName, key;
-    ss >> chaName;
-    ss >> key;
-    chaName = chaName.substr(1, chaName.size());
+    if (!s.empty()) {
+        ss >> chaName;
+        ss >> key;
 #ifdef DebugJ
     std::cout << " chaName:"  << chaName << " key:" << key << '\n';
 #endif
-    if (findChanel(chaName, this->chanels)) {
-        for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
-            if (chaName == (*it).name)
-                (*it).clients.push_back(cli);
-        }
-    } else {
-        Chanel  newChanel(chaName);
-        this->chanels.push_back(newChanel);
-        this->chanels.back().clients.push_back(cli);
-    }
+        chaName = chaName.substr(1, chaName.size());
+            if (findChanel(chaName, this->chanels)) {
+                for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
+                    if (chaName == (*it).name) {//if chanel is exist try ot join chanel
+                        if (isClientIn((*it), cli.cliFd))//client is in chanel or not
+                            (*it).clients.push_back(cli);
+                        else
+                            Utilities::fd_write_color(cli.cliFd, "You already in the chanel\n", CYAN);
+                    }
+                }
+            } else {//if chanel is not exist create chanel and add client to chanel
+                Chanel  newChanel(chaName);
+                this->chanels.push_back(newChanel);
+                this->chanels.back().clients.push_back(cli);
+            }
 #ifdef ShowUser
     showClients(chanels.back());
 #endif
+    } else {//if join command input empty write this message
+        Utilities::fd_write_color(cli.cliFd, "you cannot joined chanel cause use command correct JOIN <chanel name>\n", CYAN);
+    }
     return 0;
 }

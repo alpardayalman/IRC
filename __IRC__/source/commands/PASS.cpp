@@ -2,7 +2,7 @@
 #include "../include/Utilities.hpp"
 
 int     Server::Pass(std::string &s, Client& cli) {
-    std::cout << "Pass command is called." << s << std::endl;
+    // std::cout << "Pass command is called." << s << std::endl;
     if (cli.passcheku)
         return 1;
     else if  (this->checkPassword(s, cli)) {
@@ -18,10 +18,7 @@ int     Server::Pass(std::string &s, Client& cli) {
 }
 
 int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELIM ALLAH ASKINA
-    // CAP LS
-    // PASS <PSW>
-    // NICK <NICK>
-    // USER <USR> <USR> <IP> :<REALNAME>
+    // CAP LS \n PASS <PSW> \n NICK <NICK> \n USER <USR> <USR> <IP> :<REALNAME>
     int res = 0;
     std::vector<std::string> arr;
     std::stringstream iss(s);
@@ -37,18 +34,15 @@ int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELI
                     Utilities::trim(c.pass);
                     if (c.pass == password) {
                         res=1;
-                        for (int i = 0; password[i]; i++) {
-                            printf("%d ", password[i]);
-                        }
                     }
                 }
                 else if (!s.compare("NICK")) {
                     pss >> s;
-                    c.nick = s;
+                    Server::Nick(s, c);
                 }
                 else if (!s.compare("USER")) {
                     pss >> s;
-                    c.user = s;
+                    Server::User(s, c);
                 }
             }
         }
@@ -73,5 +67,6 @@ int    Server::checkPassword(std::string& s, Client& c) { // BUNU GUZELLESTIRELI
         fflush(stdout);
 #endif
     }
+
     return res;
 }
