@@ -31,15 +31,19 @@ int    Server::Join(std::string &s, Client& cli) {
 #ifdef DebugJ
     std::cout << " chaName:"  << chaName << " key:" << key << '\n';
 #endif
-    if (findChanel(chaName, this->chanels)) {
-        for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
-            if (chaName == (*it).name)
-                (*it).clients.push_back(cli);
+    if (chaName.length()){
+        if (findChanel(chaName, this->chanels)) {
+            for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
+                if (chaName == (*it).name)
+                    (*it).clients.push_back(cli);
+            }
+        } else {
+            Chanel  newChanel(chaName);
+            this->chanels.push_back(newChanel);
+            this->chanels.back().clients.push_back(cli);
         }
     } else {
-        Chanel  newChanel(chaName);
-        this->chanels.push_back(newChanel);
-        this->chanels.back().clients.push_back(cli);
+        Utilities::fd_write_color(cli.cliFd, "JOIN <chanel name>", RED);
     }
 #ifdef ShowUser
     showClients(chanels.back());

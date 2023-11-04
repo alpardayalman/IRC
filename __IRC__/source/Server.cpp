@@ -1,11 +1,15 @@
 #include "../include/Server.hpp"
 #include "../include/Utilities.hpp"
 
+// #define debugCMD
+
 void Server::initCommands( void ) {
     t_cmdFunct["PASS"] = &Server::Pass;
     t_cmdFunct["INFO"] = &Server::Info;
     t_cmdFunct["PRIVMSG"] = &Server::PrivMsg;
     t_cmdFunct["JOIN"] = &Server::Join;
+    t_cmdFunct["NICK"] = &Server::Nick;
+    t_cmdFunct["USER"] = &Server::User;
 
 }
 
@@ -35,7 +39,9 @@ void    Server::commandHandler(std::vector<std::string> param, Client& begin) { 
     // std::cout << "cmd: " << cmd << std::endl;
     // std::cout << "param: " << param[0] << std::endl;
     if (t_cmdFunct.find(cmd) != t_cmdFunct.end()){
-        // std::cout << "Command is found." << std::endl;
+#ifdef debugCMD
+        std::cout << "command:" << cmd << "|" <<param[0] << std::endl;
+#endif
         (this->*t_cmdFunct[cmd])(param[0], begin);
     }
     else
