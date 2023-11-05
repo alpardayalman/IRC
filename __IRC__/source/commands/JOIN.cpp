@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include "stdio.h"
 
 // Bu class mi what the hell, ama kb mergleme demistin dayanamadim. Buradan ilerleriz eline saglik xoxo. (Biseye benzet lutfen)
 // Debug islerini Utilitieslere eklersen super olur.
@@ -53,7 +54,12 @@ int    Server::Join(std::string &s, Client& cli) {
                 Chanel  newChanel(chaName);
                 this->chanels.push_back(newChanel);
                 this->chanels.back().clients.push_back(cli);
-                send(cli.cliFd, ":gangbi!gangbi@127.0.0.1 JOIN join\r\n", 38, 0);
+                std::string sendi = RPL_JOIN_NOV_6(cli.nick , chaName);
+                write(cli.cliFd, sendi.c_str(), sendi.size()); 
+                // Bu tarzda bir sender fonksiyonu mantikli olur (line 59). atilan tum mesajlari terminale bastirabiliriz renk ile.
+                // Ayni sekilde gonderilen mesajlarada bakmak saglikli olacaktir debug icin.
+                // RPL_JOIN_NOV_6 -> test etmek icin yaptim, okulda devam ederiz normal #define'dan farki ip'si sabit. (Utilities.hpp)
+                // : ! @ # neyi simgeliyor daha iyi anlamlastirmak GEREX.
             }
 #ifdef ShowUser
     showClients(chanels.back());

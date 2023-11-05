@@ -22,6 +22,7 @@
 
 // ============= Define ============
 #define RPL_JOIN(nick, ip, channel)					":" + nick + "!" + nick + "@" + ip + " JOIN " + channel + "\r\n"
+#define RPL_JOIN_NOV_6(nick, channel)				":" + nick + "!" + nick + "@" + "127.0.0.1" + " JOIN " + channel + "\r\n" // test icin IP vermedim
 
 // ============= Define ============
 
