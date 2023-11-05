@@ -18,7 +18,7 @@
 - [ ] DIFI hanmen key exchangge. (let's look into that.)
 -----------------------------------------
 
-<img src="IRC_/assets/irc.png">
+<img src="Additional/assets/irc.png">
 
 -----------------------------------------
 
