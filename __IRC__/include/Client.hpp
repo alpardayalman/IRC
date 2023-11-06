@@ -5,6 +5,8 @@
 #include "Utilities.hpp"
 #include "Server.hpp"
 
+#define HEX 1
+#define NC  2
 class Client
 {
     public:
@@ -17,9 +19,9 @@ class Client
         std::string nick;
         std::string pass;
 
-
+        int         isCapt;
         int         passcheku;
-        Client() : isHex(0), passcheku(0)  {}
+        Client() : isHex(0), isCapt(0), passcheku(0)  {}
         ~Client() {}
 
         void    colorWrite(std::string &msg, const char *color);

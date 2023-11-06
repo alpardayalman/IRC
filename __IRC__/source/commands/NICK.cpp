@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-#define DEBUG_NICK
+// #define DEBUG_NICK
 
 int     Server::Nick(std::string &s, Client &cli) {
     std::stringstream ss(s);

@@ -62,8 +62,22 @@ void Utilities::write_ascii_art(void){
     std::cout << std::endl;
 }
 
+std::vector<std::string> Utilities::tokenNewline(std::string& s) {
+    std::stringstream           ss(s);
+    std::vector<std::string>    arr;
+    for (; std::getline(ss, s, '\n');) {
+        s = Utilities::trim(s);
+        arr.push_back(s);
+    }
+#ifdef tokenNewlinedeb
+    for (int i =0; i < (int)(arr.size()); i++) {
+        std::cout << arr[i] << "|" << std::endl;
+    }
+#endif
+    return arr;
+}
 
-std::vector<std::string> Utilities::tokenParam(std::string& s) {
+std::vector<std::string> Utilities::tokenCmd(std::string& s) {
     std::istringstream iss(s);
     std::vector<std::string> parameters;
     int paramlen;
