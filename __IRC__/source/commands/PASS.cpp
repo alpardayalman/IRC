@@ -8,7 +8,7 @@ int     Server::Pass(std::string &s, Client& cli) {
     else if  (this->checkPassword(s, cli)) {
         cli.passcheku = 1;
         write(cli.cliFd, "Password is correct\n", 20);
-        Utilities::fd_write_color(1, "Client: " + std::to_string(cli.cliFd) + " Pass: " + cli.pass + " has the password correctly\n", GREEN);
+        Utilities::fd_write_color(1, "Client: " + std::to_string(cli.cliFd -3) + " Pass: " + cli.pass + " has the password correctly\n", GREEN);
 
         
         return 1;
@@ -16,6 +16,7 @@ int     Server::Pass(std::string &s, Client& cli) {
     else {
         return 0;
     }
+    std::cout << cli.nick << ' ' << cli.passcheku << std::endl;
     return 0;
 }
 

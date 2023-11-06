@@ -23,9 +23,9 @@ void showClients(Chanel &cha) {
 int isClientIn(Chanel &cha, int cliFd) {
     for (ClientIterator it = cha.clients.begin(); it != cha.clients.end(); it++) {
         if ((*it).cliFd == cliFd)
-            return 0;
+            return 1;
     }
-    return 1;
+    return 0;
 }
 
 // #define ShowUser
@@ -40,12 +40,15 @@ int    Server::Join(std::string &s, Client& cli) {
 #ifdef DebugJ
     std::cout << " chaName:"  << chaName << " key:" << key << '\n';
 #endif
-        chaName = chaName.substr(1, chaName.size());
+        // chaName = chaName.substr(1, chaName.size());
             if (findChanel(chaName, this->chanels)) {
                 for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
                     if (chaName == (*it).name) {//if chanel is exist try ot join chanel
-                        if (isClientIn((*it), cli.cliFd))//client is in chanel or not
+                        if (!isClientIn((*it), cli.cliFd)) {
                             (*it).clients.push_back(cli);
+                            std::string sendi = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
+                            write(cli.cliFd, sendi.c_str(), sendi.size());
+                        }//client is in chanel or not
                         else
                             Utilities::fd_write_color(cli.cliFd, "You already in the chanel\n", CYAN);
                     }
@@ -54,7 +57,7 @@ int    Server::Join(std::string &s, Client& cli) {
                 Chanel  newChanel(chaName);
                 this->chanels.push_back(newChanel);
                 this->chanels.back().clients.push_back(cli);
-                std::string sendi = RPL_JOIN_NOV_6(cli.nick , chaName);
+                std::string sendi = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
                 write(cli.cliFd, sendi.c_str(), sendi.size());
                 // Bu tarzda bir sender fonksiyonu mantikli olur (line 59). atilan tum mesajlari terminale bastirabiliriz renk ile.
                 // Ayni sekilde gonderilen mesajlarada bakmak saglikli olacaktir debug icin.
