@@ -12,6 +12,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["USER"] = &Server::User;
     t_cmdFunct["CAP"] = &Server::Cap;
     t_cmdFunct["TOPIC"] = &Server::Topic;
+    t_cmdFunct["INVITE"] = &Server::Invite;
 }
 
 Server::Server(size_t port_number, char * password) : port_number(port_number), password(std::string(password)) , reuse(1) {
@@ -127,7 +128,7 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->writeFdsSup))
             {
-                readed = write((*begin).cliFd, (*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
+                readed = write((*begin).cliFd, (char *)(*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
                 (*begin).messageBox.erase((*begin).messageBox.begin());
 
                 if ((*begin).messageBox.empty())
