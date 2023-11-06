@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Server.hpp"
+//privmsg <chanelname> :<msg>
+//chanelin msgboxina msg atabiliriz
 
 class Client;
 
