@@ -20,9 +20,17 @@ void showClients(Chanel &cha) {
     std::cout << std::endl;
 }
 
-int isClientIn(Chanel &cha, int cliFd) {
+int Server::isClientIn(Chanel &cha, int cliFd) {
     for (ClientIterator it = cha.clients.begin(); it != cha.clients.end(); it++) {
         if ((*it).cliFd == cliFd)
+            return 1;
+    }
+    return 0;
+}
+
+int Server::isClientIn(Client& cli, std::string nameChanel) {
+    for (ChanelIterator it = cli.connectedChanels.begin(); it != cli.connectedChanels.end(); ++it) {
+        if ((*it).name == nameChanel)
             return 1;
     }
     return 0;
@@ -37,12 +45,12 @@ int    Server::Join(std::string &s, Client& cli) {
     if (!s.empty()) {
         ss >> chaName;
         ss >> key;
-        // chaName = chaName.substr(1, chaName.size());
             if (findChanel(chaName, this->chanels)) {
                 for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
                     if (chaName == (*it).name) {//if chanel is exist try ot join chanel
                         if (!isClientIn((*it), cli.cliFd)) {
                             (*it).clients.push_back(cli);
+                            cli.connectedChanels.push_back((*it));
                             std::string sendi = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
                             write(cli.cliFd, sendi.c_str(), sendi.size());
                         }//client is in chanel or not
@@ -52,7 +60,8 @@ int    Server::Join(std::string &s, Client& cli) {
                 }
             } else {//if chanel is not exist create chanel and add client to chanel
                 Chanel  newChanel(chaName);
-                this->chanels.push_back(newChanel);
+                this->chanels.push_back(newChanel); // serverda tutulan chaneller.
+                cli.connectedChanels.push_back(newChanel); // Clientlarin bagli oldugu chaneller.
                 this->chanels.back().clients.push_back(cli);
                 std::string sendi = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
                 write(cli.cliFd, sendi.c_str(), sendi.size());

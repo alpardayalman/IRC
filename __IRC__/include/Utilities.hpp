@@ -28,6 +28,7 @@
 
 // ==========debug===========
 #define  tokenNewlinedeb
+
 class Utilities {
     private:
         Utilities() {}

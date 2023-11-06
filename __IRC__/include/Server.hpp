@@ -48,15 +48,15 @@ class Server {
         void    commandHandler(std::string, Client&);
         Server(size_t port_number, char * password);
         ~Server();
-    
+
     private:
         void    createSocket( void );
         void    serveraddrSocket( void ) const;
         void    socketListen( void ) const;
         void    run( void );
         int     findMaxFd( void ) const;
-
-
+        int     isClientIn(Chanel &cha, int cliFd);
+        int     isClientIn(Client& cli, std::string nameChanel);
 
         // Commands ––
         std::map<std::string, CmdFunct> t_cmdFunct;

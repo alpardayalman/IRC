@@ -7,6 +7,7 @@
 
 #define HEX 1
 #define NC  2
+class Chanel;
 class Client
 {
     public:
@@ -19,6 +20,8 @@ class Client
         std::string user;
         std::string nick;
         std::string pass;
+
+        std::vector<Chanel> connectedChanels;
 
         int         isCapt;
         int         passcheku;
