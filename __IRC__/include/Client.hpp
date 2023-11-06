@@ -1,9 +1,13 @@
 #pragma once
+
 #include <iostream>
 #include <vector>
+#include "Utilities.hpp"
+
 class Client
 {
     public:
+        int     isHex;
         std::vector<std::string> messageBox;
         int cliFd;
         int port;
@@ -14,6 +18,8 @@ class Client
 
 
         int         passcheku;
-        Client() : passcheku(0) {}
+        Client() : passcheku(0), isHex(0) {}
         ~Client() {}
+
+        void    colorWrite(std::string &msg, const char *color);
 };

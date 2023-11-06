@@ -55,7 +55,7 @@ int    Server::Join(std::string &s, Client& cli) {
                 this->chanels.push_back(newChanel);
                 this->chanels.back().clients.push_back(cli);
                 std::string sendi = RPL_JOIN_NOV_6(cli.nick , chaName);
-                write(cli.cliFd, sendi.c_str(), sendi.size()); 
+                write(cli.cliFd, sendi.c_str(), sendi.size());
                 // Bu tarzda bir sender fonksiyonu mantikli olur (line 59). atilan tum mesajlari terminale bastirabiliriz renk ile.
                 // Ayni sekilde gonderilen mesajlarada bakmak saglikli olacaktir debug icin.
                 // RPL_JOIN_NOV_6 -> test etmek icin yaptim, okulda devam ederiz normal #define'dan farki ip'si sabit. (Utilities.hpp)

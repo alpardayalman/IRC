@@ -33,7 +33,7 @@ fclean: clean
 re: fclean all
 
 run: all
-	@./ircserv 8081 123
+	@./ircserv 8080 123
 
 prefix:
 	mkdir -p $(OUTPRE)
