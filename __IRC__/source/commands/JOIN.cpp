@@ -37,9 +37,6 @@ int    Server::Join(std::string &s, Client& cli) {
     if (!s.empty()) {
         ss >> chaName;
         ss >> key;
-#ifdef DebugJ
-    std::cout << " chaName:"  << chaName << " key:" << key << '\n';
-#endif
         // chaName = chaName.substr(1, chaName.size());
             if (findChanel(chaName, this->chanels)) {
                 for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {

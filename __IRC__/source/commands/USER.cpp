@@ -13,8 +13,5 @@ int     Server::User(std::string &s, Client &cli) {
     if (!s.empty()) {
         cli.ip = s;
     }
-#ifdef DEBUG_USER
-        std::cout << "user:" << cli.user << "|" << "ip:" << cli.ipAddr << "|" << std::endl;
-#endif
     return 0;
 }

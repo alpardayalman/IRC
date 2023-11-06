@@ -38,7 +38,7 @@ void    Server::commandHandler(std::string parameters, Client& begin) { // what'
         (this->*t_cmdFunct[cmd])(param[0], begin);
     }
     else
-        std::cout << param[1] << "| Command is not found." << std::endl;
+        Utilities::fd_write_color(1, param[1]+"| Command is not found." , BLUE);
 }
 
 
@@ -75,7 +75,7 @@ void    Server::run( void ) {
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
             Utilities::fd_write_color(1, "New Client Connected!\n", GREEN);
-            write(tmp.cliFd, "Provide the password with this format: /PASS <password>\n", 57);
+            write(tmp.cliFd, "Welcome Please Provide Password\n", 33);
             state = 0;
         }
 
@@ -99,7 +99,8 @@ void    Server::run( void ) {
 
                     // Initial Tokenizer.
                     std::string k = this->buffer;
-                    std::string s = Utilities::trim(k); // trimming the shit out of them.
+                    std::string s = Utilities::trim(k);
+                    Utilities::fd_write_color(1, s+'\n', BLUE);
                     std::vector<std::string> parameters = Utilities::tokenNewline(s);
                     for (int i =0; i < (int)parameters.size(); i++) {
                         Server::commandHandler(parameters[i], (*begin));
@@ -126,9 +127,6 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->writeFdsSup))
             {
-#ifdef DEBUG_SERVER
-                std::cout <<" write" << std::endl;   
-#endif
                 readed = write((*begin).cliFd, (char *)(*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
                 (*begin).messageBox.erase((*begin).messageBox.begin());
 

@@ -69,11 +69,6 @@ std::vector<std::string> Utilities::tokenNewline(std::string& s) {
         s = Utilities::trim(s);
         arr.push_back(s);
     }
-#ifdef tokenNewlinedeb
-    for (int i =0; i < (int)(arr.size()); i++) {
-        std::cout << arr[i] << "|" << std::endl;
-    }
-#endif
     return arr;
 }
 
