@@ -38,7 +38,7 @@ void    Server::commandHandler(std::string parameters, Client& begin) { // what'
         (this->*t_cmdFunct[cmd])(param[0], begin);
     }
     else
-        Utilities::fd_write_color(1, param[1]+"| Command is not found." , BLUE);
+        Utilities::fd_write_color(1, param[1]+"| Command is not found.\n" , BLUE);
 }
 
 
@@ -91,7 +91,8 @@ void    Server::run( void ) {
                     FD_CLR((*begin).cliFd, &this->writeFds);
                     close((*begin).cliFd);
                     this->clients.erase(begin);
-                    Utilities::fd_write_color(1, "A client disconnected!\n", RED);
+                    Utilities::fd_write_color(1, (*begin).nick, RED);
+                    Utilities::fd_write_color(1, " client disconnected!\n", RED);
                 }
                 else
                 {
@@ -111,7 +112,6 @@ void    Server::run( void ) {
                             FD_CLR((*begin).cliFd, &this->writeFds);
                             write((*begin).cliFd, "Password is incorect\n", 22);
                             Utilities::fd_write_color(1,"Client: " + std::to_string((*begin).cliFd -3) + " has the password incorrectly GTFO\n", RED);
-
                             close((*begin).cliFd);
                             this->clients.erase(begin);
                         }
