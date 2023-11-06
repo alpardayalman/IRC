@@ -2,6 +2,8 @@
 
 #include "Server.hpp"
 
+class Client;
+
 class Chanel {
     private:
 

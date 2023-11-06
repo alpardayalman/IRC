@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Utilities.hpp"
+#include "Server.hpp"
 
 class Client
 {
@@ -18,7 +19,7 @@ class Client
 
 
         int         passcheku;
-        Client() : passcheku(0), isHex(0) {}
+        Client() : isHex(0), passcheku(0)  {}
         ~Client() {}
 
         void    colorWrite(std::string &msg, const char *color);

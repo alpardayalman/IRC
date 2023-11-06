@@ -53,13 +53,15 @@ void Server::createSocket( void ) {
 
     ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) ? 
     throw std::runtime_error( "Error: Socket can't be created.") : 
-    std::cout << "Success: Socket is created." << std::endl;
+    Utilities::fd_write_color(1, "Success: Socket is created.\n", GREEN);
+
+
 
     this->is_running = true;
     
     (setsockopt(this->server_fd, SOL_SOCKET, SO_REUSEADDR, &this->reuse, sizeof(int)) < 0) ?
     throw std::runtime_error("Error: Optimizing socket.") :
-    std::cout << "Success: Socket is optimized." << std::endl;
+    Utilities::fd_write_color(1, "Success: Socket is optimized.\n", GREEN);
 }
 
 void Server::serveraddrSocket( void ) const {
@@ -72,14 +74,15 @@ void Server::serveraddrSocket( void ) const {
 
     (bind(this->server_fd, (struct sockaddr *) &server_addr_socket, sizeof(server_addr_socket))) < 0 ?
     throw std::runtime_error("Error: Socket is unbound.") :
-    std::cout << "Success: Socket is bound." << std::endl;
+    Utilities::fd_write_color(1, "Success: Socket is bound.\n", GREEN);
+
 }
 
 void    Server::socketListen( void ) const {
 
     (listen(this->server_fd, 128) < 0 )? //sysctl kern.ipc.somaxconn
     throw std::runtime_error("Error: Can't listen the server socket.") :
-    std::cout << "Success: Server socket is listening." << std::endl;
+    Utilities::fd_write_color(1, "Success: Server socket is listening.\n", GREEN);
 }
 
 /*
@@ -117,7 +120,7 @@ void    Server::run( void ) {
             inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN); // insanlar okuyabilsin diye.
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
-            std::cout << "New Client Connected!" << std::endl;
+            Utilities::fd_write_color(1, "New Client Connected!\n", GREEN);
             write(tmp.cliFd, "Provide the password with this format: /PASS <password>\n", 57);
             state = 0;
         }
@@ -137,7 +140,7 @@ void    Server::run( void ) {
                     FD_CLR((*begin).cliFd, &this->writeFds);
                     close((*begin).cliFd);
                     this->clients.erase(begin);
-                    std::cout << "A client disconnected!" << std::endl;
+                    Utilities::fd_write_color(1, "A client disconnected!\n", RED);
                 }
                 else
                 {
@@ -160,7 +163,8 @@ void    Server::run( void ) {
                         FD_CLR((*begin).cliFd, &this->readFds);
                         FD_CLR((*begin).cliFd, &this->writeFds);
                         write((*begin).cliFd, "Password is incorect\n", 22);
-                        std::cout << "Client: " << (*begin).cliFd <<  " has the password incorrectly GTFO"<<std::endl;
+                        Utilities::fd_write_color(1,"Client: " + std::to_string((*begin).cliFd) + " has the password incorrectly GTFO\n", RED);
+
                         close((*begin).cliFd);
                         this->clients.erase(begin);
                     }

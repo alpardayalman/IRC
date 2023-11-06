@@ -31,7 +31,7 @@ std::string Utilities::trim(const std::string &s) {
 void Utilities::fd_write_color(int fd, const std::string &s, const char *color) {
     std::string msg = color + s;
     msg = msg + WHITE;
-    std::cout << msg << std::endl;
+    // std::cout << msg << std::endl;
     write(fd, msg.c_str(), msg.length());
 }
 
