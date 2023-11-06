@@ -26,13 +26,13 @@ $(NAME): $(OBJ)
 
 clean:
 	rm -rf $(OUTPRE)
+	rm -rf $(NAME)
 
 fclean: clean
-	rm $(NAME)
 
 re: fclean all
 
-run: all
+run: re
 	@./ircserv 8080 123
 
 prefix:

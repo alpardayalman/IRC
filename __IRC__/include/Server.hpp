@@ -18,6 +18,8 @@
 class Client;
 class Server;
 
+#define ERR_NONICKNAMEGIVEN     ":LAZYIRC 431 : No nickname given\r\n"
+
 typedef std::vector<Chanel>::iterator    ChanelIterator;
 typedef std::vector<Client>::iterator    ClientIterator;
 typedef int (Server::*CmdFunct)(std::string& , Client&);
