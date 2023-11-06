@@ -68,4 +68,5 @@ class Server {
         int     Nick(std::string &s, Client &cli);
         int     User(std::string &s, Client &cli);
         int     Cap(std::string &s, Client &cli);
+        int     Topic(std::string &s, Client &cli);
 };

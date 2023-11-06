@@ -1,5 +1,5 @@
-#include "../include/Server.hpp"
-#include "../include/Utilities.hpp"
+#include "Server.hpp"
+#include "Utilities.hpp"
 
 // #define debugCMD
 
@@ -11,7 +11,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["NICK"] = &Server::Nick;
     t_cmdFunct["USER"] = &Server::User;
     t_cmdFunct["CAP"] = &Server::Cap;
-
+    t_cmdFunct["TOPIC"] = &Server::Topic;
 }
 
 Server::Server(size_t port_number, char * password) : port_number(port_number), password(std::string(password)) , reuse(1) {
