@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-#define DEBUG_USER
+// #define DEBUG_USER
 
 int     Server::User(std::string &s, Client &cli) {
     std::stringstream ss(s);

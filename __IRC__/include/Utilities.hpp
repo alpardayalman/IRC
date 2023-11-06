@@ -26,7 +26,8 @@
 
 // ============= Define ============
 
-
+// ==========debug===========
+#define  tokenNewlinedeb
 class Utilities {
     private:
         Utilities() {}
@@ -37,7 +38,8 @@ class Utilities {
     public:
         static int                              checkPortNumber(char *port_number);
         static std::string                      trim(const std::string &s);
-        static std::vector<std::string>         tokenParam(std::string& s);
+        static std::vector<std::string>         tokenCmd(std::string& s);
+        static std::vector<std::string>         tokenNewline(std::string& s);
 
         // ART & DESIGN ®
         static void                             write_ascii_art(void);

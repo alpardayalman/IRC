@@ -10,6 +10,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["JOIN"] = &Server::Join;
     t_cmdFunct["NICK"] = &Server::Nick;
     t_cmdFunct["USER"] = &Server::User;
+    t_cmdFunct["CAP"] = &Server::Cap;
 
 }
 
@@ -27,68 +28,21 @@ Server::~Server() {
     std::cout << "Server is shuting down." << std::endl;
 }
 
-/*
-** Socket creation.
-*/
-
-void    Server::commandHandler(std::vector<std::string> param, Client& begin) { // what'sup with this function? Emir temize alabilecek misin por favor? Else absurt gozukuyor.
+void    Server::commandHandler(std::string parameters, Client& begin) { // what'sup with this function? Emir temize alabilecek misin por favor? Else absurt gozukuyor.
+    std::vector<std::string> param = Utilities::tokenCmd(parameters);
     if (param.size() == 0)
         return;
     std::string cmd = param[0];
     param.erase(param.begin());
-    // std::cout << "cmd: " << cmd << std::endl;
-    // std::cout << "param: " << param[0] << std::endl;
     if (t_cmdFunct.find(cmd) != t_cmdFunct.end()){
-#ifdef debugCMD
-        std::cout << "command:" << cmd << "|" <<param[0] << std::endl;
-#endif
         (this->*t_cmdFunct[cmd])(param[0], begin);
     }
     else
-        ;
-        // std::cout << "Command is not found." << std::endl;
+        std::cout << param[1] << "| Command is not found." << std::endl;
 }
 
-void Server::createSocket( void ) {
 
-    ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) ? 
-    throw std::runtime_error( "Error: Socket can't be created.") : 
-    Utilities::fd_write_color(1, "Success: Socket is created.\n", GREEN);
-
-
-
-    this->is_running = true;
-    
-    (setsockopt(this->server_fd, SOL_SOCKET, SO_REUSEADDR, &this->reuse, sizeof(int)) < 0) ?
-    throw std::runtime_error("Error: Optimizing socket.") :
-    Utilities::fd_write_color(1, "Success: Socket is optimized.\n", GREEN);
-}
-
-void Server::serveraddrSocket( void ) const {
-    struct sockaddr_in server_addr_socket;
-
-    memset(&server_addr_socket, 0, sizeof(struct sockaddr_in));
-    server_addr_socket.sin_family = AF_INET;
-    server_addr_socket.sin_addr.s_addr = INADDR_ANY;
-    server_addr_socket.sin_port = htons( this->port_number );
-
-    (bind(this->server_fd, (struct sockaddr *) &server_addr_socket, sizeof(server_addr_socket))) < 0 ?
-    throw std::runtime_error("Error: Socket is unbound.") :
-    Utilities::fd_write_color(1, "Success: Socket is bound.\n", GREEN);
-
-}
-
-void    Server::socketListen( void ) const {
-
-    (listen(this->server_fd, 128) < 0 )? //sysctl kern.ipc.somaxconn
-    throw std::runtime_error("Error: Can't listen the server socket.") :
-    Utilities::fd_write_color(1, "Success: Server socket is listening.\n", GREEN);
-}
-
-/*
- * Server Multiplexing
-*/
-
+// * Server Multiplexing
 void    Server::run( void ) {
     sockaddr_in cliAddr;
     socklen_t cliSize;
@@ -130,9 +84,6 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->readFdsSup))
             {
-#ifdef DEBUG_SERVER // Debug'un adlarini file'lara uygun bir sekilde yazalim ve definelama isini Utilities.hpp'de yapalim
-                std::cout <<"Read" << std::endl;
-#endif
                 readed = read((*begin).cliFd, this->buffer, 1024);
                 if (readed <= 0)
                 {
@@ -149,24 +100,20 @@ void    Server::run( void ) {
                     // Initial Tokenizer.
                     std::string k = this->buffer;
                     std::string s = Utilities::trim(k); // trimming the shit out of them.
-                    std::vector<std::string> parameters = Utilities::tokenParam(s);
-
-
-#ifdef DEBUG_SERVER
-                    for (int i = 0; i < (int)parameters.size(); i++) {
-                        std::cout << i <<": " << parameters[i] << std::endl;
+                    std::vector<std::string> parameters = Utilities::tokenNewline(s);
+                    for (int i =0; i < (int)parameters.size(); i++) {
+                        Server::commandHandler(parameters[i], (*begin));
                     }
-#endif
+                    if (!(Utilities::tokenCmd(parameters[0])[0] == "CAP")) {
+                        if (!Pass(k, (*begin))) {
+                            FD_CLR((*begin).cliFd, &this->readFds);
+                            FD_CLR((*begin).cliFd, &this->writeFds);
+                            write((*begin).cliFd, "Password is incorect\n", 22);
+                            Utilities::fd_write_color(1,"Client: " + std::to_string((*begin).cliFd -3) + " has the password incorrectly GTFO\n", RED);
 
-                    Server::commandHandler(parameters, (*begin));
-                    if (!Pass(k, (*begin))) {
-                        FD_CLR((*begin).cliFd, &this->readFds);
-                        FD_CLR((*begin).cliFd, &this->writeFds);
-                        write((*begin).cliFd, "Password is incorect\n", 22);
-                        Utilities::fd_write_color(1,"Client: " + std::to_string((*begin).cliFd) + " has the password incorrectly GTFO\n", RED);
-
-                        close((*begin).cliFd);
-                        this->clients.erase(begin);
+                            close((*begin).cliFd);
+                            this->clients.erase(begin);
+                        }
                     }
                 }
                 state = 0;

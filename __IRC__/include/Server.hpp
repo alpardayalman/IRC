@@ -43,7 +43,7 @@ class Server {
         std::vector<Chanel>     chanels;
 
         void    initCommands( void );
-        void    commandHandler(std::vector<std::string>, Client&);
+        void    commandHandler(std::string, Client&);
         Server(size_t port_number, char * password);
         ~Server();
     
@@ -65,4 +65,5 @@ class Server {
         int     Join(std::string &s, Client &cli);
         int     Nick(std::string &s, Client &cli);
         int     User(std::string &s, Client &cli);
+        int     Cap(std::string &s, Client &cli);
 };
