@@ -92,21 +92,26 @@
 -----------------------------------------
 ## 7/11/2023
   ### seventh day.
-    Debug isini duzeltelim. Her page'e ozel Debug olsun ve tanimlamalari Utilities de tutalim orn NICK.cpp #ifdef DEBUG_NICK, DEBUG_NICK_I, DEBUG_NICK_II..
-    User'da aldigimiz formati degistirelim gorkemlerinki gibi 4 sifat girilsin. (3. input hatirladigim kadariyla.)
+    We did Topic, Notice, Part.
+    We elaborated on Nick and now Topic can be changed for everybody.
+    We did ^D signal.
+    We now see the nickname in the left side of the chanel we can send private messages.
+    !!!! We can transfer filess babay.
+    We can exit the chanel and now it doesn't say that we are in the chanel we fr get kicked now.
+    This must be the most productive day yet.
+    
+-----------------------------------------
+## 8/11/2023
+  ### eight'st day.
     hexchat ve nc ayrimi yapip ona gore bir mesaj gonderelim.
-    to do listteki protocolslere bir goz atalim.
-    Diger Komutlara bakalim. (Pong, Ping kolay denilenleri hizlica ekleyelim.)
-    Her gonderilen mesaj ve read write farkli renklerde server terminaline basilsin debugging isini cok kolaylastirir.
+    Ping Pong.
     Parslandiginda cmd1 null olmamali.
     Kendi exeptionumuzu yazmak daha cool olur boylelikle ozellestirebiliriz.
-    NOTICE, WHO, PING & PONG
-    Operator islerinde baslayabiliriz.
-    TOPIC herkesinkini degistirsin. Ve operatore ozel olsun.
-    Sagda ad cikarma ve mesajda ad gorme ve tiklayip priv gonderme.
-    channelden cikis yapildiginda anlasilsin vectorden client ciksin.
-    Nick degistirebilelim.
+    WHO, PING & PONG, Exit
+    OPERATORS and chanel mods
+    Sagda ad cikarma.
     Fcntl
     Bot yazilimi (en basitinden).
+    PRIVMSG'nin else if kismina bakalim
     
 -----------------------------------------
