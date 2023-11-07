@@ -73,4 +73,5 @@ class Server {
         int     Invite(std::string &s, Client &cli);
         int     Notice(std::string &s, Client &cli);
         int     Kick(std::string &s, Client &cli);
+        int     Part(std::string &s, Client &cli);
 };
