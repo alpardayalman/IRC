@@ -70,4 +70,5 @@ class Server {
         int     Cap(std::string &s, Client &cli);
         int     Topic(std::string &s, Client &cli);
         int     Invite(std::string &s, Client &cli);
+        int     Notice(std::string &s, Client &cli);
 };
