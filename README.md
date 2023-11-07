@@ -4,18 +4,20 @@
 - [x] Socket and Multiplexing
 - [x] Makefile / flags and relink
 - [ ] RFC 1459 (protocols)
-- [ ] Authentication.
+- [x] Authentication.
 - [x] Nickname, a username.
 - [ ] Join a channel.
 - [ ] Send and receive private messages using your reference client.
 - [ ] All the messages sent from one client to a channel have to be forwarded to every other client that joined the channel.
 - [ ] Operators and regular users.
-- [ ] Signal.
+- [ ] Signal. ^D & ^Z
 - [ ] fcntl.
-- [ ] Leaks.
+- [ ] Leaks. & seg correction
 - [ ] Functions to know.
 - [ ] Everyone's last word for this project.
 - [ ] DIFI hanmen key exchangge. (let's look into that.)
+- [ ] flood
+- [ ] Notice, ping, pong
 -----------------------------------------
 
 <img src="Additional/assets/irc.png">
@@ -72,12 +74,37 @@
 -----------------------------------------
 ## 5/11/2023
   ### Fifth day.
+    Vacational and busy day for all of us. We worked really good so far.
+-----------------------------------------
+## 6/11/2023
+  ### sixth day.
+    What a good day, the purpose of this day was to create a channel that we could chat on.
+    We were able to do more than that.
+    We recreated the function TOPIC and INVITE today.
+    We eased on Authentication it works really good.
+    Divided the socket and the server files because Server::Run() was getting overwhelming.
+    We added a CAP file to understand which client was being used HEX or nc.
+    Funny enough whilst connecting hexchat sended CAP LS, PASS, NICK and USER piece by piece always in this order.
+    Every now and then it sends CAP LS than PASS ... algather. or CAP LS and PASS than the rest ex. 
+    For that reason we recreated a buffer system which gets them line by line.
+-----------------------------------------
+## 7/11/2023
+  ### seventh day.
     Debug isini duzeltelim. Her page'e ozel Debug olsun ve tanimlamalari Utilities de tutalim orn NICK.cpp #ifdef DEBUG_NICK, DEBUG_NICK_I, DEBUG_NICK_II..
     User'da aldigimiz formati degistirelim gorkemlerinki gibi 4 sifat girilsin. (3. input hatirladigim kadariyla.)
     hexchat ve nc ayrimi yapip ona gore bir mesaj gonderelim.
     to do listteki protocolslere bir goz atalim.
-    remote iki client (farkli bilgisayardan) ortak bir chanelldan biribirine mesaj atabilsin.
     Diger Komutlara bakalim. (Pong, Ping kolay denilenleri hizlica ekleyelim.)
-    Bu yazdiklarim 5'i icin degil direk bir sonraki zamana.
     Her gonderilen mesaj ve read write farkli renklerde server terminaline basilsin debugging isini cok kolaylastirir.
+    Parslandiginda cmd1 null olmamali.
+    Kendi exeptionumuzu yazmak daha cool olur boylelikle ozellestirebiliriz.
+    NOTICE, WHO, PING & PONG
+    Operator islerinde baslayabiliriz.
+    TOPIC herkesinkini degistirsin. Ve operatore ozel olsun.
+    Sagda ad cikarma ve mesajda ad gorme ve tiklayip priv gonderme.
+    channelden cikis yapildiginda anlasilsin vectorden client ciksin.
+    Nick degistirebilelim.
+    Fcntl
+    Bot yazilimi (en basitinden).
+    
 -----------------------------------------
