@@ -87,6 +87,7 @@
     Funny enough whilst connecting hexchat sended CAP LS, PASS, NICK and USER piece by piece always in this order.
     Every now and then it sends CAP LS than PASS ... algather. or CAP LS and PASS than the rest ex. 
     For that reason we recreated a buffer system which gets them line by line.
+    In general this was probably the day that we worked the best.
 -----------------------------------------
 ## 7/11/2023
   ### seventh day.
