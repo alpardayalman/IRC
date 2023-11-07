@@ -74,4 +74,5 @@ class Server {
         int     Notice(std::string &s, Client &cli);
         int     Kick(std::string &s, Client &cli);
         int     Part(std::string &s, Client &cli);
+        int     Ping(std::string &s, Client &cli);
 };
