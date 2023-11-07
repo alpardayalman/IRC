@@ -8,12 +8,12 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include "Utilities.hpp"
-#include "Client.hpp"
-#include "Chanel.hpp"
 #include <vector>
 #include <map>
 #include <string>
+#include "Client.hpp"
+#include "Utilities.hpp"
+#include "Chanel.hpp"
 
 class Client;
 class Server;

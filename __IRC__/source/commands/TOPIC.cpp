@@ -11,8 +11,14 @@ int     Server::Topic(std::string &s, Client &cli) {
         write(cli.cliFd, "You cannot change ft_irc", 25);
     }
     else {
-        std::string sendi = RPL_TOPIC(cli.nick, cli.ipAddr, cha, &str[1]);
-        write(cli.cliFd, sendi.c_str(), sendi.size());
+        for (ChanelIterator it = chanels.begin(); it != chanels.end(); ++it) {
+            if (it->name == cha) {
+                for (ClientIterator cit = it->clients.begin(); cit != it->clients.end(); ++cit) {
+                    std::string sendi = RPL_TOPIC(cli.nick, cit->ipAddr, cha, &str[1]);
+                    write(cit->cliFd, sendi.c_str(), sendi.size());
+                }
+            }
+        }
     }
 
     return(1);

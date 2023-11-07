@@ -7,6 +7,7 @@
 
 #define HEX 1
 #define NC  2
+
 class Chanel;
 class Client
 {
@@ -28,5 +29,6 @@ class Client
         Client() : isHex(0), isCapt(0), passcheku(0)  {}
         ~Client() {}
 
-        void    colorWrite(std::string &msg, const char *color);
+        void                colorWrite(std::string &msg, const char *color);
+        std::string	        getPrefix() const;
 };

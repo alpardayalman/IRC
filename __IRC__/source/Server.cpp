@@ -128,6 +128,7 @@ void    Server::run( void ) {
         {
             if (FD_ISSET((*begin).cliFd, &this->writeFdsSup))
             {
+                // RPL_PRIVMSG((*begin).user, (char *)(*begin).messageBox[0].c_str())
                 readed = write((*begin).cliFd, (char *)(*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
                 (*begin).messageBox.erase((*begin).messageBox.begin());
 
