@@ -1,5 +1,5 @@
-#include "../include/Utilities.hpp"
-#include "../include/Server.hpp"
+#include "Utilities.hpp"
+#include "Server.hpp"
 #include <stdlib.h>
 #include <stdexcept>
 
@@ -9,9 +9,8 @@ int main(int ac, char **av) {
             throw std::invalid_argument("Error: Give arguments like the following ./exec <port> <password>.");
         else if (!Utilities::checkPortNumber(av[1]))
             throw std::invalid_argument("Error: Port has to be all digits.");
-        else {
+        else
             Server a = Server(atoi(av[1]), av[2]);
-        }
     }
     catch (std::exception &ex) {
         std::cerr << ex.what() << std::endl;

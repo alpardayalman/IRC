@@ -6,6 +6,6 @@ int     Server::Cap(std::string &s, Client &cli) {
     else if (s == "CAP NC")
         cli.isCapt = NC;
     else
-        return 0;
-    return 1;
+        return false;
+    return true;
 }

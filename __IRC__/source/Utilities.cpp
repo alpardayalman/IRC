@@ -61,7 +61,9 @@ void Utilities::write_ascii_art(void){
     }
     std::cout << std::endl;
 }
-
+/*
+    Divide the string from the lines. And return tokenized version of every lines.
+*/
 std::vector<std::string> Utilities::tokenNewline(std::string& s) {
     std::stringstream           ss(s);
     std::vector<std::string>    arr;
@@ -71,16 +73,19 @@ std::vector<std::string> Utilities::tokenNewline(std::string& s) {
     }
     return arr;
 }
-
-std::vector<std::string> Utilities::tokenCmd(std::string& s) {
+/*
+    Divide the string from the first space. And return the first half as cmd[0] and second as cmd[1].
+    Int Trim added if we want to trim both of them or not.
+*/
+std::vector<std::string> Utilities::tokenCmd(std::string& s, int Trim) {
     std::istringstream iss(s);
     std::vector<std::string> parameters;
     int paramlen;
     std::string param;
     iss >> param;
-    parameters.push_back(param);
+    parameters.push_back(Trim?Utilities::trim(param):param);
     paramlen = param.length();
     s.erase(0, paramlen + 1);
-    parameters.push_back(s);
+    parameters.push_back(Trim?Utilities::trim(s):s);
     return parameters;
 }

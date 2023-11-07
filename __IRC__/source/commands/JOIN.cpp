@@ -1,10 +1,6 @@
 #include "Server.hpp"
 #include "stdio.h"
 
-// Bu class mi what the hell, ama kb mergleme demistin dayanamadim. Buradan ilerleriz eline saglik xoxo. (Biseye benzet lutfen)
-// Debug islerini Utilitieslere eklersen super olur.
-// PASSwordu yazdiktan sonra sadece JOIN yazinca server dusuyor...
-
 int  findChanel(std::string& name, std::vector<Chanel> chanels) {
     for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
         if (name == (*it).name)
@@ -58,17 +54,13 @@ int    Server::Join(std::string &s, Client& cli) {
                             Utilities::fd_write_color(cli.cliFd, "You already in the chanel\n", CYAN);
                     }
                 }
-            } else {//if chanel is not exist create chanel and add client to chanel
+            } else {//if chanel does not exist, create one and add the client to the chanel vector.
                 Chanel  newChanel(chaName);
-                this->chanels.push_back(newChanel); // serverda tutulan chaneller.
-                cli.connectedChanels.push_back(newChanel); // Clientlarin bagli oldugu chaneller.
+                this->chanels.push_back(newChanel); // Chanels cached in server.
+                cli.connectedChanels.push_back(newChanel); // Clients that are connected to the channels.
                 this->chanels.back().clients.push_back(cli);
                 std::string sendi = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
                 write(cli.cliFd, sendi.c_str(), sendi.size());
-                // Bu tarzda bir sender fonksiyonu mantikli olur (line 59). atilan tum mesajlari terminale bastirabiliriz renk ile.
-                // Ayni sekilde gonderilen mesajlarada bakmak saglikli olacaktir debug icin.
-                // RPL_JOIN_NOV_6 -> test etmek icin yaptim, okulda devam ederiz normal #define'dan farki ip'si sabit. (Utilities.hpp)
-                // : ! @ # neyi simgeliyor daha iyi anlamlastirmak GEREX.
             }
 #ifdef ShowUser
     showClients(chanels.back());

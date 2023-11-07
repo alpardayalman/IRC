@@ -46,7 +46,7 @@ class Utilities {
     public:
         static int                              checkPortNumber(char *port_number);
         static std::string                      trim(const std::string &s);
-        static std::vector<std::string>         tokenCmd(std::string& s);
+        static std::vector<std::string>         tokenCmd(std::string& s, int Trim);
         static std::vector<std::string>         tokenNewline(std::string& s);
 
         // ART & DESIGN ®

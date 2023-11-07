@@ -3,7 +3,7 @@
 
 // #define debugCMD
 
-void Server::initCommands( void ) {
+void Server::initCommands(void) {
     t_cmdFunct["PASS"] = &Server::Pass;
     t_cmdFunct["INFO"] = &Server::Info;
     t_cmdFunct["PRIVMSG"] = &Server::PrivMsg;
@@ -19,7 +19,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["PING"] = &Server::Ping;
 }
 
-Server::Server(size_t port_number, char * password) : port_number(port_number), password(std::string(password)) , reuse(1) {
+Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
     std::cout << this->port_number << " " << this->password << std::endl;
     createSocket();
     serveraddrSocket();
@@ -27,28 +27,27 @@ Server::Server(size_t port_number, char * password) : port_number(port_number), 
     initCommands();
     run();
 }
+
 Server::~Server() {
     if (this->is_running)
         close(this->server_fd);
     std::cout << "Server is shuting down." << std::endl;
 }
 
-void    Server::commandHandler(std::string parameters, Client& begin) { // what'sup with this function? Emir temize alabilecek misin por favor? Else absurt gozukuyor.
-    std::vector<std::string> param = Utilities::tokenCmd(parameters);
+void Server::commandHandler(std::string parameters, Client &begin) {
+    std::vector<std::string> param = Utilities::tokenCmd(parameters, 0);
     if (param.size() == 0)
         return;
     std::string cmd = param[0];
     param.erase(param.begin());
-    if (t_cmdFunct.find(cmd) != t_cmdFunct.end()){
+    if (t_cmdFunct.find(cmd) != t_cmdFunct.end())
         (this->*t_cmdFunct[cmd])(param[0], begin);
-    }
     else
-        Utilities::fd_write_color(1, param[1]+"| Command is not found.\n" , BLUE);
+        Utilities::fd_write_color(1, param[1] + "| Command is not found.\n", BLUE);
 }
 
-
 // * Server Multiplexing
-void    Server::run( void ) {
+void Server::run(void) {
     sockaddr_in cliAddr;
     socklen_t cliSize;
     int readed;
@@ -63,20 +62,17 @@ void    Server::run( void ) {
 
     FD_SET(this->server_fd, &this->readFds);
 
-    while (1)
-    {
-        while (state == 0)
-        {
+    while (1) {
+        while (state == 0) {
             this->readFdsSup = this->readFds;
             this->writeFdsSup = this->writeFds;
             state = select(this->clients.size() + 4, &this->readFdsSup, &this->writeFdsSup, NULL, 0);
         }
 
-        if (FD_ISSET(this->server_fd, &this->readFdsSup))
-        {
+        if (FD_ISSET(this->server_fd, &this->readFdsSup)) {
             tmp.cliFd = accept(this->server_fd, (sockaddr *)&cliAddr, &cliSize);
             tmp.port = ntohs(cliAddr.sin_port);
-            inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN); // insanlar okuyabilsin diye.
+            inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN);
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
             Utilities::fd_write_color(1, "New Client Connected!\n", GREEN);
@@ -85,13 +81,10 @@ void    Server::run( void ) {
         }
 
         // read eventinde.
-        for(std::vector<Client>::iterator begin = this->clients.begin(); begin != this->clients.end() && state;++begin)
-        {
-            if (FD_ISSET((*begin).cliFd, &this->readFdsSup))
-            {
+        for (std::vector<Client>::iterator begin = this->clients.begin(); begin != this->clients.end() && state; ++begin) {
+            if (FD_ISSET((*begin).cliFd, &this->readFdsSup)) {
                 readed = read((*begin).cliFd, this->buffer, 1024);
-                if (readed <= 0)
-                {
+                if (readed <= 0) {
                     FD_CLR((*begin).cliFd, &this->readFds);
                     FD_CLR((*begin).cliFd, &this->writeFds);
                     close((*begin).cliFd);
@@ -99,30 +92,31 @@ void    Server::run( void ) {
                     Utilities::fd_write_color(1, (*begin).nick, RED);
                     Utilities::fd_write_color(1, " client disconnected!\n", RED);
                 }
-                else
-                {
+                else {
                     this->buffer[readed] = 0;
                     std::string k = this->buffer;
 
-                    // Initial Tokenizer.
-                    if (k[k.length()-1] != '\n') {
+                    // ^D durumunda piece by piece aldigimiz icin. CHEESE
+                    if (k[k.length() - 1] != '\n') {
                         (*begin).buffer += k;
                         state = 0;
                         break;
                     }
+                    // Initial Tokenizer.
                     std::string s = Utilities::trim((*begin).buffer + k);
                     (*begin).buffer.clear();
-                    Utilities::fd_write_color(1, s+'\n', BLUE);
+                    Utilities::fd_write_color(1, s + '\n', BLUE);
                     std::vector<std::string> parameters = Utilities::tokenNewline(s);
-                    for (int i =0; i < (int)parameters.size(); i++) {
+
+                    for (int i = 0; i < (int)parameters.size(); i++) {
                         Server::commandHandler(parameters[i], (*begin));
                     }
-                    if (!(Utilities::tokenCmd(parameters[0])[0] == "CAP")) {
+                    if (!(Utilities::tokenCmd(parameters[0], 0)[0] == "CAP")) {
                         if (!Pass(k, (*begin))) {
                             FD_CLR((*begin).cliFd, &this->readFds);
                             FD_CLR((*begin).cliFd, &this->writeFds);
                             write((*begin).cliFd, "Password is incorect\n", 22);
-                            Utilities::fd_write_color(1,"Client: " + std::to_string((*begin).cliFd -3) + " has the password incorrectly GTFO\n", RED);
+                            Utilities::fd_write_color(1, "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO\n", RED);
                             close((*begin).cliFd);
                             this->clients.erase(begin);
                         }
@@ -133,20 +127,16 @@ void    Server::run( void ) {
             }
         }
 
-        //write eventinde.
-        for(std::vector<Client>::iterator begin = this->clients.begin(); begin != this->clients.end() && state;++begin)
-        {
-            if (FD_ISSET((*begin).cliFd, &this->writeFdsSup))
-            {
-                // RPL_PRIVMSG((*begin).user, (char *)(*begin).messageBox[0].c_str())
+        // Write event.
+        for (std::vector<Client>::iterator begin = this->clients.begin(); begin != this->clients.end() && state; ++begin) {
+            if (FD_ISSET((*begin).cliFd, &this->writeFdsSup)) {
                 readed = write((*begin).cliFd, (char *)(*begin).messageBox[0].c_str(), (*begin).messageBox[0].length());
                 (*begin).messageBox.erase((*begin).messageBox.begin());
 
                 if ((*begin).messageBox.empty())
                     FD_CLR((*begin).cliFd, &this->writeFds);
 
-                if (readed <= 0)
-                {
+                if (readed <= 0) {
                     FD_CLR((*begin).cliFd, &this->readFds);
                     FD_CLR((*begin).cliFd, &this->writeFds);
                     close((*begin).cliFd);
@@ -160,9 +150,9 @@ void    Server::run( void ) {
     }
 }
 
-int     Server::whoIsInChanel(Chanel &chanel) {
+int Server::whoIsInChanel(Chanel &chanel) {
     for (ClientIterator it = chanel.clients.begin(); it != chanel.clients.end(); ++it) {
-        Utilities::fd_write_color(1, it->nick+" "+it->user, YELLOW);
+        Utilities::fd_write_color(1, it->nick + " " + it->user, YELLOW);
         std::cout << "\n---------------------\n";
     }
     return 0;
