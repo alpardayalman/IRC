@@ -16,6 +16,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["NOTICE"] = &Server::Notice;
     t_cmdFunct["KICK"] = &Server::Kick;
     t_cmdFunct["PART"] = &Server::Part;
+    t_cmdFunct["PING"] = &Server::Ping;
 }
 
 Server::Server(size_t port_number, char * password) : port_number(port_number), password(std::string(password)) , reuse(1) {
@@ -101,10 +102,16 @@ void    Server::run( void ) {
                 else
                 {
                     this->buffer[readed] = 0;
+                    std::string k = this->buffer;
 
                     // Initial Tokenizer.
-                    std::string k = this->buffer;
-                    std::string s = Utilities::trim(k);
+                    if (k[k.length()-1] != '\n') {
+                        (*begin).buffer += k;
+                        state = 0;
+                        break;
+                    }
+                    std::string s = Utilities::trim((*begin).buffer + k);
+                    (*begin).buffer.clear();
                     Utilities::fd_write_color(1, s+'\n', BLUE);
                     std::vector<std::string> parameters = Utilities::tokenNewline(s);
                     for (int i =0; i < (int)parameters.size(); i++) {

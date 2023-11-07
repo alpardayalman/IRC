@@ -26,7 +26,8 @@ class Client
 
         int         isCapt;
         int         passcheku;
-        Client() : isHex(0), isCapt(0), passcheku(0)  {}
+        std::string buffer;
+        Client() : isHex(0), isCapt(0), passcheku(0), buffer("")  {}
         ~Client() {}
 
         void                colorWrite(std::string &msg, const char *color);
