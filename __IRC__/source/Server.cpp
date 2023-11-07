@@ -151,3 +151,11 @@ void    Server::run( void ) {
         }
     }
 }
+
+int     Server::whoIsInChanel(Chanel &chanel) {
+    for (ClientIterator it = chanel.clients.begin(); it != chanel.clients.end(); ++it) {
+        Utilities::fd_write_color(1, it->nick+" "+it->user, YELLOW);
+        std::cout << "\n---------------------\n";
+    }
+    return 0;
+}
