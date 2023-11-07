@@ -14,7 +14,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["TOPIC"] = &Server::Topic;
     t_cmdFunct["INVITE"] = &Server::Invite;
     t_cmdFunct["NOTICE"] = &Server::Notice;
-    
+    t_cmdFunct["KICK"] = &Server::Kick;
 }
 
 Server::Server(size_t port_number, char * password) : port_number(port_number), password(std::string(password)) , reuse(1) {

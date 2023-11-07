@@ -72,4 +72,5 @@ class Server {
         int     Topic(std::string &s, Client &cli);
         int     Invite(std::string &s, Client &cli);
         int     Notice(std::string &s, Client &cli);
+        int     Kick(std::string &s, Client &cli);
 };
