@@ -6,18 +6,19 @@
 - [ ] RFC 1459 (protocols)
 - [x] Authentication.
 - [x] Nickname, a username.
-- [ ] Join a channel.
-- [ ] Send and receive private messages using your reference client.
-- [ ] All the messages sent from one client to a channel have to be forwarded to every other client that joined the channel.
+- [x] Join a channel.
+- [x] Send and receive private messages using your reference client.
+- [x] All the messages sent from one client to a channel have to be forwarded to every other client that joined the channel.
 - [ ] Operators and regular users.
 - [ ] Signal. ^D & ^Z
 - [ ] fcntl.
 - [ ] Leaks. & seg correction
-- [ ] Functions to know.
 - [ ] Everyone's last word for this project.
-- [ ] DIFI hanmen key exchangge. (let's look into that.)
-- [ ] flood
+- [ ] DIFI hanmen key exchangge. (let's look into that.) <--
+- [ ] flood <--
 - [ ] Notice, ping, pong
+- [ ] Kick, Topic, Part
+- [x] File transfer lessgo
 -----------------------------------------
 
 <img src="Additional/assets/irc.png">
