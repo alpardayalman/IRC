@@ -17,7 +17,7 @@
 - [ ] DIFI hanmen key exchangge. (let's look into that.) <--
 - [ ] flood <--
 - [ ] Notice, ping, pong
-- [ ] Kick, Topic, Part
+- [x] Kick, Topic, Part
 - [x] File transfer lessgo
 -----------------------------------------
 
