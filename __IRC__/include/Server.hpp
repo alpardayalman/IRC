@@ -57,6 +57,7 @@ class Server {
         int     findMaxFd( void ) const;
         int     isClientIn(Chanel &cha, int cliFd);
         int     isClientIn(Client& cli, std::string nameChanel);
+        int     whoIsInChanel(Chanel &chanel);
 
         // Commands ––
         std::map<std::string, CmdFunct> t_cmdFunct;
@@ -70,5 +71,6 @@ class Server {
         int     Cap(std::string &s, Client &cli);
         int     Topic(std::string &s, Client &cli);
         int     Invite(std::string &s, Client &cli);
+        int     Notice(std::string &s, Client &cli);
         int     Kick(std::string &s, Client &cli);
 };

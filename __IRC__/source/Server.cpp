@@ -13,6 +13,7 @@ void Server::initCommands( void ) {
     t_cmdFunct["CAP"] = &Server::Cap;
     t_cmdFunct["TOPIC"] = &Server::Topic;
     t_cmdFunct["INVITE"] = &Server::Invite;
+    t_cmdFunct["NOTICE"] = &Server::Notice;
     t_cmdFunct["KICK"] = &Server::Kick;
 }
 
@@ -149,4 +150,12 @@ void    Server::run( void ) {
             }
         }
     }
+}
+
+int     Server::whoIsInChanel(Chanel &chanel) {
+    for (ClientIterator it = chanel.clients.begin(); it != chanel.clients.end(); ++it) {
+        Utilities::fd_write_color(1, it->nick+" "+it->user, YELLOW);
+        std::cout << "\n---------------------\n";
+    }
+    return 0;
 }
