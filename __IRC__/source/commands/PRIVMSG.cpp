@@ -21,7 +21,7 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
                 Server::Ping(s, (*it));
                 break;
             }
-            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1].substr(1, params[1].length())));
+            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1].substr(0, params[1].length())));
             FD_SET((*it).cliFd, &this->writeFds);
         }
     }
