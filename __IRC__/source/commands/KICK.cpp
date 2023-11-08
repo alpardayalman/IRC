@@ -1,8 +1,5 @@
 #include "Server.hpp"
 
-
-
-// server -> chanel -> user silinecek.
 int Server::Kick(std::string &s, Client &cli) {
 
     std::vector<std::string> cmd = Utilities::tokenCmd(s, 1); // 
@@ -13,8 +10,8 @@ int Server::Kick(std::string &s, Client &cli) {
     for (std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it) {
 
         if ((*it).nick == cmd[0]) {
-            std::string pri = RPL_KICK(cli.nick, kick, cmd[0], cmd[1]);
-            write((*it).cliFd, pri.c_str(), pri.size());
+            (*it).messageBox.push_back(RPL_KICK(cli.nick, kick, cmd[0], cmd[1]));
+            FD_SET((*it).cliFd, &this->writeFds);
             for(std::vector<Chanel>::iterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
                 if((*it).name == kick) {
                     for(std::vector<Client>::iterator it2 = (*it).clients.begin(); it2 != (*it).clients.end(); ++it2) {
@@ -28,9 +25,5 @@ int Server::Kick(std::string &s, Client &cli) {
             }
         }
     }
-
-    std::cout << "\nkick = " << kick << " kname = " << cmd[0] << " Reason = " << cmd[1] << std::endl;
     return 1;
 }
-
-//KICK #asdf ola

@@ -4,7 +4,7 @@ void Server::createSocket( void ) {
 
     ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) ? 
     throw std::runtime_error( "Error: Socket can't be created.") : 
-    Utilities::fd_write_color(1, "Success: Socket is created.\n", GREEN);
+    std::cout << GREEN << "Success: Socket is created." << RESET << std::endl;
 
 
 
@@ -12,7 +12,7 @@ void Server::createSocket( void ) {
     
     (setsockopt(this->server_fd, SOL_SOCKET, SO_REUSEADDR, &this->reuse, sizeof(int)) < 0) ?
     throw std::runtime_error("Error: Optimizing socket.") :
-    Utilities::fd_write_color(1, "Success: Socket is optimized.\n", GREEN);
+    std::cout << GREEN << "Success: Socket is optimized." << RESET << std::endl;
 }
 
 void Server::serveraddrSocket( void ) const {
@@ -25,7 +25,7 @@ void Server::serveraddrSocket( void ) const {
 
     (bind(this->server_fd, (struct sockaddr *) &server_addr_socket, sizeof(server_addr_socket))) < 0 ?
     throw std::runtime_error("Error: Socket is unbound.") :
-    Utilities::fd_write_color(1, "Success: Socket is bound.\n", GREEN);
+    std::cout << GREEN << "Success: Socket is bound." << RESET << std::endl;
 
 }
 
@@ -33,5 +33,5 @@ void    Server::socketListen( void ) const {
 
     (listen(this->server_fd, 128) < 0 )? //sysctl kern.ipc.somaxconn
     throw std::runtime_error("Error: Can't listen the server socket.") :
-    Utilities::fd_write_color(1, "Success: Server socket is listening.\n", GREEN);
+    std::cout << GREEN << "Success: Server socket is listening." << RESET << std::endl;
 }
