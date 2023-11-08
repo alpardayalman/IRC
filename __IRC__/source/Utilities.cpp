@@ -72,14 +72,15 @@ std::vector<std::string> Utilities::tokenNewline(std::string& s) {
 */
 std::vector<std::string> Utilities::tokenCmd(std::string& s, int Trim) {
     std::istringstream iss(s);
+    std::string tmp = s;
     std::vector<std::string> parameters;
     int paramlen;
     std::string param;
     iss >> param;
     parameters.push_back(Trim?Utilities::trim(param):param);
     paramlen = param.length();
-    s.erase(0, paramlen + 1);
-    parameters.push_back(Trim?Utilities::trim(s):s);
+    tmp.erase(0, paramlen + 1);
+    parameters.push_back(Trim?Utilities::trim(tmp):tmp);
     return parameters;
 }
 

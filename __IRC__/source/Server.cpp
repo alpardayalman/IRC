@@ -17,6 +17,8 @@ void Server::initCommands(void) {
     t_cmdFunct["KICK"] = &Server::Kick;
     t_cmdFunct["PART"] = &Server::Part;
     t_cmdFunct["PING"] = &Server::Ping;
+    t_cmdFunct["QUIT"] = &Server::Quit;
+    t_cmdFunct["WHOIS"] = &Server::Whois;
 }
 
 Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
@@ -90,12 +92,16 @@ void Server::run(void) {
                     this->clients.erase(begin);
                     std::cout << RED << (*begin).nick << RESET << std::endl;
                     std::cout << RED << (*begin).nick <<  " client disconnected!" << RESET << std::endl;
-
+                    // destroy((*begin), *this);
                 }
                 else {
                     this->buffer[readed] = 0;
                     std::string k = this->buffer;
-
+                    std::cout << (int)buffer[0] << std::endl;
+                    if (k == "\n") {
+                        state = 0;
+                        break;
+                    }
                     // ^D durumunda piece by piece aldigimiz icin. CHEESE
                     if (k[k.length() - 1] != '\n') {
                         (*begin).buffer += k;
@@ -115,7 +121,7 @@ void Server::run(void) {
                         if (!Pass(k, (*begin))) {
                             FD_CLR((*begin).cliFd, &this->readFds);
                             FD_CLR((*begin).cliFd, &this->writeFds);
-                            write((*begin).cliFd, "Password is incorect\n", 22);
+                            // write((*begin).cliFd, "Password is incorect\n", 22);
                             std::cout << RED << "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO" << RESET << std::endl;
                             close((*begin).cliFd);
                             this->clients.erase(begin);
@@ -156,3 +162,4 @@ int Server::whoIsInChanel(Chanel &chanel) {
     }
     return 0;
 }
+

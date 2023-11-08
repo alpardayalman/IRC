@@ -37,6 +37,8 @@
 #define RPL_PONG(ip)						        " PONG :" + ip + "\r\n"
 #define RPL_QUIT(source, message)                   ":" + source + " QUIT :" + message + "\r\n"
 #define RPL_WHOISUSER(nick, user, ip)				": 311 " + nick + " " + nick + " " + nick + " " + ip + " * :" + user + "\r\n"
+#define RPL_PING(source, nick, second)				":" + source + " PONG :" + nick + " :"+ second + "\r\n"
+
 // ============= Define ============
 
 // ==========debug===========
