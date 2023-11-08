@@ -74,4 +74,5 @@ class Server {
         int     Part(std::string &s, Client &cli);
         int     Ping(std::string &s, Client &cli);
         int     Quit(std::string &s, Client &cli);
+        int     Whois(std::string &s, Client &cli);
 };
