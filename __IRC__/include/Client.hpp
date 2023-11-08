@@ -30,6 +30,5 @@ class Client
         Client() : isHex(0), isCapt(0), passcheku(0), buffer("")  {}
         ~Client() {}
 
-        void                colorWrite(std::string &msg, const char *color);
         std::string	        getPrefix() const;
 };

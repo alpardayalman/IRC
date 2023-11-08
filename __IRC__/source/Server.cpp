@@ -43,7 +43,7 @@ void Server::commandHandler(std::string parameters, Client &begin) {
     if (t_cmdFunct.find(cmd) != t_cmdFunct.end())
         (this->*t_cmdFunct[cmd])(param[0], begin);
     else
-        Utilities::fd_write_color(1, param[1] + "| Command is not found.\n", BLUE);
+        std::cout << BLUE << param[1] + "| Command is not found.\n" << RESET << std::endl;
 }
 
 // * Server Multiplexing
@@ -75,8 +75,7 @@ void Server::run(void) {
             inet_ntop(AF_INET, &(cliAddr.sin_addr), tmp.ipAddr, INET_ADDRSTRLEN);
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
-            Utilities::fd_write_color(1, "New Client Connected!\n", GREEN);
-            write(tmp.cliFd, "Welcome Please Provide Password\n", 33);
+            std::cout << GREEN << "New Client Connected!" << RESET << std::endl;
             state = 0;
         }
 
@@ -89,8 +88,9 @@ void Server::run(void) {
                     FD_CLR((*begin).cliFd, &this->writeFds);
                     close((*begin).cliFd);
                     this->clients.erase(begin);
-                    Utilities::fd_write_color(1, (*begin).nick, RED);
-                    Utilities::fd_write_color(1, " client disconnected!\n", RED);
+                    std::cout << RED << (*begin).nick << RESET << std::endl;
+                    std::cout << RED << (*begin).nick <<  " client disconnected!" << RESET << std::endl;
+
                 }
                 else {
                     this->buffer[readed] = 0;
@@ -105,7 +105,7 @@ void Server::run(void) {
                     // Initial Tokenizer.
                     std::string s = Utilities::trim((*begin).buffer + k);
                     (*begin).buffer.clear();
-                    Utilities::fd_write_color(1, s + '\n', BLUE);
+                    std::cout << BLUE << s << RESET << std::endl;
                     std::vector<std::string> parameters = Utilities::tokenNewline(s);
 
                     for (int i = 0; i < (int)parameters.size(); i++) {
@@ -116,7 +116,7 @@ void Server::run(void) {
                             FD_CLR((*begin).cliFd, &this->readFds);
                             FD_CLR((*begin).cliFd, &this->writeFds);
                             write((*begin).cliFd, "Password is incorect\n", 22);
-                            Utilities::fd_write_color(1, "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO\n", RED);
+                            std::cout << RED << "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO" << RESET << std::endl;
                             close((*begin).cliFd);
                             this->clients.erase(begin);
                         }
@@ -152,8 +152,7 @@ void Server::run(void) {
 
 int Server::whoIsInChanel(Chanel &chanel) {
     for (ClientIterator it = chanel.clients.begin(); it != chanel.clients.end(); ++it) {
-        Utilities::fd_write_color(1, it->nick + " " + it->user, YELLOW);
-        std::cout << "\n---------------------\n";
+        std::cout << YELLOW << it->nick + " " + it->user + "\n---------------------" << RESET << std::endl;
     }
     return 0;
 }

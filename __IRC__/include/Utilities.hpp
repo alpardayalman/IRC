@@ -6,6 +6,8 @@
 #include <chrono>
 #include <sstream>
 #include <vector>
+#include "Client.hpp"
+
 
 // ============= color =============
 # define BLACK		"\033[0;30m"
@@ -51,5 +53,7 @@ class Utilities {
 
         // ART & DESIGN ®
         static void                             write_ascii_art(void);
-        static void                             fd_write_color(int fd, const std::string &s, const char *color);
+
+        //Channel check
+        static bool                             checkChannel(std::string& s);
 };

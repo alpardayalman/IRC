@@ -32,41 +32,41 @@ int Server::isClientIn(Client& cli, std::string nameChanel) {
     return 0;
 }
 
-// #define ShowUser
-#define DebugJ
-
 int    Server::Join(std::string &s, Client& cli) {
     std::stringstream ss(s);
     std::string chaName, key;
     if (!s.empty()) {
         ss >> chaName;
         ss >> key;
+        if(!Utilities::checkChannel(chaName)) {
+            // write(cli.cliFd, "Channel name must be" ,20); // bool yapicaz unutmaa!!!!!!!!!!
+            return 0;
+        }
             if (findChanel(chaName, this->chanels)) {
                 for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
                     if (chaName == (*it).name) {//if chanel is exist try ot join chanel
                         if (!isClientIn((*it), cli.cliFd)) {
                             (*it).clients.push_back(cli);
                             cli.connectedChanels.push_back((*it));
-                            std::string sendi = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
-                            write(cli.cliFd, sendi.c_str(), sendi.size());
+                            cli.messageBox.push_back(RPL_JOIN(cli.nick, cli.ipAddr, chaName));
+                            FD_SET(cli.cliFd, &this->writeFds);
                         }//client is in chanel or not
                         else
-                            Utilities::fd_write_color(cli.cliFd, "You already in the chanel\n", CYAN);
+                            cli.messageBox.push_back("You already in the chanel");
+                            FD_SET(cli.cliFd, &this->writeFds);
                     }
                 }
             } else {//if chanel does not exist, create one and add the client to the chanel vector.
                 Chanel  newChanel(chaName);
                 this->chanels.push_back(newChanel); // Chanels cached in server.
                 cli.connectedChanels.push_back(newChanel); // Clients that are connected to the channels.
+                cli.messageBox.push_back(RPL_JOIN(cli.nick, cli.ipAddr, chaName));
+                FD_SET(cli.cliFd, &this->writeFds);
                 this->chanels.back().clients.push_back(cli);
-                std::string sendi = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
-                write(cli.cliFd, sendi.c_str(), sendi.size());
             }
-#ifdef ShowUser
-    showClients(chanels.back());
-#endif
     } else {//if join command input empty write this message
-        Utilities::fd_write_color(cli.cliFd, "you cannot joined chanel cause use command correct JOIN <chanel name>\n", CYAN);
+        cli.messageBox.push_back("you cannot joined chanel cause use command correct JOIN <chanel name>");
+        FD_SET(cli.cliFd, &this->writeFds);
     }
     return 0;
 }

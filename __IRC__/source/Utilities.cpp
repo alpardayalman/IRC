@@ -1,4 +1,4 @@
-#include "../include/Utilities.hpp"
+#include "Utilities.hpp"
 
 int Utilities::checkPortNumber(char *port_number) {
     for (int i = 0; port_number[i]; i++) {
@@ -26,13 +26,6 @@ std::string Utilities::rtrim(const std::string &s) {
 
 std::string Utilities::trim(const std::string &s) {
     return rtrim(ltrim(s));
-}
-
-void Utilities::fd_write_color(int fd, const std::string &s, const char *color) {
-    std::string msg = color + s;
-    msg = msg + WHITE;
-    // std::cout << msg << std::endl;
-    write(fd, msg.c_str(), msg.length());
 }
 
 void Utilities::write_ascii_art(void){
@@ -88,4 +81,14 @@ std::vector<std::string> Utilities::tokenCmd(std::string& s, int Trim) {
     s.erase(0, paramlen + 1);
     parameters.push_back(Trim?Utilities::trim(s):s);
     return parameters;
+}
+
+bool    Utilities::checkChannel(std::string& s) {
+    if(s.size() > 50)
+        return false;
+    for(int i = 0; s[i]; i++) {
+        if(s[i] == ' ' || s[i] == 7 || s[i] == ',')
+            return false;
+    }
+    return true;
 }
