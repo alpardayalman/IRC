@@ -16,9 +16,8 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
             FD_SET((*it).cliFd, &this->writeFds);
         }
         else if (params[0] == (*it).user || params[0] == (*it).nick) {//PRIVMSG <user> <msg> PRIVMSG <nick> <msg>
-            std::string a = RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1].substr(1, params[1].length())); // Buraya bakmak gerekiyor.
-            write((*it).cliFd, a.c_str(), a.size());
             (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1].substr(1, params[1].length())));
+            FD_SET((*it).cliFd, &this->writeFds);
         }
     }
     return 1;
