@@ -75,4 +75,5 @@ class Server {
         int     Ping(std::string &s, Client &cli);
         int     Quit(std::string &s, Client &cli);
         int     Whois(std::string &s, Client &cli);
+        int     Mode(std::string &s, Client &cli);
 };

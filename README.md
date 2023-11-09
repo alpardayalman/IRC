@@ -103,13 +103,26 @@
 -----------------------------------------
 ## 8/11/2023
   ### eight'st day.
+
+    Overall good day,
+    we were able to improve the gui, we did quit and semi whois.
+    We can see people and change nicknames.
+    We got some errors during the day.
+    We did ping and pong. 
+    We need to do more unit testing however we only need to do the bot, 
+    the mode command for the channel,
+    better the gui and add an operator than we are done with this project.
+    I am proud of my team.
+    
+-----------------------------------------
+## 9/11/2023
+  ### ninth day.
     hexchat ve nc ayrimi yapip ona gore bir mesaj gonderelim.
-    Ping Pong.
     Parslandiginda cmd1 null olmamali.
     Kendi exeptionumuzu yazmak daha cool olur boylelikle ozellestirebiliriz.
-    WHO, PING & PONG, Exit
+    WHO
     OPERATORS and chanel mods
-    Sagda ad cikarma.
+    Sagda ad cikarma. her yerde olucak ve biri ciktiginda girdiginde ve ad degistirdiginde calisacek.
     Fcntl
     Bot yazilimi (en basitinden).
     PRIVMSG'nin else if kismina bakalim

@@ -19,6 +19,7 @@ void Server::initCommands(void) {
     t_cmdFunct["PING"] = &Server::Ping;
     t_cmdFunct["QUIT"] = &Server::Quit;
     t_cmdFunct["WHOIS"] = &Server::Whois;
+    t_cmdFunct["MODE"] = &Server::Mode;
 }
 
 Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
