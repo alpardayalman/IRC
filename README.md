@@ -40,7 +40,8 @@ Version: 6
       <td align="center" valign="top" width="20%"><a href="https://github.com/EmirKymz"><img src="https://avatars.githubusercontent.com/u/99013427?v=4" width="100px;" alt="Emircan Kaymaz"/><br /><sub><b>Emircan Kaymaz</b></sub></a><br /></td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/TalhaAcikgoz"><img src="https://avatars.githubusercontent.com/u/89697506?v=4" width="100px;" alt="Talha Acikgoz"/><br /><sub><b>Talha Acikgoz</b></sub></a><br /></td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/yeaktas"><img src="https://avatars.githubusercontent.com/u/96894640?v=4" width="100px;" alt="Yunus Emre Aktas"/><br /><sub><b>Yunus Emre Aktas</b></sub></a><br /></td>
-      <td align="center" valign="top" width="20%"><a href="https://github.com/tbenning"><img src="https://avatars.githubusercontent.com/u/89697506?v=4" width="100px;" alt="Sarp Erkiralp"/><br /><sub><b>Sarp Erkiralp</b></sub></a><br /> </td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/Higlix"><img src="https://avatars.githubusercontent.com/u/109249128?v=4" width="100px;" alt="Sarp Erkiralp"/><br /><sub><b>Sarp Erkiralp</b></sub></a><br /> 
+</td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/alpardayalman"><img src="https://avatars.githubusercontent.com/u/82611850?v=4" width="100px;" alt="Alp A. Yalman"/><br /><sub><b>Alp A. Yalman</b></sub></a><br /></td>
     </tr>
   </table>
