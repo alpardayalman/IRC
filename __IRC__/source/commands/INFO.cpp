@@ -1,4 +1,4 @@
-#include "../include/Server.hpp"
+#include "Server.hpp"
 
 
 int     Server::Info(std::string &s, Client& cli) {
