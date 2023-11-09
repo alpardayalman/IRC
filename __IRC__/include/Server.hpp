@@ -76,4 +76,5 @@ class Server {
         int     Quit(std::string &s, Client &cli);
         int     Whois(std::string &s, Client &cli);
         int     Mode(std::string &s, Client &cli);
+        int     List(std::string &s, Client& cli);
 };

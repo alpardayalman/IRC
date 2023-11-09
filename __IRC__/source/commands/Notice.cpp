@@ -7,7 +7,7 @@ int     Server::Notice(std::string &s, Client &cli) {
     for (ClientIterator it = clients.begin(); it != clients.end(); ++it) {
 
         if (it->nick == param[0] || it->user == param[0]) {
-            (*it).messageBox.push_back(RPL_NOTICE(cli.getPrefix(), it->nick, param[1].substr(1, param[1].length())));
+            (*it).messageBox.push_back(RPL_NOTICE(cli.getPrefix(), it->nick, param[1]));
             FD_SET((*it).cliFd, &this->writeFds);
         }
     }

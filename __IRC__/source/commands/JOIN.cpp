@@ -23,11 +23,20 @@ int Server::isClientIn(Chanel &cha, int cliFd) {
     }
     return 0;
 }
-
+/*
+    client ve bir channel name atiliyor.
+    sonra clientin icindeki channellerde dolasilip eger client'in icinde oldugu channel
+    varsa true donduruyor.
+*/
 int Server::isClientIn(Client& cli, std::string nameChanel) {
-    for (ChanelIterator it = cli.connectedChanels.begin(); it != cli.connectedChanels.end(); ++it) {
-        if ((*it).name == nameChanel)
-            return 1;
+    for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
+        if ((*it).name == nameChanel) {
+            for (ClientIterator cit = (*it).clients.begin(); cit != (*it).clients.end(); ++cit) {
+                if ((*cit).cliFd == cli.cliFd)
+                    return 1;
+            }
+            break;
+        }
     }
     return 0;
 }
@@ -45,12 +54,9 @@ int    Server::Join(std::string &s, Client& cli) {
         }
             if (findChanel(chaName, this->chanels)) {
                 for (ChanelIterator it = chanels.begin(); it != chanels.end(); ++it) {
-                    if (chaName == (*it).name) {//if chanel is exist try ot join chanel
+                    if (chaName == (*it).name) {//if chanel exist try ot join chanel
                         if (!isClientIn((*it), cli.cliFd)) {
                             (*it).clients.push_back(cli);
-                            cli.connectedChanels.push_back((*it));
-                            // cli.messageBox.push_back(RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                            // FD_SET(cli.cliFd, &this->writeFds);
                             std::string str = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
                             write(cli.cliFd, str.c_str(), str.length());
 
@@ -64,9 +70,6 @@ int    Server::Join(std::string &s, Client& cli) {
             } else {//if chanel does not exist, create one and add the client to the chanel vector.
                 Chanel  newChanel(chaName);
                 this->chanels.push_back(newChanel); // Chanels cached in server.
-                cli.connectedChanels.push_back(newChanel); // Clients that are connected to the channels.
-                // cli.messageBox.push_back(RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                // FD_SET(cli.cliFd, &this->writeFds);
                 std::string str = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
                 write(cli.cliFd, str.c_str(), str.length());
                 this->chanels.back().clients.push_back(cli);

@@ -20,6 +20,7 @@ void Server::initCommands(void) {
     t_cmdFunct["QUIT"] = &Server::Quit;
     t_cmdFunct["WHOIS"] = &Server::Whois;
     t_cmdFunct["MODE"] = &Server::Mode;
+    t_cmdFunct["LIST"] = &Server::List;
 }
 
 Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
@@ -109,7 +110,6 @@ void Server::run(void) {
                         state = 0;
                         break;
                     }
-                    // Initial Tokenizer.
                     std::string s = Utilities::trim((*begin).buffer + k);
                     (*begin).buffer.clear();
                     std::cout << BLUE << s << RESET << std::endl;
@@ -122,7 +122,6 @@ void Server::run(void) {
                         if (!Pass(k, (*begin))) {
                             FD_CLR((*begin).cliFd, &this->readFds);
                             FD_CLR((*begin).cliFd, &this->writeFds);
-                            // write((*begin).cliFd, "Password is incorect\n", 22);
                             std::cout << RED << "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO" << RESET << std::endl;
                             close((*begin).cliFd);
                             this->clients.erase(begin);
