@@ -119,14 +119,27 @@
 -----------------------------------------
 ## 9/11/2023
   ### ninth day.
+    Vacation day for fam', I was sick today. Almost every team members got sick this week.
+    I did some backup coding for gui part and some systemic improvements however I
+    could not test them in hexChat (I had troubles instaling hex to my mac). Instead I used limeChat
+    Listing and some other stuff works however The apperance of names are kinda bad on the right side.
+    We must Start on the operator priviledges and chanel mods than we are 99% done with the mandetory part.
+    Once finished we need to program a bot than easy peasy. IRC project is done.
+    
+-----------------------------------------
+## 10/11/2023
+  ### tenth day.
+    Sinavda bol sans beyler.
+    Operatore baslayalim.
+    Chanel modlar olsun.
+    Bot yazip.
+    Unit test yapalim.
     hexchat ve nc ayrimi yapip ona gore bir mesaj gonderelim.
     Parslandiginda cmd1 null olmamali.
     Kendi exeptionumuzu yazmak daha cool olur boylelikle ozellestirebiliriz.
     WHO
-    OPERATORS and chanel mods
     Sagda ad cikarma. her yerde olucak ve biri ciktiginda girdiginde ve ad degistirdiginde calisacek.
     Fcntl
-    Bot yazilimi (en basitinden).
-    PRIVMSG'nin else if kismina bakalim
+    Kick kismina bakmak lazim.
     
 -----------------------------------------
