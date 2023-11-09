@@ -1,5 +1,13 @@
+# Internet Relay Chat (FT_IRC)
 
-### To-do List
+This project is about creating your own IRC server.
+You will use an actual IRC client to connect to your server and test it.
+Internet is ruled by solid standards protocols that allow connected computers to interact
+with each other.
+It’s always a good thing to know.
+Version: 6
+-----------------------------------------
+## To-do List
 
 - [x] Socket and Multiplexing
 - [x] Makefile / flags and relink
@@ -27,20 +35,28 @@
 
 -----------------------------------------
 
-# Developers
-- Emircan
-- Talha
-- Emre
-- Sarp
-- Alp
+## Developers
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/EmirKymz"><img src="https://avatars.githubusercontent.com/u/99013427?v=4" width="100px;" alt="Emircan Kaymaz"/><br /><sub><b>Emircan Kaymaz</b></sub></a><br /></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/TalhaAcikgoz"><img src="https://avatars.githubusercontent.com/u/89697506?v=4" width="100px;" alt="Talha Acikgoz"/><br /><sub><b>Talha Acikgoz</b></sub></a><br /></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/yeaktas"><img src="https://avatars.githubusercontent.com/u/96894640?v=4" width="100px;" alt="Yunus Emre Aktas"/><br /><sub><b>Yunus Emre Aktas</b></sub></a><br /></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/tbenning"><img src="https://avatars.githubusercontent.com/u/89697506?v=4" width="100px;" alt="Sarp Erkiralp"/><br /><sub><b>Sarp Erkiralp</b></sub></a><br /> </td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/alpardayalman"><img src="https://avatars.githubusercontent.com/u/82611850?v=4" width="100px;" alt="Alp A. Yalman"/><br /><sub><b>Alp A. Yalman</b></sub></a><br /></td>
+    </tr>
+  </table>
+</tbody>
 
-### The groups will be divided whilst examination.
+   The groups were divided whilst examination.
+    
 -----------------------------------------
 
-# NOTES
-# Main Objective: finishing this project before 
-##  1/11/2023
-  ### Start of the project.
+## NOTES
+### Main Objective: finishing this project before our 2nd week.
+
+  ### 1/11/2023 Start of the project.
+  
     Multiplexing handled using select. Uncharted territory in our school, 
     we are the only group that uses SELECT() for ft_IRC project.
     Transmiting of messages works.
@@ -48,16 +64,16 @@
     We need to chose which commands we need to implement for our project. For now we have beta PASS PRIVMSG INFO.
     5/5 day as a team. 
 -----------------------------------------
-##  2/11/2023
-  ### Second day.
+
+  ### 2/11/2023 Second day.
+  
     Password check is near perfect. We are stress testing it.
     Colors added.
     Establishing modularity using a map for all commands.
     Our brain melted ...
     2/5 day because rain. frustrated kinda day.
 -----------------------------------------
-##  3/11/2023
-  ### Third day.
+  ### 3/11/2023 Third day.
     Ascii art added (Emre).
     Modularity added (Emircan).
     Kick started chanels (˚5) (Talha).
@@ -65,8 +81,7 @@
     We need to understand how to use signal ^D to send a message immediatly from nc.
     Well played boys.
 -----------------------------------------
-## 4/11/2023
-  ### Fourth day.
+  ### 4/11/2023 Fourth day.
     Made slight changes to the github repo.
     Nick and User added (Need to do slight changes to User to get the information in the right way).
     Channel class was updated, 1 user cannot join the same channel 2 times.
@@ -75,12 +90,14 @@
     great day.
     Congrats indeed. Wp team.
 -----------------------------------------
-## 5/11/2023
-  ### Fifth day.
+
+  ### 5/11/2023 Fifth day.
+  
     Vacational and busy day for all of us. We worked really good so far.
 -----------------------------------------
-## 6/11/2023
-  ### sixth day.
+
+  ### 6/11/2023 Sixth day.
+  
     What a good day, the purpose of this day was to create a channel that we could chat on.
     We were able to do more than that.
     We recreated the function TOPIC and INVITE today.
@@ -92,8 +109,9 @@
     For that reason we recreated a buffer system which gets them line by line.
     In general this was probably the day that we worked the best.
 -----------------------------------------
-## 7/11/2023
-  ### seventh day.
+
+  ### 7/11/2023 Seventh day.
+  
     We did Topic, Notice, Part.
     We elaborated on Nick and now Topic can be changed for everybody.
     We did ^D signal.
@@ -103,8 +121,7 @@
     This must be the most productive day yet.
     
 -----------------------------------------
-## 8/11/2023
-  ### eight'st day.
+  ### 8/11/2023 Eight'st day.
 
     Overall good day,
     we were able to improve the gui, we did quit and semi whois.
@@ -117,8 +134,7 @@
     I am proud of my team.
     
 -----------------------------------------
-## 9/11/2023
-  ### ninth day.
+  ### 9/11/2023 Ninth day.
     Vacation day for fam', I was sick today. Almost every team members got sick this week.
     I did some backup coding for gui part and some systemic improvements however I
     could not test them in hexChat (I had troubles instaling hex to my mac). Instead I used limeChat
@@ -127,8 +143,7 @@
     Once finished we need to program a bot than easy peasy. IRC project is done.
     
 -----------------------------------------
-## 10/11/2023
-  ### tenth day.
+  ### 10/11/2023 Tenth day.
     Sinavda bol sans beyler.
     Operatore baslayalim.
     Chanel modlar olsun.
