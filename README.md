@@ -6,6 +6,7 @@ Internet is ruled by solid standards protocols that allow connected computers to
 with each other.
 It’s always a good thing to know.
 Version: 6
+
 -----------------------------------------
 ## To-do List
 
@@ -29,9 +30,6 @@ Version: 6
 - [x] File transfer lessgo
 - [ ] Bot
 - [ ] proper usage of clients gui
------------------------------------------
-
-<img src="Additional/assets/irc.png">
 
 -----------------------------------------
 
@@ -49,8 +47,10 @@ Version: 6
 </tbody>
 
    The groups were divided whilst examination.
-    
------------------------------------------
+   -----------------------------------------
+
+
+   <img src="Additional/assets/irc.png">
 
 ## NOTES
 ### Main Objective: finishing this project before our 2nd week.
