@@ -12,5 +12,5 @@ int Server::Whois(std::string &s, Client &cli) {
         }
     }
     std::cout << "who: " << who << std::endl;
-    return 2147483647;
+    return 1;
 }

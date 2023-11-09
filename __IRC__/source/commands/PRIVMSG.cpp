@@ -11,7 +11,7 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
     {
         if (it->cliFd != cli.cliFd && isClientIn((*it), params[0]))
         {
-            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), params[0], params[1].substr(1, params[1].length())));
+            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), params[0], params[1]));
             FD_SET((*it).cliFd, &this->writeFds);
         }
         else if (params[0] == (*it).user || params[0] == (*it).nick) {//PRIVMSG <user> <msg> PRIVMSG <nick> <msg>
@@ -21,7 +21,7 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
                 Server::Ping(s, (*it));
                 break;
             }
-            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1].substr(0, params[1].length())));
+            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1]));
             FD_SET((*it).cliFd, &this->writeFds);
         }
     }
