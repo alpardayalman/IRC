@@ -15,10 +15,12 @@
 - [ ] Leaks. & seg correction
 - [ ] Everyone's last word for this project.
 - [ ] DIFI hanmen key exchangge. (let's look into that.) <--
-- [ ] flood <--
-- [ ] Notice, ping, pong
+- [ ] flood
+- [x] Notice, ping, pong
 - [x] Kick, Topic, Part
 - [x] File transfer lessgo
+- [ ] Bot
+- [ ] proper usage of clients gui
 -----------------------------------------
 
 <img src="Additional/assets/irc.png">
