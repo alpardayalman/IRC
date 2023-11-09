@@ -39,6 +39,10 @@
 #define RPL_WHOISUSER(nick, user, ip)				": 311 " + nick + " " + nick + " " + nick + " " + ip + " * :" + user + "\r\n"
 #define RPL_PING(source, nick, second)				":" + source + " PONG :" + nick + " :"+ second + "\r\n"
 
+
+# define RPL_LISTSTART(nick)						": 321 " + nick + " Channel : UsersNum\r\n"
+# define RPL_LIST(nick, channel, numusers)	        ": 322 " + nick + " " + channel + " " + numusers + "\r\n"
+# define RPL_LISTEND(nick)							": 323 " + nick + " :End of /LIST\r\n"
 // ============= Define ============
 
 // ==========debug===========
