@@ -69,6 +69,7 @@ class Utilities {
         static std::string                      trim(const std::string &s);
         static std::vector<std::string>         tokenCmd(std::string& s, int Trim);
         static std::vector<std::string>         tokenNewline(std::string& s);
+        static std::vector<std::string>         splitString(const std::string& input);
 
         // ART & DESIGN ®
         static void                             write_ascii_art(void);
