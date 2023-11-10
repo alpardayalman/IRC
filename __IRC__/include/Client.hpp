@@ -26,6 +26,7 @@ class Client
         std::string buffer;
         Client() : isHex(0), isCapt(0), passcheku(0), buffer("")  {}
         ~Client() {}
+        const Client &operator=(const Client &copy);
 
         std::string	        getPrefix() const;
 };
