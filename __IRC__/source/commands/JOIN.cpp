@@ -29,11 +29,12 @@ int Server::isClientIn(Chanel &cha, int cliFd) {
     varsa true donduruyor.
 */
 int Server::isClientIn(Client& cli, std::string nameChanel) {
-    for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
+    int ret = 1;
+    for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it, ++ret) {
         if ((*it).name == nameChanel) {
             for (ClientIterator cit = (*it).clients.begin(); cit != (*it).clients.end(); ++cit) {
                 if ((*cit).cliFd == cli.cliFd)
-                    return 1;
+                    return ret;
             }
             break;
         }
@@ -68,17 +69,19 @@ int    Server::Join(std::string &s, Client& cli) {
                     }
                 }   
             } else {//if chanel does not exist, create one and add the client to the chanel vector.
-                Chanel  newChanel(chaName);
+                Chanel  newChanel(chaName, cli);
+                newChanel.op = cli;
                 this->chanels.push_back(newChanel); // Chanels cached in server.
                 std::string str = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
                 write(cli.cliFd, str.c_str(), str.length());
                 this->chanels.back().clients.push_back(cli);
             }
             for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
-                if(isClientIn((*it), chaName))
-                    msg += (*it).user + " ";
-                /* if(is_operator == true) operator durumu burada kontrol edilecek
-                    msg += "@"; */
+                if(int chidx = isClientIn((*it), chaName)) {
+                    if (it->cliFd == this->chanels[chidx-1].op.cliFd)
+                        msg += "@";
+                    msg += (*it).nick + " ";
+                }
             }
             for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
                 std::string str = RPL_NAMREPLY(cli.nick, chaName, msg);

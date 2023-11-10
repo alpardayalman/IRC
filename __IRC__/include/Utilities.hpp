@@ -44,7 +44,16 @@
 # define RPL_LIST(nick, channel, numusers)	        ": 322 " + nick + " " + channel + " " + numusers + "\r\n"
 # define RPL_LISTEND(nick)							": 323 " + nick + " :End of /LIST\r\n"
 // ============= Define ============
-
+// topic yeni gelenler icinde calisicak
+// channelde kimse kalmayinca channelin kapandigina emin ol
+// command d ctrl c atinca hata vermesin nc
+// (fg gf fb) yazildiktan sonra komutlarin geliyor olmasi lazim
+// ctrl z
+// notice test et
+// whois tamamlancak 
+// sifreli channel
+// channel limitleri
+// PING
 // ==========debug===========
 // #define  tokenNewlinedeb
 
