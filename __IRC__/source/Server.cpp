@@ -20,6 +20,7 @@ void Server::initCommands(void) {
     t_cmdFunct["QUIT"] = &Server::Quit;
     t_cmdFunct["WHOIS"] = &Server::Whois;
     t_cmdFunct["MODE"] = &Server::Mode;
+    t_cmdFunct["mode"] = &Server::Mode; // bazen kucuk harfle atiyor.
     t_cmdFunct["LIST"] = &Server::List;
 }
 

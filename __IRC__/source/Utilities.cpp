@@ -84,6 +84,22 @@ std::vector<std::string> Utilities::tokenCmd(std::string& s, int Trim) {
     return parameters;
 }
 
+
+std::vector<std::string> Utilities::splitString(const std::string& input) {
+    std::istringstream iss(input);
+    std::vector<std::string> result;
+
+    do {
+        std::string word;
+        iss >> word;
+        result.push_back(word);
+    } while (iss);
+
+    result.pop_back();
+
+    return result;
+}
+
 bool    Utilities::checkChannel(std::string& s) {
     if(s.size() > 50)
         return false;

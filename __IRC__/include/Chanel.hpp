@@ -5,8 +5,8 @@
 //chanelin msgboxina msg atabiliriz
 #include "Client.hpp"
 
-#define L 1
-#define KEY 2
+#define L_CODE 1
+#define K_CODE 2
 
 
 class Client;
@@ -20,7 +20,7 @@ class Chanel {
         std::string         topic;
         std::string         key;
 
-        int                 keycode;
+        int                 keycode; // hangi key var.
         int                 users;
 
         
