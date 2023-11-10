@@ -26,7 +26,7 @@ int Server::Mode(std::string &s, Client &cli) {
     if (cmd[1] == "+l") {
         if (cmd.size() == 3) {
             it->users = atoi(cmd[2].c_str());
-            it->keycode ^= K_CODE;
+            it->keycode |= L_CODE;
         }
     }
     if (cmd[1] == "-k") {
@@ -37,8 +37,7 @@ int Server::Mode(std::string &s, Client &cli) {
     }
     if (cmd[1] == "-l") {
         if (cmd.size() == 2) {
-            it->users = -1;
-            it->keycode ^= K_CODE;
+            it->keycode ^= L_CODE;
         }
     }
     // L durumu
