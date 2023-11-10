@@ -16,7 +16,7 @@ class Chanel {
     public:
         std::vector<Client> clients;
         std::string         name;
-        Client&             op;
+        Client*             op;
         std::string         topic;
         std::string         key;
 
@@ -24,7 +24,7 @@ class Chanel {
         int                 users;
 
         
-        Chanel(std::string &name, Client& cli): name(name), op(cli) {}
+        Chanel(std::string &name): name(name) {}
         ~Chanel() {}
 
         std::vector<int>    getFds() const;
