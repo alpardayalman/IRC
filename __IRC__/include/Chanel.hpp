@@ -3,18 +3,29 @@
 #include "Server.hpp"
 //privmsg <chanelname> :<msg>
 //chanelin msgboxina msg atabiliriz
+#include "Client.hpp"
+
+#define L 1
+#define KEY 2
+
 
 class Client;
-
 class Chanel {
     private:
 
     public:
         //maybe map<CLIENT{or name}, ISADMIN>
         std::vector<Client> clients;
-        std::string name;
+        std::string         name;
+        Client&             op;
+        std::string         topic;
+        std::string         key;
 
-        Chanel(std::string &name): name(name) {}
+        int                 keycode;
+        int                 users;
+
+        
+        Chanel(std::string &name, Client& cli): name(name), op(cli) {}
         ~Chanel() {}
         
 };
