@@ -14,7 +14,9 @@ int Server::Mode(std::string &s, Client &cli) {
     for (; it != this->chanels.end(); ++it)
         if (it->name == cmd[0])
             break;
-    if (it == this->chanels.end())
+    if (it == this->chanels.end()) // No chanel name
+        return 0;
+    if (it->op->user != cli.user) // No modarator.
         return 0;
 
     if (cmd[1] == "+k") {
@@ -40,6 +42,5 @@ int Server::Mode(std::string &s, Client &cli) {
             it->keycode ^= L_CODE;
         }
     }
-    // L durumu
     return 0;
 }
