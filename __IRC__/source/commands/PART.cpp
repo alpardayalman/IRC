@@ -12,14 +12,25 @@ int Server::Part(std::string &s, Client &cli) {
     ChanelIterator it = this->chanels.begin();
     for (; it != this->chanels.end(); ++it) {
         if (it->name == s){
+            it->op = &it->clients[0];//uga buga adresler degismek iteratorda
             for (ClientIterator cit = it->clients.begin(); cit != it->clients.end(); ++cit) {
                 if (cit->nick == cli.nick) {
+                    if (it->op->nick == cit->nick) {
+                        if (it->clients.size() > 1) {
+                            ;
+                        }
+                    }
+                    std::cout << &it->clients[0].nick << std::endl;
                     it->clients.erase(cit);
+                    std::cout << &it->clients[0].nick << std::endl;
                     break;
                 }
                 else {
                     msg += (*cit).user + " "; // operator eklenilecek.
                 }
+            }
+            if (!it->clients.size()) {
+                this->chanels.erase(it);
             }
             break;
         }
