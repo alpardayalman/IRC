@@ -58,8 +58,7 @@ int    Server::Join(std::string &s, Client& cli) {
                     if (chaName == (*it).name) {//if chanel exist try ot join chanel
                         if (!isClientIn((*it), cli.cliFd)) {
                             (*it).clients.push_back(cli);
-                            std::string str = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
-                            write(cli.cliFd, str.c_str(), str.length());
+                            Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
 
                         }//client is in chanel or not
                         else {
@@ -69,26 +68,21 @@ int    Server::Join(std::string &s, Client& cli) {
                     }
                 }   
             } else {//if chanel does not exist, create one and add the client to the chanel vector.
-                Chanel  newChanel(chaName, cli);
-                newChanel.op = cli;
+                Chanel  newChanel(chaName);
+                newChanel.op = &cli;
+                newChanel.clients.push_back(cli);
                 this->chanels.push_back(newChanel); // Chanels cached in server.
-                std::string str = RPL_JOIN(cli.nick, cli.ipAddr, chaName);
-                write(cli.cliFd, str.c_str(), str.length());
-                this->chanels.back().clients.push_back(cli);
+                Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
             }
             for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
                 if(int chidx = isClientIn((*it), chaName)) {
-                    if (it->cliFd == this->chanels[chidx-1].op.cliFd)
+                    if (it->cliFd == this->chanels[chidx-1].op->cliFd)
                         msg += "@";
                     msg += (*it).nick + " ";
                 }
             }
-            for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
-                std::string str = RPL_NAMREPLY(cli.nick, chaName, msg);
-                write((*it).cliFd, str.c_str(), str.length());
-                str = RPL_ENDOFNAMES(cli.nick, chaName);
-                write((*it).cliFd, str.c_str(), str.length());
-            }
+                Utilities::writeAllRpl(this->getFds(), RPL_NAMREPLY(cli.nick, chaName, msg));
+                Utilities::writeAllRpl(this->getFds(), RPL_ENDOFNAMES(cli.nick, chaName));
     } else {//if join command input empty write this message
         cli.messageBox.push_back("you cannot joined chanel cause use command correct JOIN <chanel name>");
         FD_SET(cli.cliFd, &this->writeFds);
