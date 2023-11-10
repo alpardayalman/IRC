@@ -163,3 +163,11 @@ int Server::whoIsInChanel(Chanel &chanel) {
     return 0;
 }
 
+
+std::vector<int>    Server::getFds() const {
+    std::vector<int> ret;
+    for(int i = 0; i < (int) this->clients.size(); i++) {
+        ret.push_back(this->clients[i].cliFd);
+    }
+    return(ret);
+}

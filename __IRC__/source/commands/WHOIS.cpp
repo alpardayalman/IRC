@@ -7,8 +7,8 @@ int Server::Whois(std::string &s, Client &cli) {
     (void)cli;
     for(ClientIterator it = this->clients.begin(); it != this->clients.end(); ++it) {
         if (who == (*it).nick) {
-            cli.messageBox.push_back(RPL_WHOISUSER((*it).nick, (*it).user, (*it).ip));
-            FD_SET(cli.cliFd, &this->writeFds);
+            Utilities::writeRpl(cli.cliFd, RPL_WHOISUSER((*it).nick, (*it).user, (*it).ip));
+            break;
         }
     }
     std::cout << "who: " << who << std::endl;

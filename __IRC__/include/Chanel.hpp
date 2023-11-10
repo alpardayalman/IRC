@@ -14,7 +14,6 @@ class Chanel {
     private:
 
     public:
-        //maybe map<CLIENT{or name}, ISADMIN>
         std::vector<Client> clients;
         std::string         name;
         Client&             op;
@@ -27,5 +26,6 @@ class Chanel {
         
         Chanel(std::string &name, Client& cli): name(name), op(cli) {}
         ~Chanel() {}
-        
+
+        std::vector<int>    getFds() const;
 };

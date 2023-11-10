@@ -17,6 +17,7 @@
 
 class Client;
 class Server;
+class Chanel;
 
 typedef std::vector<Chanel>::iterator    ChanelIterator;
 typedef std::vector<Client>::iterator    ClientIterator;
@@ -56,6 +57,7 @@ class Server {
         int     isClientIn(Chanel &cha, int cliFd);
         int     isClientIn(Client& cli, std::string nameChanel);
         int     whoIsInChanel(Chanel &chanel);
+        std::vector<int> getFds() const;
 
         // Commands ––
         std::map<std::string, CmdFunct> t_cmdFunct;

@@ -26,12 +26,7 @@ int Server::Part(std::string &s, Client &cli) {
     }
     cli.messageBox.push_back(RPL_PART(cli.getPrefix(), s));
     FD_SET(cli.cliFd, &this->writeFds);
-
-    for(std::vector<Client>::iterator cit = it->clients.begin() ; cit != it->clients.end(); ++cit) {
-        std::string str = RPL_NAMREPLY(cli.nick, it->name, msg);
-        write((*cit).cliFd, str.c_str(), str.length());
-        str = RPL_ENDOFNAMES(cli.nick, it->name);
-        write((*cit).cliFd, str.c_str(), str.length());
-    }
+    Utilities::writeAllRpl(this->getFds(), RPL_NAMREPLY(cli.nick, it->name, msg));
+    Utilities::writeAllRpl(this->getFds(), RPL_ENDOFNAMES(cli.nick, it->name));
     return 1;
 }
