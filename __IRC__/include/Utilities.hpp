@@ -40,8 +40,8 @@
 #define RPL_PING(source, nick, second)				":" + source + " PONG :" + nick + " :"+ second + "\r\n"
 
 
-# define RPL_LISTSTART(nick)						": 321 " + nick + " Channel : UsersNum\r\n"
-# define RPL_LIST(nick, channel, numusers)	        ": 322 " + nick + " " + channel + " " + numusers + "\r\n"
+# define RPL_LISTSTART(nick, numusers)				": 321 " + nick + " Channel : "+ numusers + "\r\n"
+# define RPL_LIST(nick, channel, numusers, topic)	": 322 " + nick + " " + channel + " " + numusers + " " + topic + "\r\n"
 # define RPL_LISTEND(nick)							": 323 " + nick + " :End of /LIST\r\n"
 // ============= Define ============
 // topic yeni gelenler icinde calisicak
@@ -75,4 +75,6 @@ class Utilities {
 
         //Channel check
         static bool                             checkChannel(std::string& s);
+        static void                             writeRpl(int fd, std::string msg);
+        static void                             writeAllRpl(std::vector<int> fd, std::string msg);
 };

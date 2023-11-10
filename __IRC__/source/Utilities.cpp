@@ -93,3 +93,13 @@ bool    Utilities::checkChannel(std::string& s) {
     }
     return true;
 }
+
+void    Utilities::writeRpl(int fd, std::string msg) {
+    write(fd, msg.c_str(), msg.length());
+}
+
+void    Utilities::writeAllRpl(std::vector<int> fd, std::string msg) {
+    for(std::vector<int>::iterator it = fd.begin(); it != fd.end(); ++it) {
+        Utilities::writeRpl((*it), msg);
+    }
+}
