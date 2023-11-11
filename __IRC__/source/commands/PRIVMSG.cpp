@@ -17,7 +17,6 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
         else if (params[0] == (*it).user || params[0] == (*it).nick) {//PRIVMSG <user> <msg> PRIVMSG <nick> <msg>
             if (params[1].find("PING") != std::string::npos) {
                 s = params[0] + " " + s + " " +cli.nick;
-                std::cout << PURPLE << it->nick  << WHITE << std::endl;
                 Server::Ping(s, (*it));
                 break;
             }

@@ -46,6 +46,7 @@ class Server {
         void    commandHandler(std::string, Client&);
         Server(size_t port_number, char * password);
         ~Server();
+        Chanel  &getChanel(std::string &chaName);
 
     private:
         void    createSocket( void );
@@ -58,7 +59,7 @@ class Server {
         int     whoIsInChanel(Chanel &chanel);
         std::vector<int> getFds() const;
 
-        // Commands ––
+        // Commands --
         std::map<std::string, CmdFunct> t_cmdFunct;
         int     Pass(std::string &s, Client& cli);
         int     checkPassword(std::string& s, Client& c);
@@ -78,4 +79,5 @@ class Server {
         int     Whois(std::string &s, Client &cli);
         int     Mode(std::string &s, Client &cli);
         int     List(std::string &s, Client& cli);
+        int     Op(std::string &s, Client& cli);
 };

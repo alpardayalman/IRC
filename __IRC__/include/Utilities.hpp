@@ -50,13 +50,13 @@
 # define RPL_LISTEND(nick)						    ": 323 " + nick + " :End of /LIST\r\n"
 
 
-#define RPL_WELCOME(source)						    "001 " + source + " :Welcome " + source + " to the ft_irc network" + "\r\n"
+#define RPL_WELCOME(source)						    " 001 " + source + " : Welcome " + source + " to the ft_irc network" + "\r\n"//eger duzgun calisirsa joini patlatiyor
 
 /* [ERROR MESSAGES] */
-#define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n" //Join
-#define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n" //Join
-
-#define ERR_NEEDMOREPARAMS(source, command)			": 461 " + source + " " + command + " :Not enough parameters" + "\r\n" //MODE
+#define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n" //JOIN
+#define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n" //JOIN
+#define ERR_NEEDMOREPARAMS(source, command)			": 461 " + source + " " + command + " :Not enough parameters" + "\r\n"    //MODE
+#define ERR_URNOTOP(nick, channel)		            ": 482 " + nick + " : " + channel + " :You're not channel operator\r\n" //OP
 
 
 // ============= Define ============
