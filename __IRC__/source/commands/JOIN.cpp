@@ -60,41 +60,45 @@ int    Server::Join(std::string &s, Client& cli) {
                         if ((it->keycode & K_CODE) && (it->keycode & L_CODE))
                         {
                             if (it->users >= (int) it->clients.size()) {
-                                Utilities::writeRpl(cli.cliFd, "Cok kisi rpl");
+                                Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
                             }
                             else if (it->key != key) {
-                                Utilities::writeRpl(cli.cliFd, "Key yanlis");
+                                Utilities::writeRpl(cli.cliFd, ERR_BADCHANNELKEY(cli.nick, chaName));
                             }
                             else {
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                                if (!(*it).topic.empty())
+                                    Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else if ((it->keycode & K_CODE)) {
                             if (it->key != key) {
-                                Utilities::writeRpl(cli.cliFd, "Key yanlis");
+                                Utilities::writeRpl(cli.cliFd, ERR_BADCHANNELKEY(cli.nick, chaName));
                             }
                             else {
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                                if (!(*it).topic.empty())
+                                    Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else if ((it->keycode & L_CODE)) {
                             if (it->users >= (int) it->clients.size()) {
-                                Utilities::writeRpl(cli.cliFd, "Cok kisi rpl");
+                                Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
                             }
                             else {
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                                if (!(*it).topic.empty())
+                                    Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else {
                             (*it).clients.push_back(cli);
                             Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                            Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                            if (!(*it).topic.empty())
+                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                         }
 
                     }//client is in chanel or not

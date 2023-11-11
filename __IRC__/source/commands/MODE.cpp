@@ -22,12 +22,15 @@ int Server::Mode(std::string &s, Client &cli) {
         if (cmd.size() == 3) {
             it->key = cmd[2];
             it->keycode |= K_CODE;
+            Utilities::writeRpl(cli.cliFd, RPL_MODE(cli.nick, cmd[0], "+k", cmd[2]));
+            std::cout << "key is added" << std::endl;
         }
     }
     if (cmd[1] == "+l") {
         if (cmd.size() == 3) {
             it->users = atoi(cmd[2].c_str());
             it->keycode |= L_CODE;
+            Utilities::writeRpl(cli.cliFd, RPL_MODE(cli.nick, cmd[0], "+l", cmd[2]));
         }
     }
     if (cmd[1] == "+o") {
@@ -36,14 +39,17 @@ int Server::Mode(std::string &s, Client &cli) {
         }
     }
     if (cmd[1] == "-k") {
-        if (cmd.size() == 3 && it->key == cmd[3]) {
+        if (cmd.size() == 3 && it->key == cmd[2]) {
             it->key = "";
             it->keycode ^= K_CODE;
+            Utilities::writeRpl(cli.cliFd, RPL_MODE(cli.nick, cmd[0], "-k", ""));
+            std::cout << "key is deleted" << std::endl;
         }
     }
     if (cmd[1] == "-l") {
         if (cmd.size() == 2) {
             it->keycode ^= L_CODE;
+            //Utilities::writeRpl(cli.cliFd, RPL_MODE(cli.nick, cmd[0], "-l", ""));
         }
     }
     return 0;

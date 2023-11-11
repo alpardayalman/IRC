@@ -36,6 +36,7 @@
 #define RPL_PART(source, channel)					":" + source + " PART :" + channel + "\r\n"
 #define RPL_PONG(ip)						        " PONG :" + ip + "\r\n"
 #define RPL_QUIT(source, message)                   ":" + source + " QUIT :" + message + "\r\n"
+#define RPL_MODE(source, channel, modes, args)		":" + source + " MODE " + channel + " " + modes + " " + args + "\r\n"
 
 /* [WHOIS] */
 #define RPL_WHOISUSER(nick, user, ip)				": 311 " + nick + " " + nick + " " + nick + " " + ip + " * :" + user + "\r\n"
@@ -52,9 +53,11 @@
 #define RPL_WELCOME(source)						    " 001 " + source + " : Welcome " + source + " to the ft_irc network" + "\r\n"//eger duzgun calisirsa joini patlatiyor
 
 /* [ERROR MESSAGES] */
-#define ERR_URNOTOP(nick, channel)		            ": 482 " + nick + " : " + channel + " :You're not channel operator\r\n"//error rpl lara at
-#define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n"
-#define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n"
+#define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n" //JOIN
+#define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n" //JOIN
+#define ERR_NEEDMOREPARAMS(source, command)			": 461 " + source + " " + command + " :Not enough parameters" + "\r\n"    //MODE
+#define ERR_URNOTOP(nick, channel)		            ": 482 " + nick + " : " + channel + " :You're not channel operator\r\n" //OP
+
 
 // ============= Define ============
 // topic yeni gelenler icinde calisicak
