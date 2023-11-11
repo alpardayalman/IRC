@@ -58,20 +58,15 @@ int    Server::Join(std::string &s, Client& cli) {
             for (ChanelIterator it = chanels.begin(); it != chanels.end(); ++it) {
                 if (chaName == (*it).name) {//if chanel exist try ot join chanel
                     if (!isClientIn((*it), cli.cliFd)) {
-                        std::cout << key << " " << it->keycode << std::endl;
-                        std::cout << "K " << (it->keycode & K_CODE) << " L" << (it->keycode & L_CODE) << std::endl;
                         if ((it->keycode & K_CODE) && (it->keycode & L_CODE))
                         {
-                            if (it->users > (int) it->clients.size()) {
-                                std::cout << __LINE__ << std::endl;
+                            if (it->users >= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, "Cok kisi rpl");
                             }
                             else if (it->key != key) {
-                                std::cout << __LINE__ << std::endl;
                                 Utilities::writeRpl(cli.cliFd, "Key yanlis");
                             }
                             else {
-                                std::cout << __LINE__ << std::endl;
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                                 Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
@@ -79,30 +74,25 @@ int    Server::Join(std::string &s, Client& cli) {
                         }
                         else if ((it->keycode & K_CODE)) {
                             if (it->key != key) {
-                                std::cout << __LINE__ << std::endl;
                                 Utilities::writeRpl(cli.cliFd, "Key yanlis");
                             }
                             else {
-                                std::cout << __LINE__ << std::endl;
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                                 Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else if ((it->keycode & L_CODE)) {
-                            if (it->users > (int) it->clients.size()) {
-                                std::cout << __LINE__ << std::endl;
+                            if (it->users >= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, "Cok kisi rpl");
                             }
                             else {
-                                std::cout << __LINE__ << std::endl;
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                                 Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else {
-                            std::cout << __LINE__ << std::endl;
                             (*it).clients.push_back(cli);
                             Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                             Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
