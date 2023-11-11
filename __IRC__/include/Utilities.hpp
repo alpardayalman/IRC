@@ -36,16 +36,25 @@
 #define RPL_PART(source, channel)					":" + source + " PART :" + channel + "\r\n"
 #define RPL_PONG(ip)						        " PONG :" + ip + "\r\n"
 #define RPL_QUIT(source, message)                   ":" + source + " QUIT :" + message + "\r\n"
+
+/* [WHOIS] */
 #define RPL_WHOISUSER(nick, user, ip)				": 311 " + nick + " " + nick + " " + nick + " " + ip + " * :" + user + "\r\n"
+#define RPL_WHOISSERVER(source, server)				": 312 " + source + " * :" + server + "\r\n"
+#define RPL_ENDOFWHOIS(source, nick)				": 318 " + source + " " + nick + " :End of /WHOIS list" + "\r\n"
 #define RPL_PING(source, nick, second)				":" + source + " PONG :" + nick + " :"+ second + "\r\n"
 
 
-# define RPL_LISTSTART(nick, numusers)				": 321 " + nick + " Channel : "+ numusers + "\r\n"
-# define RPL_LIST(nick, channel, numusers, topic)	": 322 " + nick + " " + channel + " " + numusers + " " + topic + "\r\n"
-# define RPL_LISTEND(nick)							": 323 " + nick + " :End of /LIST\r\n"
+# define RPL_LISTSTART(nick, numusers)			    ": 321 " + nick + " Channel : "+ numusers + "\r\n"
+# define RPL_LIST(nick, channel, numusers, topic)   ": 322 " + nick + " " + channel + " " + numusers + " " + topic + "\r\n"
+# define RPL_LISTEND(nick)						    ": 323 " + nick + " :End of /LIST\r\n"
 
 
 #define RPL_WELCOME(source)						    "001 " + source + " :Welcome " + source + " to the ft_irc network" + "\r\n"
+
+/* [ERROR MESSAGES] */
+#define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n"
+#define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n"
+
 // ============= Define ============
 // topic yeni gelenler icinde calisicak
 // channelde kimse kalmayinca channelin kapandigina emin ol
