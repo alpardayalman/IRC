@@ -103,8 +103,8 @@ int    Server::Join(std::string &s, Client& cli) {
                         cli.messageBox.push_back("You already in the chanel");
                         FD_SET(cli.cliFd, &this->writeFds);
                     }
+                    break;
                 }
-                break;
             }   
         } 
         else {//if chanel does not exist, create one and add the client to the chanel vector.

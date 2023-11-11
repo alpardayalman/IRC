@@ -54,8 +54,6 @@
 // ctrl z
 // notice test et
 // whois tamamlancak 
-// sifreli channel
-// channel limitleri
 // PING
 // ==========debug===========
 // #define  tokenNewlinedeb
