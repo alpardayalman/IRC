@@ -19,8 +19,10 @@ int Server::Part(std::string &s, Client &cli) {
                             it->op = &it->clients[0];//uga buga adresler degismek iteratorda
                         }
                         else {
+                            it->clients.erase(cit);
                             this->chanels.erase(it);
                             it->op = NULL;
+                            break;
                         }
                     }    
                     it->clients.erase(cit);
