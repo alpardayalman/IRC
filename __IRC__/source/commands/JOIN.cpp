@@ -25,8 +25,8 @@ int Server::isClientIn(Chanel &cha, int cliFd) {
 }
 /*
     client ve bir channel name atiliyor.
-    sonra clientin icindeki channellerde dolasilip eger client'in icinde oldugu channel
-    varsa true donduruyor.
+    sonra channellerde dolasilip eger client'in icinde oldugu channel
+    varsa o chanelin indexi donduruyor.
 */
 int Server::isClientIn(Client& cli, std::string nameChanel) {
     int ret = 1;
@@ -43,7 +43,6 @@ int Server::isClientIn(Client& cli, std::string nameChanel) {
 }
 
 int    Server::Join(std::string &s, Client& cli) {
-    std::cout << s << std::endl;
     std::stringstream ss(s);
     std::string chaName, key;
     std::string msg;
@@ -103,10 +102,10 @@ int    Server::Join(std::string &s, Client& cli) {
                         cli.messageBox.push_back("You already in the chanel");
                         FD_SET(cli.cliFd, &this->writeFds);
                     }
-                break;
+                    break;
                 }
-            }   
-        } 
+            }
+        }
         else {//if chanel does not exist, create one and add the client to the chanel vector.
             Chanel  newChanel(chaName);
             newChanel.op = &cli;

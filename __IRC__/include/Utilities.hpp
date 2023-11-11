@@ -44,8 +44,8 @@
 # define RPL_LIST(nick, channel, numusers, topic)	": 322 " + nick + " " + channel + " " + numusers + " " + topic + "\r\n"
 # define RPL_LISTEND(nick)							": 323 " + nick + " :End of /LIST\r\n"
 
-
-#define RPL_WELCOME(source)						    "001 " + source + " :Welcome " + source + " to the ft_irc network" + "\r\n"
+#define RPL_WELCOME(source)						    " 001 " + source + " : Welcome " + source + " to the ft_irc network" + "\r\n"//eger duzgun calisirsa joini patlatiyor
+#define ERR_URNOTOP(nick, channel)		            ": 482 " + nick + " : " + channel + " :You're not channel operator\r\n"//error rpl lara at
 // ============= Define ============
 // topic yeni gelenler icinde calisicak
 // channelde kimse kalmayinca channelin kapandigina emin ol
