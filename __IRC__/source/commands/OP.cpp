@@ -28,9 +28,8 @@ int Server::Op(std::string &s, Client &cli) {//  s = <chanelname> +o <nickname>
         Utilities::trim(cmd[2]);
         Client newOp = cha.getClient(cmd[2]);
         Client oldOp = cha.getClient(cli.nick);
-        ChanelIterator it = chanels.begin();
         if (isClientIn(oldOp, cmd[0]) && isClientIn(newOp, cmd[0])) {//eger oldOperator ve newOperator ayni kanalda ise
-            for (; it != chanels.end(); it++) {
+            for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
                 if (cmd[0] == it->name) {
                     //inputtan gelen chanel name iteratorun chanelNameine esitse new ve olp op'u swapliyor
                     Client tmp = it->clients[getClientPos(*it, oldOp)];

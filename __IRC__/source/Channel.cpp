@@ -8,10 +8,10 @@ std::vector<int>    Chanel::getFds() const {
     return(ret);
 }
 
-Client  &Chanel::getClient(std::string &name) {
+Client  &Chanel::getClient(std::string &_name) {
     std::vector<Client>::iterator it = clients.begin();
     for (; it != clients.end(); it++) {
-        if (it->nick == name)
+        if (it->nick == _name)
             break;
     }
     return (*it);
