@@ -74,6 +74,7 @@ int    Server::Join(std::string &s, Client& cli) {
                                 std::cout << __LINE__ << std::endl;
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
+                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else if ((it->keycode & K_CODE)) {
@@ -85,6 +86,7 @@ int    Server::Join(std::string &s, Client& cli) {
                                 std::cout << __LINE__ << std::endl;
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
+                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else if ((it->keycode & L_CODE)) {
@@ -96,12 +98,14 @@ int    Server::Join(std::string &s, Client& cli) {
                                 std::cout << __LINE__ << std::endl;
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
+                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else {
                             std::cout << __LINE__ << std::endl;
                             (*it).clients.push_back(cli);
                             Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
+                            Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                         }
 
                     }//client is in chanel or not
