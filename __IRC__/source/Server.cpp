@@ -22,6 +22,7 @@ void Server::initCommands(void) {
     t_cmdFunct["MODE"] = &Server::Mode;
     t_cmdFunct["mode"] = &Server::Mode; // bazen kucuk harfle atiyor.
     t_cmdFunct["LIST"] = &Server::List;
+    t_cmdFunct["OP"] = &Server::Op;
 }
 
 Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
@@ -104,7 +105,6 @@ void Server::run(void) {
                 else {
                     this->buffer[readed] = 0;
                     std::string k = this->buffer;
-                    std::cout << (int)buffer[0] << std::endl;
                     if (k == "\n") {
                         state = 0;
                         break;
@@ -175,4 +175,13 @@ std::vector<int>    Server::getFds() const {
         ret.push_back(this->clients[i].cliFd);
     }
     return(ret);
+}
+
+Chanel  &Server::getChanel(std::string &chaName) {
+    ChanelIterator it = chanels.begin();
+    for (; it != chanels.end(); it++) {
+        if (chaName == it->name)
+            break;
+    }
+    return (*it);
 }

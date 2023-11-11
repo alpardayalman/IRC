@@ -35,13 +35,11 @@ int Server::Part(std::string &s, Client &cli) {
                         msg += "@";
                     msg += (*cit).user + " ";
             }
-                std::cout << RPL_NAMREPLY(cli.nick, it->name, msg) << std::endl;
                 Utilities::writeAllRpl(this->getFds(), RPL_NAMREPLY(cli.nick, it->name, msg));
                 Utilities::writeAllRpl(this->getFds(), RPL_ENDOFNAMES(cli.nick, it->name));
             break;
         }
     }
-    std::cout << "chanel size: " << it->clients.size() << std::endl;
     Utilities::writeRpl(cli.cliFd, RPL_PART(cli.getPrefix(), s));
 
     return 1;
