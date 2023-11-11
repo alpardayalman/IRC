@@ -1,14 +1,15 @@
 #include "Utilities.hpp"
 #include "Server.hpp"
+#include "Exception.hpp"
 #include <stdlib.h>
 #include <stdexcept>
 
 int main(int ac, char **av) {
     try {
         if (ac != 3)
-            throw std::invalid_argument("Error: Give arguments like the following ./exec <port> <password>.");
+            throw Exception("Give arguments like the following ./exec <port> <password>.");
         else if (!Utilities::checkPortNumber(av[1]))
-            throw std::invalid_argument("Error: Port has to be all digits.");
+            throw Exception("Port has to be all digits.");
         else
             Server a = Server(atoi(av[1]), av[2]);
     }
