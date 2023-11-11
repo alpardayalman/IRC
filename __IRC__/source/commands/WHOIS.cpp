@@ -8,6 +8,9 @@ int Server::Whois(std::string &s, Client &cli) {
     for(ClientIterator it = this->clients.begin(); it != this->clients.end(); ++it) {
         if (who == (*it).nick) {
             Utilities::writeRpl(cli.cliFd, RPL_WHOISUSER((*it).nick, (*it).user, (*it).ip));
+            //bu satirda hangi kanallarda oldugunu yazdir.
+            Utilities::writeRpl(cli.cliFd, RPL_WHOISSERVER((*it).nick, "masterbaiter"));
+            Utilities::writeRpl(cli.cliFd, RPL_ENDOFWHOIS((*it).nick, (*it).nick));
             break;
         }
     }
