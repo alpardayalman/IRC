@@ -39,7 +39,6 @@ class Server {
         fd_set                  writeFdsSup;
         char                    buffer[1024];
 
-
     public:
         std::vector<Chanel>     chanels;
 

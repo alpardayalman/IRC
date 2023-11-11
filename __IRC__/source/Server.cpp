@@ -27,10 +27,12 @@ void Server::initCommands(void) {
 
 Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
     std::cout << this->port_number << " " << this->password << std::endl;
+
+
     createSocket();
     serveraddrSocket();
-    socketListen();
     initCommands();
+    socketListen();
     run();
 }
 
@@ -38,6 +40,7 @@ Server::~Server() {
     if (this->is_running)
         close(this->server_fd);
     std::cout << "Server is shuting down." << std::endl;
+
 }
 
 void Server::commandHandler(std::string parameters, Client &begin) {
