@@ -81,6 +81,7 @@ void Server::run(void) {
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
             std::cout << GREEN << "New Client Connected!" << RESET << std::endl;
+            Utilities::writeRpl(tmp.cliFd, RPL_WELCOME(tmp.nick));
             state = 0;
         }
 

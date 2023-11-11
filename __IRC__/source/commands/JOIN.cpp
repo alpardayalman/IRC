@@ -59,7 +59,7 @@ int    Server::Join(std::string &s, Client& cli) {
                     if (!isClientIn((*it), cli.cliFd)) {
                         if ((it->keycode & K_CODE) && (it->keycode & L_CODE))
                         {
-                            if (it->users > it->clients.size()) {
+                            if (it->users > (int)it->clients.size()) {
 
                             }
                         }
