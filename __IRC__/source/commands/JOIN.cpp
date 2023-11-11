@@ -62,9 +62,6 @@ int    Server::Join(std::string &s, Client& cli) {
                         {
                             if (it->users >= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
-                                std::cout << "channel is full 1" << std::endl;
-                                std::cout << it->clients.size() << std::endl;
-                                std::cout << it->users << std::endl;
                             }
                             else if (it->key != key) {
                                 Utilities::writeRpl(cli.cliFd, ERR_BADCHANNELKEY(cli.nick, chaName));
@@ -72,7 +69,8 @@ int    Server::Join(std::string &s, Client& cli) {
                             else {
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                                if (!(*it).topic.empty())
+                                    Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else if ((it->keycode & K_CODE)) {
@@ -82,26 +80,26 @@ int    Server::Join(std::string &s, Client& cli) {
                             else {
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                                if (!(*it).topic.empty())
+                                    Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else if ((it->keycode & L_CODE)) {
                             if (it->users >= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
-                                std::cout << "channel is full 2" << std::endl;
-                                std::cout << it->clients.size() << std::endl;
-                                std::cout << it->users << std::endl;
                             }
                             else {
                                 (*it).clients.push_back(cli);
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                                if (!(*it).topic.empty())
+                                    Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                             }
                         }
                         else {
                             (*it).clients.push_back(cli);
                             Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
-                            Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
+                            if (!(*it).topic.empty())
+                                Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
                         }
 
                     }//client is in chanel or not
