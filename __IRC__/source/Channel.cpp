@@ -7,3 +7,12 @@ std::vector<int>    Chanel::getFds() const {
     }
     return(ret);
 }
+
+Client  &Chanel::getClient(std::string &name) {
+    std::vector<Client>::iterator it = clients.begin();
+    for (; it != clients.end(); it++) {
+        if (it->nick == name)
+            break;
+    }
+    return (*it);
+}

@@ -28,4 +28,5 @@ class Chanel {
         ~Chanel() {}
 
         std::vector<int>    getFds() const;
+        Client  &getClient(std::string &name);
 };
