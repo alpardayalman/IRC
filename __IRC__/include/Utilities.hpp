@@ -36,6 +36,7 @@
 #define RPL_PART(source, channel)					":" + source + " PART :" + channel + "\r\n"
 #define RPL_PONG(ip)						        " PONG :" + ip + "\r\n"
 #define RPL_QUIT(source, message)                   ":" + source + " QUIT :" + message + "\r\n"
+#define RPL_MODE(source, channel, modes, args)		":" + source + " MODE " + channel + " " + modes + " " + args + "\r\n"
 
 /* [WHOIS] */
 #define RPL_WHOISUSER(nick, user, ip)				": 311 " + nick + " " + nick + " " + nick + " " + ip + " * :" + user + "\r\n"
@@ -52,8 +53,11 @@
 #define RPL_WELCOME(source)						    "001 " + source + " :Welcome " + source + " to the ft_irc network" + "\r\n"
 
 /* [ERROR MESSAGES] */
-#define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n"
-#define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n"
+#define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n" //Join
+#define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n" //Join
+
+#define ERR_NEEDMOREPARAMS(source, command)			": 461 " + source + " " + command + " :Not enough parameters" + "\r\n" //MODE
+
 
 // ============= Define ============
 // topic yeni gelenler icinde calisicak

@@ -61,10 +61,13 @@ int    Server::Join(std::string &s, Client& cli) {
                         if ((it->keycode & K_CODE) && (it->keycode & L_CODE))
                         {
                             if (it->users >= (int) it->clients.size()) {
-                                Utilities::writeRpl(cli.cliFd, "Cok kisi rpl");
+                                Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
+                                std::cout << "channel is full 1" << std::endl;
+                                std::cout << "client size: " it->clients.size() << std::endl;
+                                std::cout << "users l size: " it->users << std::endl;
                             }
                             else if (it->key != key) {
-                                Utilities::writeRpl(cli.cliFd, "Key yanlis");
+                                Utilities::writeRpl(cli.cliFd, ERR_BADCHANNELKEY(cli.nick, chaName));
                             }
                             else {
                                 (*it).clients.push_back(cli);
@@ -74,7 +77,7 @@ int    Server::Join(std::string &s, Client& cli) {
                         }
                         else if ((it->keycode & K_CODE)) {
                             if (it->key != key) {
-                                Utilities::writeRpl(cli.cliFd, "Key yanlis");
+                                Utilities::writeRpl(cli.cliFd, ERR_BADCHANNELKEY(cli.nick, chaName));
                             }
                             else {
                                 (*it).clients.push_back(cli);
@@ -84,7 +87,10 @@ int    Server::Join(std::string &s, Client& cli) {
                         }
                         else if ((it->keycode & L_CODE)) {
                             if (it->users >= (int) it->clients.size()) {
-                                Utilities::writeRpl(cli.cliFd, "Cok kisi rpl");
+                                Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
+                                std::cout << "channel is full 2" << std::endl;
+                                std::cout << "client size: " it->clients.size() << std::endl;
+                                std::cout << "users l size: " it->users << std::endl;
                             }
                             else {
                                 (*it).clients.push_back(cli);
