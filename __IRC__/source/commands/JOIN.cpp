@@ -63,8 +63,8 @@ int    Server::Join(std::string &s, Client& cli) {
                             if (it->users >= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
                                 std::cout << "channel is full 1" << std::endl;
-                                std::cout << "client size: " it->clients.size() << std::endl;
-                                std::cout << "users l size: " it->users << std::endl;
+                                std::cout << it->clients.size() << std::endl;
+                                std::cout << it->users << std::endl;
                             }
                             else if (it->key != key) {
                                 Utilities::writeRpl(cli.cliFd, ERR_BADCHANNELKEY(cli.nick, chaName));
@@ -89,8 +89,8 @@ int    Server::Join(std::string &s, Client& cli) {
                             if (it->users >= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
                                 std::cout << "channel is full 2" << std::endl;
-                                std::cout << "client size: " it->clients.size() << std::endl;
-                                std::cout << "users l size: " it->users << std::endl;
+                                std::cout << it->clients.size() << std::endl;
+                                std::cout << it->users << std::endl;
                             }
                             else {
                                 (*it).clients.push_back(cli);
