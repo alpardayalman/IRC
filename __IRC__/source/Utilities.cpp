@@ -1,4 +1,5 @@
 #include "Utilities.hpp"
+#include "Exception.hpp"
 
 int Utilities::checkPortNumber(char *port_number) {
     for (int i = 0; port_number[i]; i++) {
@@ -29,30 +30,14 @@ std::string Utilities::trim(const std::string &s) {
 }
 
 void Utilities::write_ascii_art(void){
-/*         std::cout << "    /\\_/\\   " << std::endl;
-        std::cout << "   ( o.o )  " << std::endl;
-        std::cout << "    > ^ <   " << std::endl; */
+
         std::cout << " .----------------------------------------."<< std::endl;
         std::cout << ":      __                                  :" << std::endl;
         std::cout << ":   =='_))  __-:!:- (New client connected) :" << std::endl;
         std::cout << ":     ,.' .'  ))-:!:-                      :" << std::endl;
         std::cout << ":    ((_,'  .'-:!:-                        :" << std::endl;
         std::cout << ":   ~^~~~^~~^~~~^~                         :" << std::endl;
-        //std::cout << " `----------------------------------------'  " << std::endl;
-        for (int i = 0; i < 45; ++i) {
-        // Önceki karakteri temizle
-        std::cout << '\r';
-
-        for (int j = 0; j < i; ++j) {
-            std::cout << '-';
-        }
-
-        std::cout << std::flush;
-
-        // Bekleme süresi ekleyerek animasyonu yavaşlatabilirsiniz
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
-    std::cout << std::endl;
+        std::cout << " `----------------------------------------' " << std::endl;
 }
 /*
     Divide the string from the lines. And return tokenized version of every lines.
@@ -111,7 +96,9 @@ bool    Utilities::checkChannel(std::string& s) {
 }
 
 void    Utilities::writeRpl(int fd, std::string msg) {
-    write(fd, msg.c_str(), msg.length());
+    ssize_t result = write(fd, msg.c_str(), msg.length());
+    if(result == -1)
+        throw Exception("Write rpl error.");
 }
 
 void    Utilities::writeAllRpl(std::vector<int> fd, std::string msg) {

@@ -25,7 +25,7 @@ void Server::initCommands(void) {
     t_cmdFunct["OP"] = &Server::Op;
 }
 
-Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
+Server::Server(size_t port_number_, char *password_) : port_number(port_number_), password(std::string(password_)), reuse(1) {
     std::cout << this->port_number << " " << this->password << std::endl;
 
 
@@ -199,3 +199,4 @@ void Server::showRightGui(Client &cli, Chanel &cha) {
         Utilities::writeAllRpl(tmp.getFds(), RPL_NAMREPLY(cli.nick, cha.name, msg));
         Utilities::writeAllRpl(tmp.getFds(), RPL_ENDOFNAMES(cli.nick, cha.name));
 }
+
