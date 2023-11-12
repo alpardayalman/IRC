@@ -6,5 +6,6 @@ int Server::Quit(std::string &s, Client &cli) {
         Server::Part(it->name, cli);
 	}
     Utilities::writeRpl(cli.cliFd, RPL_QUIT(cli.getPrefix(), s.c_str()));
+    close(cli.cliFd);
     return 1;
 }
