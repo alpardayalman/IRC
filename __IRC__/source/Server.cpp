@@ -20,11 +20,13 @@ void Server::initCommands(void) {
     t_cmdFunct["QUIT"] = &Server::Quit;
     t_cmdFunct["WHOIS"] = &Server::Whois;
     t_cmdFunct["MODE"] = &Server::Mode;
-    t_cmdFunct["mode"] = &Server::Mode; // bazen kucuk harfle atiyor.
+    t_cmdFunct["mode"] = &Server::Mode;
     t_cmdFunct["LIST"] = &Server::List;
     t_cmdFunct["OP"] = &Server::Op;
     t_cmdFunct["NAMES"] = &Server::Names;
 }
+
+
 
 Server::Server(size_t port_number_, char *password_) : port_number(port_number_), password(std::string(password_)), reuse(1) {
     std::cout << this->port_number << " " << this->password << std::endl;
@@ -38,8 +40,12 @@ Server::Server(size_t port_number_, char *password_) : port_number(port_number_)
 }
 
 Server::~Server() {
-    if (this->is_running)
-        close(this->server_fd);
+    for (ClientIterator it = this->clients.begin(); it != this->clients.end(); ++it) {
+        close(it->cliFd);
+    }
+    close(this->server_fd);
+    this->chanels.clear();
+    this->clients.clear();
     std::cout << "Server is shuting down." << std::endl;
 
 }
@@ -72,6 +78,7 @@ void Server::run(void) {
 
     FD_SET(this->server_fd, &this->readFds);
 
+
     while (1) {
         while (state == 0) {
             this->readFdsSup = this->readFds;
@@ -101,7 +108,6 @@ void Server::run(void) {
                     this->clients.erase(begin);
                     std::cout << RED << (*begin).nick << RESET << std::endl;
                     std::cout << RED << (*begin).nick <<  " client disconnected!" << RESET << std::endl;
-                    // destroy((*begin), *this);
                 }
                 else {
                     this->buffer[readed] = 0;
@@ -110,7 +116,7 @@ void Server::run(void) {
                         state = 0;
                         break;
                     }
-                    // ^D durumunda piece by piece aldigimiz icin. CHEESE
+                    // ^D
                     if (k[k.length() - 1] != '\n') {
                         (*begin).buffer += k;
                         state = 0;
@@ -209,3 +215,4 @@ int Server::isNickExist(std::string s) {
         }
     return 0;
 }
+
