@@ -9,9 +9,9 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
         return 0;
     for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end();++it)
     {
-        if (it->cliFd != cli.cliFd && isClientIn((*it), params[0]))
+        if (it->cliFd != cli.cliFd && isClientIn((*it), params[0]))//chanel chat
         {
-            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), params[0], params[1]));
+            (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), params[0], params[1].substr(1, params[1].length())));
             FD_SET((*it).cliFd, &this->writeFds);
         }
         else if (params[0] == (*it).user || params[0] == (*it).nick) {//PRIVMSG <user> <msg> PRIVMSG <nick> <msg>
