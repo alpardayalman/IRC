@@ -22,3 +22,29 @@ std::vector<std::string> Bot::splitString(const std::string& input) {
 
     return result;
 }
+
+void    Bot::writeRpl(int fd, std::string msg) {
+    write(fd, msg.c_str(), msg.length());
+}
+
+std::vector<std::string> Bot::splitFromComa(const std::string& str) {
+
+    std::vector<std::string> tokens;
+    std::string token;
+    
+    for (size_t i = 0; i < str.size(); ++i) {
+        if (str[i] != ',') {
+            token += str[i];
+        } else {
+            tokens.push_back(token);
+            token.clear();
+        }
+    }
+
+    // Push the last token if any
+    if (!token.empty()) {
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
