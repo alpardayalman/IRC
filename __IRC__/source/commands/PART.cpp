@@ -30,13 +30,7 @@ int Server::Part(std::string &s, Client &cli) {
                 if (cit == it->clients.end())
                     break;
             }
-            for (ClientIterator cit = it->clients.begin(); cit != it->clients.end(); ++cit) {
-                    if(it->op->nick == cit->nick)
-                        msg += "@";
-                    msg += (*cit).user + " ";
-            }
-                Utilities::writeAllRpl(this->getFds(), RPL_NAMREPLY(cli.nick, it->name, msg));
-                Utilities::writeAllRpl(this->getFds(), RPL_ENDOFNAMES(cli.nick, it->name));
+            showRightGui(cli, getChanel(s));
             break;
         }
     }
