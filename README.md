@@ -52,6 +52,7 @@ Version: 6
 
 
    <img src="Additional/assets/irc.png">
+
 31
 ## NOTES
 ### Main Objective: finishing this project before our 2nd week.
@@ -146,37 +147,39 @@ Version: 6
 
     
 -----------------------------------------
+
   ### 10/11/2023 Tenth day.
-  Sinavda bol sans beyler.
-  First step to operators.
-  Fixed notice.
-  The exam was bad for the team we had some troubles concentrating.
-  Next day fam'.
+    Sinavda bol sans beyler.
+    First step to operators.
+    Fixed notice.
+    The exam was bad for the team we had some troubles concentrating.
+    Next day fam'.
     
 -----------------------------------------
+
   ### 11/11/2023 Eleventh day.
-We updated the makefile which
-We learned more about iterators. (creazy stuff).
-We fixed a major bug in join.
-Topic was added to the list.
-Nick display all users.
-Exeption class added.
+    We updated the makefile which
+    We learned more about iterators. (creazy stuff).
+    We fixed a major bug in join.
+    Topic was added to the list.
+    Nick display all users.
+    Exeption class added.
 
   
 -----------------------------------------
   ### 12/11/2023 Twelth day.
-Fix in gui, server topic and nick. Had some problems with ping. We reached 200 commits.
-As we are coming to an end of the project, I had some time to add the bot. For the bot I have recreated a new
-command called names which sends to the bot. Than the bot sends the message to all the users.
-We fixed Mode.
-We completed MODE error replies.
+    Fix in gui, server topic and nick. Had some problems with ping. We reached 200 commits.
+    As we are coming to an end of the project, I had some time to add the bot. For the bot I have recreated a new
+    command called names which sends to the bot. Than the bot sends the message to all the users.
+    We fixed Mode.
+    We completed MODE error replies.
     
 -----------------------------------------
  ### 13/11/2023 Thirteenth day.
-Ping, Notice, Quit and user fixed. Whist I am writing this We are almost done.
-It's 2 am in the morning and the team is exhausted however overjoyed with what we have done.
-Before doing some preliminary checks of our project, I would like to thank every one of you.
-Let's keep up the paste for the last project people.
+    Ping, Notice, Quit and user fixed. Whist I am writing this We are almost done.
+    It's 2 am in the morning and the team is exhausted however overjoyed with what we have done.
+    Before doing some preliminary checks of our project, I would like to thank every one of you.
+    Let's keep up the paste for the last project people.
 
 Ps: Evo page test, stress test and flags (shadow and -cpp=98). Welcome message delete.
 -----------------------------------------
