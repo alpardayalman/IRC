@@ -54,19 +54,15 @@
 #define ERR_CHANNELISFULL(source, channel)			": 471 " + source + " " + channel + " :Cannot join channel (+l)" + "\r\n"      //JOIN
 #define ERR_BADCHANNELKEY(source, channel)			": 475 " + source + " " + channel + " :Cannot join channel (+k)" + "\r\n"      //JOIN
 #define ERR_NEEDMOREPARAMS(source, command)			": 461 " + source + " " + command + " :Not enough parameters" + "\r\n"         //MODE
-#define ERR_CHANOPRIVSNEEDED(source, channel)		": 482 " + source + " " + channel + " :You're not channel operator" + "\r\n"   //MODE
+#define ERR_CHANOPRIVSNEEDED(source, channel)		": 482 " + source + " " + channel + " :You're not the channel operator" + "\r\n"   //MODE
+#define ERR_CHANOPKICK(source, channel)		        ": 482 " + source + " " + channel + " :You cannot KICK yourself" + "\r\n"      //MODE
 #define ERR_NOSUCHCHANNEL(source, channel)			": 403 " + source + " " + channel + " :No such channel" + "\r\n"               //MODE
 
 
 // ============= Define ============
-// topic yeni gelenler icinde calisicak
-// channelde kimse kalmayinca channelin kapandigina emin ol
-// command d ctrl c atinca hata vermesin nc
-// (fg gf fb) yazildiktan sonra komutlarin geliyor olmasi lazim
-// ctrl z
-// notice test et
+// ctrlz fg
+// notice info
 // PING
-// /MODE +l yaptımızda limiti degistiriyoruz ama join yapamiyoruz.
 // ==========debug===========
 // #define  tokenNewlinedeb
 
