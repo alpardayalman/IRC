@@ -3,7 +3,8 @@
 int Server::Mode(std::string &s, Client &cli) {
     std::vector<std::string> cmd = Utilities::splitString(s);
     if (cmd.size() > 3)
-        return 0;
+        Utilities::writeRpl(cli.cliFd, ERR_NEEDMOREPARAMS(cli.nick, cmd[0]));
+        //return 0; //burayi sil. return ekleyince komutlara gitmiyor.
     if (cmd.size() == 1)
         return 0;
     // operator olma durumunu kontrol etmek gerekiyor.
@@ -12,9 +13,12 @@ int Server::Mode(std::string &s, Client &cli) {
     for (; it != this->chanels.end(); ++it)
         if (it->name == cmd[0])
             break;
-    if (it == this->chanels.end()) // No chanel name
+    if (it == this->chanels.end()) {
+        Utilities::writeRpl(cli.cliFd, ERR_NOSUCHCHANNEL(cli.nick, cmd[0]));
         return 0;
+    } // No chanel name
     if (it->op->user != cli.user) { // No modarator.
+        Utilities::writeRpl(cli.cliFd, ERR_CHANOPRIVSNEEDED(cli.nick, cmd[0]));
         return 0;
     }
 
@@ -43,13 +47,12 @@ int Server::Mode(std::string &s, Client &cli) {
             it->key = "";
             it->keycode ^= K_CODE;
             Utilities::writeRpl(cli.cliFd, RPL_MODE(cli.nick, cmd[0], "-k", ""));
-            std::cout << "key is deleted" << std::endl;
         }
     }
     if (cmd[1] == "-l") {
         if (cmd.size() == 2) {
             it->keycode ^= L_CODE;
-            //Utilities::writeRpl(cli.cliFd, RPL_MODE(cli.nick, cmd[0], "-l", ""));
+            Utilities::writeRpl(cli.cliFd, RPL_MODE(cli.nick, cmd[0], "-l", ""));
         }
     }
     return 0;
