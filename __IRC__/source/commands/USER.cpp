@@ -3,6 +3,8 @@
 #define DEBUG_USER
 
 int     Server::User(std::string &s, Client &cli) {
+    if (!cli.user.empty())
+        return 1;
     std::stringstream ss(s);
     ss >> s;
     if (!s.empty()) {
