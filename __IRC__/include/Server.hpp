@@ -44,7 +44,7 @@ class Server {
 
         void    initCommands( void );
         void    commandHandler(std::string, Client&);
-        Server(size_t port_number, char * password);
+        Server(size_t port_number_, char * password_);
         ~Server();
         Chanel  &getChanel(std::string &chaName);
 

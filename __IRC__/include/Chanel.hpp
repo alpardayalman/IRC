@@ -24,7 +24,7 @@ class Chanel {
         int                 users;
 
         
-        Chanel(std::string &name): name(name) , keycode(0){}
+        Chanel(std::string &name_): name(name_) , keycode(0){}
         ~Chanel() {}
 
         std::vector<int>    getFds() const;
