@@ -18,8 +18,8 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
         }
         else if (params[0] == (*it).user || params[0] == (*it).nick) {//PRIVMSG <user> <msg> PRIVMSG <nick> <msg>
             if (params[1].find("PING") != std::string::npos) {
-                s = params[0] + " " + s + " " +cli.nick;
-                Server::Ping(s, (*it));
+                s = s + " " +cli.nick;
+                Server::Ping(s, cli);
                 break;
             }
             (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1]));
