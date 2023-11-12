@@ -49,6 +49,7 @@ class Server {
         ~Server();
         Chanel  &getChanel(std::string &chaName);
         void    showRightGui(Client &cli, Chanel &cha);
+        int    isNickExist(std::string s);
 
     private:
         void    createSocket( void );

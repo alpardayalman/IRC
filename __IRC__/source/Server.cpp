@@ -208,5 +208,11 @@ void Server::showRightGui(Client &cli, Chanel &cha) {
         Utilities::writeAllRpl(tmp.getFds(), RPL_ENDOFNAMES(cli.nick, cha.name));
 }
 
-
+int Server::isNickExist(std::string s) {
+        for(std::vector<Client>::iterator it2 = this->clients.begin() ; it2 != this->clients.end(); ++it2) {
+            if(it2->nick == s)
+                return 1;
+        }
+    return 0;
+}
 

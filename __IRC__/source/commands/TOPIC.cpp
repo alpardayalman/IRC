@@ -7,19 +7,15 @@ int     Server::Topic(std::string &s, Client &cli) {
     ss >> cha;
     str = s.erase(0, cha.length());
     Utilities::trim(cha);
-    if(cha == "ft_irc") { // calisiyormu test et
-        cli.messageBox.push_back("You cannot change ft_irc");
-        FD_SET(cli.cliFd, &this->writeFds);
-    }
-    else {
-        for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
-            if (it->name == cha) {
+    for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
+        if (it->name == cha) {
+            if(!str[1])
+                Utilities::writeRpl(cli.cliFd, RPL_NOTOPIC(cli.nick, cha));
+            else
                 Utilities::writeAllRpl(this->getFds(), RPL_TOPIC(cli.nick, cli.ipAddr, cha, &str[1]));
-                it->topic = &str[1];
-                break;
-            }
+            it->topic = &str[1];
+            break;
         }
     }
-
     return(1);
 }
