@@ -114,6 +114,9 @@ fclean: clean
 run: re
 	@./ircserv 8080 123
 
+brun: bonus
+	@./ircbot 8080 123
+
 re:
 	@$(MAKE) fclean --no-print-directory
 	@$(MAKE) all --no-print-directory

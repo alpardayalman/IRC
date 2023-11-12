@@ -7,6 +7,7 @@
 
 #define HEX 1
 #define NC  2
+#define BOT 3
 
 class Client
 {

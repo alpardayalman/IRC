@@ -23,6 +23,7 @@ void Server::initCommands(void) {
     t_cmdFunct["mode"] = &Server::Mode; // bazen kucuk harfle atiyor.
     t_cmdFunct["LIST"] = &Server::List;
     t_cmdFunct["OP"] = &Server::Op;
+    t_cmdFunct["NAMES"] = &Server::Names;
 }
 
 Server::Server(size_t port_number, char *password) : port_number(port_number), password(std::string(password)), reuse(1) {
@@ -121,6 +122,7 @@ void Server::run(void) {
                     std::vector<std::string> parameters = Utilities::tokenNewline(s);
 
                     for (int i = 0; i < (int)parameters.size(); i++) {
+                        // std::cout << "Parameters "<< parameters[i] << std::endl;
                         Server::commandHandler(parameters[i], (*begin));
                     }
                     if (!(Utilities::tokenCmd(parameters[0], 0)[0] == "CAP")) {

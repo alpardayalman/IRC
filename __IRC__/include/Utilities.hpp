@@ -92,4 +92,7 @@ class Utilities {
         static bool                             checkChannel(std::string& s);
         static void                             writeRpl(int fd, std::string msg);
         static void                             writeAllRpl(std::vector<int> fd, std::string msg);
+
+
+        static std::string                      intToString(int);
 };
