@@ -10,6 +10,10 @@ int     Server::Notice(std::string &s, Client &cli) {
             (*it).messageBox.push_back(RPL_NOTICE(cli.getPrefix(), it->nick, param[1]));
             FD_SET((*it).cliFd, &this->writeFds);
         }
+        else if(isClientIn((*it), param[0]) && cli.nick != it->nick) {
+            (*it).messageBox.push_back(RPL_NOTICE(cli.getPrefix(), param[0], param[1]));
+            FD_SET((*it).cliFd, &this->writeFds);
+        }
     }
     return 0;
 }
