@@ -12,24 +12,24 @@ Version: 6
 
 - [x] Socket and Multiplexing
 - [x] Makefile / flags and relink
-- [ ] RFC 1459 (protocols)
+- [x] RFC 1459 (protocols)
 - [x] Authentication.
 - [x] Nickname, a username.
 - [x] Join a channel.
 - [x] Send and receive private messages using your reference client.
 - [x] All the messages sent from one client to a channel have to be forwarded to every other client that joined the channel.
-- [ ] Operators and regular users.
-- [ ] Signal. ^D & ^Z
-- [ ] fcntl.
-- [ ] Leaks. & seg correction
-- [ ] Everyone's last word for this project.
-- [ ] DIFI hanmen key exchangge. (let's look into that.) <--
-- [ ] flood
+- [x] Operators and regular users.
+- [x] flood
 - [x] Notice, ping, pong
 - [x] Kick, Topic, Part
 - [x] File transfer lessgo
-- [ ] Bot
-- [ ] proper usage of clients gui
+- [x] Bot
+- [x] proper usage of clients gui
+- [x] Leaks. & seg correction
+- [ ] Signal. ^D & ^Z
+- [ ] Preliminary last checks (checkout 13'th day)
+- [ ] Evo for all 2 of the teams.
+- [ ] Everyone's last word for this project.
 
 -----------------------------------------
 
