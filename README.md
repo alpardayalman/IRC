@@ -175,7 +175,7 @@ We completed MODE error replies.
  ### 13/11/2023 Thirteenth day.
 Ping, Notice, Quit and user fixed. Whist I am writing this We are almost done.
 It's 2 am in the morning and the team is exhausted however overjoyed with what we have done.
-Before doing some preliminary checks of out project, I would like to thank every one of you.
+Before doing some preliminary checks of our project, I would like to thank every one of you.
 Let's keep up the paste for the last project people.
 
 Ps: Evo page test, stress test and flags (shadow and -cpp=98). Welcome message delete.
