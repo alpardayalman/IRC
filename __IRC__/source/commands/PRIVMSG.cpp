@@ -7,6 +7,8 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
     std::vector<std::string> params = Utilities::tokenCmd(s, 0); // cmd[0] eger chanel ise basinda # olucak client ise olmayacak.
     if (!cli.passcheku)
         return 0;
+    if (!isClientIn(cli, params[0]))
+        return 1;
     for(std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end();++it)
     {
         if (it->cliFd != cli.cliFd && isClientIn((*it), params[0]))//chanel chat
