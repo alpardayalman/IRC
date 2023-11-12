@@ -106,3 +106,13 @@ void    Utilities::writeAllRpl(std::vector<int> fd, std::string msg) {
         Utilities::writeRpl((*it), msg);
     }
 }
+
+
+std::string     Utilities::intToString(int myInteger) {
+
+    std::stringstream ss;
+    ss << myInteger;
+    std::string myString = ss.str();
+
+    return myString;
+}

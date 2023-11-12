@@ -81,4 +81,6 @@ class Server {
         int     Mode(std::string &s, Client &cli);
         int     List(std::string &s, Client& cli);
         int     Op(std::string &s, Client& cli);
+        // ************ Bot ***************
+        int     Names(std::string &s, Client &cli);
 };

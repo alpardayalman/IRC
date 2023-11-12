@@ -1,10 +1,13 @@
 #include "Server.hpp"
 
 int     Server::Cap(std::string &s, Client &cli) {
-    if (s == "CAP LS")
+    // std::cout << "Cap" << s << std::endl;
+    if (s == "LS")
         cli.isCapt = HEX;
-    else if (s == "CAP NC")
+    else if (s == "NC")
         cli.isCapt = NC;
+    else if (s == "BOT")
+        cli.isCapt = BOT;
     else
         return false;
     return true;
