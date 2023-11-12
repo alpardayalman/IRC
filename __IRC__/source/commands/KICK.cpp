@@ -11,7 +11,7 @@ int Server::Kick(std::string &s, Client &cli) {
 
     if(cha.op->nick == cmd[0] || cha.op->nick != cli.nick) {
         std::cout << RED << "you can not kick" << RESET << std::endl;
-        
+        Utilities::writeRpl(cli.cliFd, ERR_CHANOPRIVSNEEDED(cli.getPrefix(), kick));
         return 1;
     }
     // std::cout << RED << "1: " << cha.op->nick << " 2:"<< RESET << std::endl;

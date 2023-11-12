@@ -59,7 +59,7 @@ int    Server::Join(std::string &s, Client& cli) {
                     if (!isClientIn((*it), cli.cliFd)) {
                         if ((it->keycode & K_CODE) && (it->keycode & L_CODE))
                         {
-                            if (it->users >= (int) it->clients.size()) {
+                            if (it->users <= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
                             }
                             else if (it->key != key) {
@@ -84,7 +84,7 @@ int    Server::Join(std::string &s, Client& cli) {
                             }
                         }
                         else if ((it->keycode & L_CODE)) {
-                            if (it->users >= (int) it->clients.size()) {
+                            if (it->users <= (int) it->clients.size()) {
                                 Utilities::writeRpl(cli.cliFd, ERR_CHANNELISFULL(cli.nick, chaName));
                             }
                             else {
