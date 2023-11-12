@@ -3,8 +3,8 @@
 int     Server::Nick(std::string &s, Client &cli) {
     std::stringstream ss(s);
     ss >> s;
-
-    if (!s.empty()) {
+    std::cout << s << std::endl;
+    if (!s.empty() && !isNickExist(s)) { // bos degil ve nick 
         cli.messageBox.push_back(RPL_NICK(cli.nick, cli.user, cli.ip, s));
         FD_SET(cli.cliFd, &this->writeFds);
         for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
@@ -27,6 +27,12 @@ int     Server::Nick(std::string &s, Client &cli) {
         }
         }
         cli.nick = s;
+    }
+    else {
+        if(s.empty())
+            Utilities::writeRpl(cli.cliFd, ERR_NICKNAMEEMPTY(cli.getPrefix()));
+        else
+            Utilities::writeRpl(cli.cliFd, ERR_NICKNAMEINUSE(cli.getPrefix()));
     }
     return 0;
 }
