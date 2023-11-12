@@ -1,4 +1,4 @@
-learNAME		= ircserv
+NAME		= ircserv
 NAME_BOT	= ircbot
 
 CC			= c++
@@ -61,7 +61,7 @@ B_RED		= \033[1;31m
 B_RESET		= \033[1m
 
 ifeq ($(UNAME), Linux)
-#	NUMPROC	:= $(shell grep -c ^processor /proc/cpuinfo)
+	NUMPROC	:= $(shell grep -c ^processor /proc/cpuinfo)
 else ifeq ($(UNAME), Darwin)
 	NUMPROC	:= $(shell sysctl -n hw.ncpu)
 endif
