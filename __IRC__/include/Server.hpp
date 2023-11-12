@@ -47,6 +47,7 @@ class Server {
         Server(size_t port_number_, char * password_);
         ~Server();
         Chanel  &getChanel(std::string &chaName);
+        void    showRightGui(Client &cli, Chanel &cha);
 
     private:
         void    createSocket( void );

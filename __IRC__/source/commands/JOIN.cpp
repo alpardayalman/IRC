@@ -117,15 +117,7 @@ int    Server::Join(std::string &s, Client& cli) {
             this->chanels.push_back(newChanel); // Chanels cached in server.
             Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
         }
-        for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
-            if(int chidx = isClientIn((*it), chaName)) {
-                if (it->cliFd == this->chanels[chidx-1].op->cliFd)
-                    msg += "@";
-                msg += (*it).nick + " ";
-            }
-        }
-        Utilities::writeAllRpl(this->getFds(), RPL_NAMREPLY(cli.nick, chaName, msg));
-        Utilities::writeAllRpl(this->getFds(), RPL_ENDOFNAMES(cli.nick, chaName));
+        showRightGui(cli, getChanel(chaName));
     } 
     else {//if join command input empty write this message
         cli.messageBox.push_back("you cannot joined chanel cause use command correct JOIN <chanel name>");

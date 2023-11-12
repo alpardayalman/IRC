@@ -1,25 +1,36 @@
 #pragma once
+#include "Exception.hpp"
 #include <iostream>
-#include <sstream>
-#include <netinet/in.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstring>
 #include <sys/socket.h>
-#include <unistd.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 #include <vector>
-#include <map>
-#include <string>
 
-// #define ON 1
 
-// class Bot {
+# define GREEN		"\033[0;32m"
+# define RESET		"\033[0m"
 
-//     public:
+class Bot {
+    private:
+        int         port_number;
+        std::string password;
+        std::string username;
+        std::string nickname;
+        int         sockFd;
+        int                 reuse;
+        struct sockaddr_in  addr_socket;
+    public:
+        Bot(int, char *);
+        ~Bot();
+        void                        createSocket();
+        void                        serveraddrSocket();
+        void                        socketConnect();
+        void                        botRun();
+        static int                         checkPortNumber(char *port);
+        static std::vector<std::string>    splitString(const std::string& input);
 
-// };
-
+};
 
 
 

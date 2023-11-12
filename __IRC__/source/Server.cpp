@@ -185,3 +185,18 @@ Chanel  &Server::getChanel(std::string &chaName) {
     }
     return (*it);
 }
+
+void Server::showRightGui(Client &cli, Chanel &cha) {
+    std::string msg;
+    for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
+            if(int chidx = isClientIn((*it), cha.name)) {
+                if (it->cliFd == this->chanels[chidx-1].op->cliFd)
+                    msg += "@";
+                msg += (*it).nick + " ";
+            }
+        }
+        Chanel tmp = getChanel(cha.name);
+        Utilities::writeAllRpl(tmp.getFds(), RPL_NAMREPLY(cli.nick, cha.name, msg));
+        Utilities::writeAllRpl(tmp.getFds(), RPL_ENDOFNAMES(cli.nick, cha.name));
+}
+
