@@ -34,7 +34,7 @@
 #define RPL_NICK(nick, user, ip, newnick)			":" + nick + "!" + user + "@" + ip + " NICK :" + newnick + "\r\n"
 #define RPL_KICK(source, channel, target, reason)	":" + source + " KICK " + channel + " " + target + " :" + reason + "\r\n"
 #define RPL_PART(source, channel)					":" + source + " PART :" + channel + "\r\n"
-#define RPL_PONG(ip)						        " PONG :" + ip + "\r\n"
+#define RPL_PONG(source, token)						":" + source + " PING :" + token + "\r\n"
 #define RPL_QUIT(source, message)                   ":" + source + " QUIT :" + message + "\r\n"
 #define RPL_MODE(source, channel, modes, args)		":" + source + " MODE " + channel + " " + modes + " " + args + "\r\n"
 
