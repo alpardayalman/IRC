@@ -127,7 +127,7 @@ void Server::run(void) {
                         if (!Pass(k, (*begin))) {
                             FD_CLR((*begin).cliFd, &this->readFds);
                             FD_CLR((*begin).cliFd, &this->writeFds);
-                            std::cout << RED << "Client: " /* + std::to_string((*begin).cliFd - 3) */ " has the password incorrectly GTFO" << RESET << std::endl;
+                            std::cout << RED << "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO" << RESET << std::endl;
                             close((*begin).cliFd);
                             this->clients.erase(begin);
                         }
