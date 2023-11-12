@@ -11,6 +11,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <csignal>
 #include "Client.hpp"
 #include "Utilities.hpp"
 #include "Chanel.hpp"
