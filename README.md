@@ -7,7 +7,9 @@ with each other.
 It’s always a good thing to know.
 Version: 6
 
------------------------------------------
+[![-----------------------------------------------------](
+https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)](https://github.com/alpardayalman?tab=repositories)
+
 ## To-do List
 
 - [x] Socket and Multiplexing
@@ -31,7 +33,8 @@ Version: 6
 - [ ] Evo for all 2 of the teams.
 - [ ] Everyone's last word for this project.
 
------------------------------------------
+[![-----------------------------------------------------](
+https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)](https://github.com/alpardayalman?tab=repositories)
 
 ## Developers
 <table>
@@ -48,7 +51,9 @@ Version: 6
 </tbody>
 
    The groups were divided whilst examination.
-   -----------------------------------------
+   
+[![-----------------------------------------------------](
+https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)](https://github.com/alpardayalman?tab=repositories)
 
 
    <img src="Additional/assets/irc.png">
@@ -145,7 +150,6 @@ Version: 6
     We must Start on the operator priviledges and chanel mods than we are 99% done with the mandetory part.
     Once finished we need to program a bot than easy peasy. IRC project is done.
 
-    
 -----------------------------------------
 
   ### 10/11/2023 Tenth day.
@@ -165,7 +169,6 @@ Version: 6
     Nick display all users.
     Exeption class added.
 
-  
 -----------------------------------------
   ### 12/11/2023 Twelth day.
     Fix in gui, server topic and nick. Had some problems with ping. We reached 200 commits.
@@ -181,5 +184,5 @@ Version: 6
     Before doing some preliminary checks of our project, I would like to thank every one of you.
     Let's keep up the paste for the last project people.
 
-Ps: Evo page test, stress test and flags (shadow and -cpp=98). Welcome message delete.
+Ps: Evo page test, stress test and flags (shadow and -cpp=98). Welcome message delete. Privmsg and one more stress test
 -----------------------------------------
