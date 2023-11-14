@@ -1,4 +1,5 @@
 #include "Server.hpp"
+//ha buraya namerpl_
 
 void showUsers(Chanel &cha) {
     std::cout << PURPLE;
@@ -29,7 +30,7 @@ int Server::Op(std::string &s, Client &cli) {//  s = <chanelname> +o <nickname>
         Client oldOp = cha.getClient(cli.nick);
         if (isClientIn(oldOp, cmd[0]) && isClientIn(newOp, cmd[0])) {//eger oldOperator ve newOperator ayni kanalda ise
             for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
-                if (cmd[0] == it->name && getClientPos(*it, oldOp) != -1 && getClientPos(*it, newOp) != -1) {
+                if (cmd[0] == it->name) {
                     //inputtan gelen chanel name iteratorun chanelNameine esitse new ve olp op'u swapliyor
                     Client tmp = it->clients[getClientPos(*it, oldOp)];
                     it->clients[getClientPos(*it, oldOp)] = it->clients[getClientPos(*it, newOp)];
@@ -38,9 +39,17 @@ int Server::Op(std::string &s, Client &cli) {//  s = <chanelname> +o <nickname>
                 }
             }
         }
-        Server::showRightGui(cli, cha);
+        std::string msg;
+        for(std::vector<Client>::iterator it = cha.clients.begin() ; it != cha.clients.end(); ++it) {
+                if(int chidx = isClientIn((*it), cmd[0])) {
+                    if (it->cliFd == this->chanels[chidx-1].op->cliFd)
+                        msg += "@";
+                    msg += (*it).nick + " ";
+                }
+            }
+        Utilities::writeAllRpl(this->getFds(), RPL_NAMREPLY(cli.nick, cmd[0], msg));
+        Utilities::writeAllRpl(this->getFds(), RPL_ENDOFNAMES(cli.nick, cmd[0]));
     } else {//find(rpl_erroryournotoperator())
-        Utilities::writeRpl(cli.cliFd, ERR_CHANOPRIVSNEEDED(cli.getPrefix(), cha.name));
     }
     return 1;
 }
