@@ -1,5 +1,4 @@
 #include "Utilities.hpp"
-#include "Exception.hpp"
 
 int Utilities::checkPortNumber(char *port_number) {
     for (int i = 0; port_number[i]; i++) {
@@ -96,9 +95,8 @@ bool    Utilities::checkChannel(std::string& s) {
 }
 
 void    Utilities::writeRpl(int fd, std::string msg) {
-    ssize_t result = write(fd, msg.c_str(), msg.length());
-    if(result == -1)
-        throw Exception("Write rpl error.");
+    (write(fd, msg.c_str(), msg.length()) < 0) ? 
+        (std::cout << "dirtttitirti" << std::endl) : std::cout;
 }
 
 void    Utilities::writeAllRpl(std::vector<int> fd, std::string msg) {
