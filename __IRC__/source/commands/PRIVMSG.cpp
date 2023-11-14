@@ -17,7 +17,7 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
             FD_SET((*it).cliFd, &this->writeFds);
         }
         else if (params[0] == (*it).user || params[0] == (*it).nick) {//PRIVMSG <user> <msg> PRIVMSG <nick> <msg>
-            if (params[1].find("PING") != (unsigned long) -1) {
+            if (params[1].find("PING") != std::string::npos) {
                 s = s + " " +cli.nick;
                 Server::Ping(s, cli);
                 break;
