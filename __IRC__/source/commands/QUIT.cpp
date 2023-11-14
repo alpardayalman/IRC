@@ -4,6 +4,7 @@ int Server::Quit(std::string &s, Client &cli) {
 
     for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
         Server::Part(it->name, cli);
+	    //burasi sanki gereginden fazla donuyor kontrol edilebilir ama asil sikinti bence partta 
 	}
     for (ClientIterator it = this->clients.begin(); it != this->clients.end(); ++it) {
         if (it->nick == cli.nick) {
