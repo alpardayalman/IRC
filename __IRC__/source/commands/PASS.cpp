@@ -11,9 +11,19 @@ int     Server::Pass(std::string &s, Client& cli) {  // pass hatali rpli var onu
         
         return 1;
     }
-    else {
-        return 0;
-    }
+    // else {
+        // write(cli.cliFd, "Password is incorrect\n", 22);
+        // FD_CLR(cli.cliFd, &this->readFds);
+        // FD_CLR(cli.cliFd, &this->writeFds);
+        // std::cout << RED << "Client: " + std::to_string(cli.cliFd - 3) + " has the password incorrectly GTFO" << RESET << std::endl;
+        // close(cli.cliFd);
+        // for (ClientIterator it = this->clients.begin(); it != this->clients.end(); ++it) {
+        //     if (it->cliFd == cli.cliFd) {
+        //         this->clients.erase(it);
+        //         break;
+        //     }
+        // }
+    // }
     return 0;
 }
 

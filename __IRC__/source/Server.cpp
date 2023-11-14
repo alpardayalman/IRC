@@ -131,8 +131,9 @@ void Server::run(void) {
                         // std::cout << "Parameters "<< parameters[i] << std::endl;
                         Server::commandHandler(parameters[i], (*begin));
                     }
-                    if (!(Utilities::tokenCmd(parameters[0], 0)[0] == "CAP")) {
-                        if (!Pass(k, (*begin))) {
+                    std::cout << PURPLE << "---------------------" << parameters.size() << RESET << std::endl;
+                    if (!(Utilities::tokenCmd(parameters[0], 0)[0] == "CAP" && parameters.size() == 1)) {
+                        if (!(*begin).passcheku) {
                             FD_CLR((*begin).cliFd, &this->readFds);
                             FD_CLR((*begin).cliFd, &this->writeFds);
                             std::cout << RED << "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO" << RESET << std::endl;
