@@ -19,6 +19,7 @@ void Server::initCommands(void) {
     t_cmdFunct["PING"] = &Server::Ping;
     t_cmdFunct["QUIT"] = &Server::Quit;
     t_cmdFunct["WHOIS"] = &Server::Whois;
+    t_cmdFunct["whois"] = &Server::Whois;
     t_cmdFunct["MODE"] = &Server::Mode;
     t_cmdFunct["mode"] = &Server::Mode;
     t_cmdFunct["LIST"] = &Server::List;
@@ -136,7 +137,7 @@ void Server::run(void) {
                         if (!(*begin).passcheku) {
                             FD_CLR((*begin).cliFd, &this->readFds);
                             FD_CLR((*begin).cliFd, &this->writeFds);
-                            std::cout << RED << "Client: " + std::to_string((*begin).cliFd - 3) + " has the password incorrectly GTFO" << RESET << std::endl;
+                            std::cout << RED << "Client: " << (*begin).cliFd - 3 << " has the password incorrectly GTFO" << RESET << std::endl;
                             close((*begin).cliFd);
                             this->clients.erase(begin);
                         }
