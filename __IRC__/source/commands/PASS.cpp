@@ -7,9 +7,9 @@ int     Server::Pass(std::string &s, Client& cli) {  // pass hatali rpli var onu
         return 1;
     else if  (this->checkPassword(s, cli)) {
         cli.passcheku = 1;
-        int result = write(cli.cliFd, "Password is correct\n", 20);
-        if(result < 0)
-            throw Exception("Write password error!");
+        (write(cli.cliFd, "Password is correct\n", 20) < 0) ?
+        std::cout << "Write Mistake" << std::endl:
+            0;
         std::cout << GREEN << "Client: " << (cli.cliFd -3) << " Pass: " + cli.pass + " has the password correctly\n" << WHITE << std::endl;
         
         return 1;
