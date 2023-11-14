@@ -35,6 +35,7 @@
 #define RPL_PONG(source, token)						":" + source + " PING :" + token + "\r\n"
 #define RPL_QUIT(source, message)                   ":" + source + " QUIT :" + message + "\r\n"
 #define RPL_MODE(source, channel, modes, args)		":" + source + " MODE " + channel + " " + modes + " " + args + "\r\n"
+#define RPL_INFO(source, info)                      ":" + source + " 371 * :" + info + "\r\n"
 
 /* [WHOIS] */
 #define RPL_WHOISUSER(nick, user, ip)				": 311 " + nick + " " + nick + " " + nick + " " + ip + " * :" + user + "\r\n"
@@ -83,6 +84,7 @@ class Utilities {
 
         // ART & DESIGN ®
         static void                             write_ascii_art(void);
+        static std::string                      infoMessage(void);
 
         //Channel check
         static bool                             checkChannel(std::string& s);

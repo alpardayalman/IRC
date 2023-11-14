@@ -114,3 +114,40 @@ std::string     Utilities::intToString(int myInteger) {
 
     return myString;
 }
+
+std::string Utilities::infoMessage(void) {
+
+    std::string msg;
+
+    msg += "* 42 Ecole IRC Project \n";
+    msg += "* Based on the original code written by Jarkko Oikarinen \n";
+    msg += "* Copyright 1988, 1989, 1990, 1991 University of Oulu, Computing Center \n";
+    msg += "*  \n";
+    msg += "* This program is free software; you can redistribute it and/or \n";
+    msg += "* modify it under the terms of the MIT License as \n";
+    msg += "* published by the Free Software Foundation; either version 1, or \n";
+    msg += "* (at your option) any later version. \n";
+    msg += "*  \n";
+    msg += "* Developers: \n";
+    msg += "* - Alp Arda Yalman \n";
+    msg += "* - Emircan Kaymaz \n";
+    msg += "* - Talha Açıkgöz \n";
+    msg += "* - Yiğit Sarp Erkıralp \n";
+    msg += "* - Yunus Emre Aktaş \n";
+    msg += "*  \n";
+    msg += "* Project Information: \n";
+    msg += "* - Start Date: 1/11/2023 \n";
+    msg += "* - Project Name: 42 Ecole IRC Project \n";
+    msg += "* - Duration: Approximately two weeks \n";
+    msg += "*  \n";
+    msg += "* Thanks to the following individuals for their contributions: \n";
+    msg += "* - zoovely             Seullu Abla \n";
+    msg += "* - gsever              Gorkem Sever \n";
+    msg += "* - akaraca             Ahmet Karaca \n";
+    msg += "* - oyumusak            Omer Yumusak (Socket man) \n";
+    msg += "*  \n";
+    msg += "* Online Since: Tue Nov 14 09:42:00 2023 \n";
+    msg += "* End of /INFO list. \n";
+
+    return msg;
+}
