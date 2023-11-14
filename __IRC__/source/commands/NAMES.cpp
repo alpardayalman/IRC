@@ -26,8 +26,8 @@ int     Server::Names(std::string &s, Client &cli) {
             continue;
         msg+= cit->nick + " "; // bakmaya devam et.
     }
-    int result = write(it->cliFd, msg.c_str(), msg.length());
-    if(result < 0)
-        throw Exception("Write name error!");
+    (write(it->cliFd, msg.c_str(), msg.length()) < 0) ?
+    std::cout << "Write Mistake" << std::endl:
+        0;
     return 0;
 }
