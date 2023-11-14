@@ -2,6 +2,9 @@
 
 int Server::Kick(std::string &s, Client &cli) {
 
+    std::cout << s << std::endl;
+    if (s[0] != '#') // so that you can't kick someone in private chat.
+        return 0;
     std::vector<std::string> cmd = Utilities::tokenCmd(s, 1); // 
     std::string kick = cmd[0];
     std::string parse = cmd[1];

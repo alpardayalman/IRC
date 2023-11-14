@@ -20,11 +20,11 @@ int     Server::Names(std::string &s, Client &cli) {
     std::cout << "names a" << std::endl;
     std::string msg = "NAMES";
     if (s != "")
-        msg += "S " + s + " ";
+        msg += "S " + s;
     for (ClientIterator cit = this->clients.begin(); cit != this->clients.end(); ++cit) {
         if (cit->isCapt == BOT)
             continue;
-        msg+= cit->nick + " "; // bakmaya devam et.
+        msg+= " " + cit->nick; // bakmaya devam et.
     }
     (write(it->cliFd, msg.c_str(), msg.length()) < 0) ?
     std::cout << "Write Mistake" << std::endl:
