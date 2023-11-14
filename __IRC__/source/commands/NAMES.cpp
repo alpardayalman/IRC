@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include "Exception.hpp"
 
 // RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1])
 int     Server::Names(std::string &s, Client &cli) {
@@ -25,6 +26,8 @@ int     Server::Names(std::string &s, Client &cli) {
             continue;
         msg+= cit->nick + " "; // bakmaya devam et.
     }
-    write(it->cliFd, msg.c_str(), msg.length());
+    int result = write(it->cliFd, msg.c_str(), msg.length());
+    if(result < 0)
+        throw Exception("Write name error!");
     return 0;
 }
