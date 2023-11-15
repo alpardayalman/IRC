@@ -50,7 +50,7 @@ int    Server::Join(std::string &s, Client& cli) {
         ss >> chaName;
         ss >> key;
         if(!Utilities::checkChannel(chaName)) {
-            // write(cli.cliFd, "Channel name must be" ,20); // bool yapicaz unutmaa!!!!!!!!!!
+            Utilities::writeRpl(cli.cliFd, ERR_NOSUCHCHANNEL(cli.getPrefix(), chaName));
             return 0;
         }
         if (findChanel(chaName, this->chanels)) {
