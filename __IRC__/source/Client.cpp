@@ -5,7 +5,6 @@ std::string Client::getPrefix() const {
 }
 
 const Client &Client::operator=(const Client &copy) {
-	this->isHex = copy.isHex;
 	this->messageBox = copy.messageBox;
 	this->cliFd = copy.cliFd;
 	this->port = copy.port;
