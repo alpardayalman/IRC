@@ -12,7 +12,6 @@
 class Client
 {
     public:
-        int     isHex;
         std::vector<std::string> messageBox;
         int cliFd;
         int port;

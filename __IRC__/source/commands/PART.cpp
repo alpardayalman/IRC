@@ -14,6 +14,7 @@ int Server::Part(std::string &s, Client &cli) {
                 if (cit->nick == cli.nick) {
                     if (it->clients.size() == 1) {
                         this->chanels.erase(it); // bakilir.
+                        Utilities::writeRpl(cli.cliFd, RPL_PART(cli.getPrefix(), s));
                         return 0;
                     }
                     else {
