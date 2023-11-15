@@ -206,8 +206,10 @@ void Server::showRightGui(Client &cli, Chanel &cha) {
             }
         }
         Chanel tmp = getChanel(cha.name);
+        if (!tmp.name.empty()) {
         Utilities::writeAllRpl(tmp.getFds(), RPL_NAMREPLY(cli.nick, cha.name, msg));
         Utilities::writeAllRpl(tmp.getFds(), RPL_ENDOFNAMES(cli.nick, cha.name));
+        }
 }
 
 int Server::isNickExist(std::string s) {
