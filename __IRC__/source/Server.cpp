@@ -129,7 +129,6 @@ void Server::run(void) {
                     std::vector<std::string> parameters = Utilities::tokenNewline(s);
 
                     for (int i = 0; i < (int)parameters.size(); i++) {
-                        // std::cout << "Parameters "<< parameters[i] << std::endl;
                         Server::commandHandler(parameters[i], (*begin));
                     }
                     std::cout << PURPLE << "---------------------" << parameters.size() << RESET << std::endl;
@@ -198,18 +197,16 @@ Chanel  &Server::getChanel(std::string &chaName) {
 
 void Server::showRightGui(Client &cli, Chanel &cha) {
     std::string msg;
-    for(std::vector<Client>::iterator it = this->clients.begin() ; it != this->clients.end(); ++it) {
-            if(int chidx = isClientIn((*it), cha.name)) {
-                if (it->cliFd == this->chanels[chidx-1].op->cliFd)
-                    msg += "@";
-                msg += (*it).nick + " ";
-            }
-        }
-        Chanel tmp = getChanel(cha.name);
-        if (!tmp.name.empty()) {
-        Utilities::writeAllRpl(tmp.getFds(), RPL_NAMREPLY(cli.nick, cha.name, msg));
-        Utilities::writeAllRpl(tmp.getFds(), RPL_ENDOFNAMES(cli.nick, cha.name));
-        }
+    Chanel tmp = getChanel(cha.name);
+    if (tmp.name.empty())
+        return;
+    for(std::vector<Client>::iterator it = tmp.clients.begin() ; it != tmp.clients.end(); ++it) {
+        if (it->cliFd == tmp.op->cliFd)
+            msg += "@";
+        msg += (*it).nick + " ";
+    }
+    Utilities::writeAllRpl(tmp.getFds(), RPL_NAMREPLY(cli.nick, cha.name, msg));
+    Utilities::writeAllRpl(tmp.getFds(), RPL_ENDOFNAMES(cli.nick, cha.name));
 }
 
 int Server::isNickExist(std::string s) {
