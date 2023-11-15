@@ -39,7 +39,7 @@ int Server::Op(std::string &s, Client &cli) {//  s = <chanelname> +o <nickname>
         if (isClientIn(oldOp, cmd[0]) && isClientIn(newOp, cmd[0])) {//eger oldOperator ve newOperator ayni kanalda ise
             for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
                 if (cmd[0] == it->name && getClientPos(*it, oldOp) != -1 && getClientPos(*it, newOp) != -1) {
-                    //inputtan gelen chanel name iteratorun chanelNameine esitse new ve olp op'u swapliyor
+                    //inputtan gelen chanel name iteratorun chanelNameine esitse new ve old op'u swapliyor
                     Client tmp = it->clients[getClientPos(*it, oldOp)];
                     it->clients[getClientPos(*it, oldOp)] = it->clients[getClientPos(*it, newOp)];
                     it->clients[getClientPos(*it, newOp)] = tmp;
@@ -48,7 +48,7 @@ int Server::Op(std::string &s, Client &cli) {//  s = <chanelname> +o <nickname>
             }
         }
         Server::showRightGui(cli, cha);
-    } else {//find(rpl_erroryournotoperator())
+    } else {
         Utilities::writeRpl(cli.cliFd, ERR_CHANOPRIVSNEEDED(cli.getPrefix(), cha.name));
     }
     return 1;

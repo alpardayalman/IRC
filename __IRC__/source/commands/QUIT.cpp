@@ -1,9 +1,11 @@
 #include "Server.hpp"
 
 int Server::Quit(std::string &s, Client &cli) {
-
     for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
+        std::cout << PURPLE << it->name << RESET << std::endl;
         Server::Part(it->name, cli);
+        if (it == this->chanels.end())
+            break;
 	    //burasi sanki gereginden fazla donuyor kontrol edilebilir ama asil sikinti bence partta 
 	}
     for (ClientIterator it = this->clients.begin(); it != this->clients.end(); ++it) {
@@ -13,6 +15,10 @@ int Server::Quit(std::string &s, Client &cli) {
             break;
         }
     }
+    if (FD_ISSET(cli.cliFd, &this->writeFds))
+        FD_CLR(cli.cliFd, &this->writeFds);
+    if (FD_ISSET(cli.cliFd, &this->readFds))
+        FD_CLR(cli.cliFd, &this->readFds);
     Utilities::writeRpl(cli.cliFd, RPL_QUIT(cli.getPrefix(), s.c_str()));
     close(cli.cliFd);
     return 1;
