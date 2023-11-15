@@ -9,7 +9,6 @@ int     Server::Names(std::string &s, Client &cli) {
     for (; it != this->clients.end(); ++it) {
         std::cout << it->nick << " " << it->isCapt << std::endl;
         if (it->isCapt == BOT) {
-            std::cout << "BOTLANDIN" << std::endl;
             break;
         }
     }
@@ -17,7 +16,6 @@ int     Server::Names(std::string &s, Client &cli) {
         return 0;
     }
 
-    std::cout << "names a" << std::endl;
     std::string msg = "NAMES";
     if (s != "")
         msg += "S " + s;
@@ -26,8 +24,6 @@ int     Server::Names(std::string &s, Client &cli) {
             continue;
         msg+= " " + cit->nick; // bakmaya devam et.
     }
-    (write(it->cliFd, msg.c_str(), msg.length()) < 0) ?
-    std::cout << "Write Mistake" << std::endl:
-        0;
+    write(it->cliFd, msg.c_str(), msg.length());
     return 0;
 }

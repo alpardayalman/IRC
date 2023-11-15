@@ -2,15 +2,15 @@
 
 int     Server::Topic(std::string &s, Client &cli) {
 
-    // std::stringstream ss(s);
-    // std::string str, cha;
-    // ss >> cha;
-    // str = s.erase(0, cha.length());
     std::vector<std::string> params;
-    // Utilities::trim(cha);
-    // Utilities::tokemCmd(str,)
     params = Utilities::tokenCmd(s, 1);
-
+    int chanelidx = isClientIn(cli, params[0]);
+    if (!chanelidx)
+        return 0;
+    if (this->chanels[chanelidx-1].op->nick != cli.nick) {
+        Utilities::writeRpl(cli.cliFd, ERR_CHANOPRIVSNEEDED(cli.nick, params[0]));
+        return 0;
+    }
     for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
         if (it->name == params[0]) {
             if(params[1].empty())
