@@ -1,17 +1,18 @@
 #include "Server.hpp"
 
-int Server::Kick(std::string &s, Client &cli) {
-
-    std::cout << s << std::endl;
+int Server::Kick(std::string &s, Client &cli) {//s= #asd | tacikgoz
     if (s[0] != '#') // so that you can't kick someone in private chat.
         return 0;
-    std::vector<std::string> cmd = Utilities::tokenCmd(s, 1); // 
+    std::vector<std::string> cmd = Utilities::splitString(s); // 
     std::string kick = cmd[0];
     std::string parse = cmd[1];
-    cmd = Utilities::tokenCmd(parse, 1);
-    Chanel cha = getChanel(kick);
 
-    if(cha.op->nick == cmd[0] || cha.op->nick != cli.nick) {
+    Chanel cha = getChanel(cmd[0]);
+    if (cha.name.empty()){
+        return 0;
+    }
+
+    if(cha.op->nick == cmd[1] || cha.op->nick != cli.nick) {
         if(cha.op->nick != cli.nick) {
             Utilities::writeRpl(cli.cliFd, ERR_CHANOPRIVSNEEDED(cli.getPrefix(), kick));
         }
@@ -19,22 +20,24 @@ int Server::Kick(std::string &s, Client &cli) {
             Utilities::writeRpl(cli.cliFd, ERR_CHANOPKICK(cli.getPrefix(), kick));
         return 1;
     }
-    for (std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it) {
-        if ((*it).nick == cmd[0]) {
-            (*it).messageBox.push_back(RPL_KICK(cli.nick, kick, cmd[0], cmd[1]));
-            FD_SET((*it).cliFd, &this->writeFds);
-            for(std::vector<Chanel>::iterator it3 = this->chanels.begin(); it3 != this->chanels.end(); ++it3) {
-                if((*it3).name == kick) {
-                    for(std::vector<Client>::iterator it2 = (*it3).clients.begin(); it2 != (*it3).clients.end(); ++it2) {
-                        if((*it2).nick == cmd[0]) {
-                            (*it3).clients.erase(it2);
-                            showRightGui(cli, getChanel(kick));
-                            break;
-                        }
-                    }
-                    break;
+
+    for (ClientIterator kit = this->clients.begin(); kit != this->clients.end(); ++kit) {
+        if (kit->nick ==  cmd[1]) {
+            kit->messageBox.push_back(RPL_KICK(cli.nick, kick, cmd[1], (cmd.size() >= 3 ? (cmd[2][0] == ':' ? cmd[2].substr(1, cmd[2].length()) : cmd[2]) : "No reason needed")));
+            FD_SET(kit->cliFd, &this->writeFds);
+            break;
+        }
+    }
+    for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it) {
+        if (it->name == kick) {
+            for (ClientIterator cit = it->clients.begin(); cit != it->clients.end(); ++cit) {
+                if (cit->nick == cmd[1]) {
+                    it->clients.erase(cit);
+                    showRightGui(cli, getChanel(kick));
+                    return 1;
                 }
             }
+            break;
         }
     }
     return 1;
