@@ -1,2 +1,0 @@
-port: 8080
-document_root: test8/webconf.txt

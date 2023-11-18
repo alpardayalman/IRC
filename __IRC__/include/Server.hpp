@@ -33,7 +33,7 @@ class Server {
         bool                    is_running;
         int                     reuse;
         const std::string       server_name;
-        std::vector<Client>     clients; // client vectoru.
+        std::vector<Client>     clients;
         fd_set                  readFds;
         fd_set                  writeFds;
         fd_set                  readFdsSup;

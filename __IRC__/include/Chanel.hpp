@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Server.hpp"
-//privmsg <chanelname> :<msg>
-//chanelin msgboxina msg atabiliriz
 #include "Client.hpp"
 
 #define L_CODE 1
@@ -20,7 +18,7 @@ class Chanel {
         std::string         topic;
         std::string         key;
 
-        int                 keycode; // hangi key var.
+        int                 keycode;
         int                 users;
 
         
