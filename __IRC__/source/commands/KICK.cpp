@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-int Server::Kick(std::string &s, Client &cli) {//s= #asd | tacikgoz
+int Server::Kick(std::string &s, Client &cli) {
     if (s[0] != '#') // so that you can't kick someone in private chat.
         return 0;
     std::vector<std::string> cmd = Utilities::splitString(s); // 

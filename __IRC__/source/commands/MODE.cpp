@@ -4,11 +4,8 @@ int Server::Mode(std::string &s, Client &cli) {
     std::vector<std::string> cmd = Utilities::splitString(s);
     if (cmd.size() > 3)
         Utilities::writeRpl(cli.cliFd, ERR_NEEDMOREPARAMS(cli.nick, cmd[0]));
-        //return 0; //burayi sil. return ekleyince komutlara gitmiyor.
     if (cmd.size() == 1)
         return 0;
-    // operator olma durumunu kontrol etmek gerekiyor.
-    // K durumu
     ChanelIterator it = this->chanels.begin();
     for (; it != this->chanels.end(); ++it)
         if (it->name == cmd[0])

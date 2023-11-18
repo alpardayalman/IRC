@@ -1,7 +1,6 @@
 #include "Server.hpp"
 #include "Exception.hpp"
 
-// RPL_PRIVMSG(cli.getPrefix(), (*it).nick, params[1])
 int     Server::Names(std::string &s, Client &cli) {
     (void) cli;
     std::cout << s << std::endl;
@@ -22,7 +21,7 @@ int     Server::Names(std::string &s, Client &cli) {
     for (ClientIterator cit = this->clients.begin(); cit != this->clients.end(); ++cit) {
         if (cit->isCapt == BOT)
             continue;
-        msg+= " " + cit->nick; // bakmaya devam et.
+        msg+= " " + cit->nick;
     }
     write(it->cliFd, msg.c_str(), msg.length());
     return 0;

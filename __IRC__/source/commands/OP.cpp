@@ -8,10 +8,6 @@ void showUsers(Chanel &cha) {
     std::cout << RESET << std::endl;
 }
 
-/*
-    Client'in positionunu verir.
-    Eger bulamazsa -1 verir.
-*/
 int getClientPos(Chanel &cha, Client &cli) {
     for (int i = 0; (int)cha.clients.size() > i; i++) {
         if (cli.nick == cha.clients[i].nick)
@@ -20,10 +16,10 @@ int getClientPos(Chanel &cha, Client &cli) {
     return -1;
 }
 
-int Server::Op(std::string &s, Client &cli) {//  s = <chanelname> +o <nickname>
+int Server::Op(std::string &s, Client &cli) {
     std::vector<std::string> cmd = Utilities::splitString(s);
     Chanel cha = getChanel(cmd[0]);
-    if (cli.nick == cha.op->nick) {//komutu gonderen client eger op ise
+    if (cli.nick == cha.op->nick) {//if he is op
         Utilities::trim(cmd[2]);
         ClientIterator it_ = this->clients.begin();
         for (; it_ != this->clients.end(); ++it_) {
@@ -36,10 +32,10 @@ int Server::Op(std::string &s, Client &cli) {//  s = <chanelname> +o <nickname>
         Client oldOp = cha.getClient(cli.nick);
 
         std::cout << YELLOW << "cmd:" << cmd[2] << " s:" << s << RESET << std::endl;
-        if (isClientIn(oldOp, cmd[0]) && isClientIn(newOp, cmd[0])) {//eger oldOperator ve newOperator ayni kanalda ise
+        if (isClientIn(oldOp, cmd[0]) && isClientIn(newOp, cmd[0])) {//if oldop and newop same channel
             for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
                 if (cmd[0] == it->name && getClientPos(*it, oldOp) != -1 && getClientPos(*it, newOp) != -1) {
-                    //inputtan gelen chanel name iteratorun chanelNameine esitse new ve old op'u swapliyor
+                    //swap oldop and newop if they are in same chanel
                     Client tmp = it->clients[getClientPos(*it, oldOp)];
                     it->clients[getClientPos(*it, oldOp)] = it->clients[getClientPos(*it, newOp)];
                     it->clients[getClientPos(*it, newOp)] = tmp;

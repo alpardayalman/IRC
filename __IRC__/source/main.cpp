@@ -7,12 +7,12 @@
 
 #define SYSTEM
 
-void    signalHandle(int signum) {
+/* void    signalHandle(int signum) {
 #ifdef SYSTEM
     system("leaks ircserv"); //
 #endif
     std::exit(signum);
-}
+} */
 
 int main(int ac, char **av) {
     try {
@@ -21,7 +21,7 @@ int main(int ac, char **av) {
         else if (!Utilities::checkPortNumber(av[1]))
             throw Exception("Port has to be all digits.");
         else {
-            std::signal(SIGINT, signalHandle);
+            // std::signal(SIGINT, signalHandle);
             Server a = Server(atoi(av[1]), av[2]);
         }
     }

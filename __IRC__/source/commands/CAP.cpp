@@ -1,7 +1,6 @@
 #include "Server.hpp"
 
 int     Server::Cap(std::string &s, Client &cli) {
-    // std::cout << "Cap" << s << std::endl;
     if (s == "LS")
         cli.isCapt = HEX;
     else if (s == "NC")
