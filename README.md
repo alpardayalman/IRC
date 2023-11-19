@@ -58,7 +58,6 @@ https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
 
    <img src="irc.png">
 
-31
 ## NOTES
 ### Main Objective: finishing this project before our 2nd week.
 
