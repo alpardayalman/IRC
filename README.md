@@ -30,7 +30,7 @@ https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
 - [x] Leaks. & seg correction
 - [x] Signal. ^D & ^Z
 - [x] Preliminary last checks (checkout 13'th day)
-- [ ] Evo for all 2 of the teams.
+- [x] Evo for all 2 of the teams.
 - [ ] Everyone's last word for this project.
 
 [![-----------------------------------------------------](
