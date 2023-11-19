@@ -23,11 +23,7 @@ int Server::isClientIn(Chanel &cha, int cliFd) {
     }
     return 0;
 }
-/*
-    client ve bir channel name atiliyor.
-    sonra channellerde dolasilip eger client'in icinde oldugu channel
-    varsa o chanelin indexi donduruyor.
-*/
+
 int Server::isClientIn(Client& cli, std::string nameChanel) {
     int ret = 1;
     for (ChanelIterator it = this->chanels.begin(); it != this->chanels.end(); ++it, ++ret) {
@@ -47,8 +43,14 @@ int    Server::Join(std::string &s, Client& cli) {
     std::string chaName, key;
     std::string msg;
     if (!s.empty()) {
+        if(cli.nick.empty() || cli.user.empty()) {
+            cli.messageBox.push_back("You cannot joined chanel cause you don't have a nickname or username\n");
+            FD_SET(cli.cliFd, &this->writeFds);
+            return 0;
+        }
         ss >> chaName;
         ss >> key;
+        std::cout << PURPLE << "s: " << s << " chaName: " << chaName << " name: " << cli.nick << RESET << std::endl;
         if(!Utilities::checkChannel(chaName)) {
             Utilities::writeRpl(cli.cliFd, ERR_NOSUCHCHANNEL(cli.getPrefix(), chaName));
             return 0;

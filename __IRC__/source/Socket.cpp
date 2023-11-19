@@ -3,7 +3,7 @@
 
 void Server::createSocket( void ) {
 
-    ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < IPPROTO_IP) ? // IPPROTO_IP 0'a denk gelen bir macro
+    ((this->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) ? // if you want use linux write IPPROTO_IP because linux want define macro
     throw Exception("Socket is not created.") : 
     std::cout << GREEN << "Success: Socket is created." << RESET << std::endl;
 

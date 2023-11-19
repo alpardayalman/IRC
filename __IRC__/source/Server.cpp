@@ -1,8 +1,6 @@
 #include "Server.hpp"
 #include "Utilities.hpp"
 
-// #define debugCMD
-
 void Server::initCommands(void) {
     t_cmdFunct["PASS"] = &Server::Pass;
     t_cmdFunct["INFO"] = &Server::Info;
@@ -26,8 +24,6 @@ void Server::initCommands(void) {
     t_cmdFunct["OP"] = &Server::Op;
     t_cmdFunct["NAMES"] = &Server::Names;
 }
-
-
 
 Server::Server(size_t port_number_, char *password_) : port_number(port_number_), password(std::string(password_)), reuse(1) {
     std::cout << this->port_number << " " << this->password << std::endl;
@@ -63,7 +59,6 @@ void Server::commandHandler(std::string parameters, Client &begin) {
         std::cout << BLUE << param[1] + "| Command is not found.\n" << RESET << std::endl;
 }
 
-// * Server Multiplexing
 void Server::run(void) {
     sockaddr_in cliAddr;
     socklen_t cliSize;
@@ -94,11 +89,13 @@ void Server::run(void) {
             this->clients.push_back(tmp);
             FD_SET(tmp.cliFd, &this->readFds);
             std::cout << GREEN << "New Client Connected!" << RESET << std::endl;
-            Utilities::writeRpl(tmp.cliFd, RPL_WELCOME(tmp.nick));
+            std::string welcomemsg = Utilities::write_ascii_art();
+            Utilities::writeRpl(tmp.cliFd, RPL_WELCOME(tmp.nick, welcomemsg));
             state = 0;
+            continue;
         }
 
-        // read eventinde.
+        // read event.
         for (std::vector<Client>::iterator begin = this->clients.begin(); begin != this->clients.end() && state; ++begin) {
             if (FD_ISSET((*begin).cliFd, &this->readFdsSup)) {
                 readed = read((*begin).cliFd, this->buffer, 1024);

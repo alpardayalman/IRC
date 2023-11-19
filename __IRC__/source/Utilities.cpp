@@ -28,15 +28,16 @@ std::string Utilities::trim(const std::string &s) {
     return rtrim(ltrim(s));
 }
 
-void Utilities::write_ascii_art(void){
-
-        std::cout << " .----------------------------------------."<< std::endl;
-        std::cout << ":      __                                  :" << std::endl;
-        std::cout << ":   =='_))  __-:!:- (New client connected) :" << std::endl;
-        std::cout << ":     ,.' .'  ))-:!:-                      :" << std::endl;
-        std::cout << ":    ((_,'  .'-:!:-                        :" << std::endl;
-        std::cout << ":   ~^~~~^~~^~~~^~                         :" << std::endl;
-        std::cout << " `----------------------------------------' " << std::endl;
+std::string Utilities::write_ascii_art(void){
+        std::string msg;
+        msg += " .----------------------------------------.\n";
+        msg += ";      __                                  :\n" ;
+        msg += ";   =='_))  __-:!:-(Welcome to the our IRC):\n" ;
+        msg += ";     ,.' .'  ))-:!:-                      :\n" ;
+        msg += ";    ((_,'  .'-:!:-                        :\n" ;
+        msg += ";   ~^~~~^~~^~~~^~                         :\n" ;
+        msg += " `----------------------------------------'\n" ;
+        return (msg);
 }
 /*
     Divide the string from the lines. And return tokenized version of every lines.
@@ -96,7 +97,7 @@ bool    Utilities::checkChannel(std::string& s) {
 
 void    Utilities::writeRpl(int fd, std::string msg) {
     (write(fd, msg.c_str(), msg.length()) < 0) ? 
-        (std::cout << "dirtttitirti" << std::endl) : std::cout;
+        (std::cout << "MSG cannot send" << std::endl) : std::cout;
 }
 
 void    Utilities::writeAllRpl(std::vector<int> fd, std::string msg) {
