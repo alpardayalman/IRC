@@ -124,11 +124,12 @@ void Server::run(void) {
                     (*begin).buffer.clear();
                     std::cout << BLUE << s << RESET << std::endl;
                     std::vector<std::string> parameters = Utilities::tokenNewline(s);
-
+                    if (!this->chanels.empty())
+                        std::cout << YELLOW << "op.nick:" << this->chanels[0].op->nick << RESET << std::endl;
                     for (int i = 0; i < (int)parameters.size(); i++) {
                         Server::commandHandler(parameters[i], (*begin));
                     }
-                    std::cout << PURPLE << "---------------------" << parameters.size() << RESET << std::endl;
+                    std::cout << PURPLE << "---------------------" << (*begin).cliFd << RESET << std::endl;
                     if (!(Utilities::tokenCmd(parameters[0], 0)[0] == "CAP" && parameters.size() == 1)) {
                         if (!(*begin).passcheku) {
                             FD_CLR((*begin).cliFd, &this->readFds);

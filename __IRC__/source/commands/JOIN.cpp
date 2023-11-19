@@ -114,8 +114,9 @@ int    Server::Join(std::string &s, Client& cli) {
         }
         else {//if chanel does not exist, create one and add the client to the chanel vector.
             Chanel  newChanel(chaName);
-            newChanel.op = &cli;
+            // newChanel.op = &cli;
             newChanel.clients.push_back(cli);
+            newChanel.op = &newChanel.clients[0];
             this->chanels.push_back(newChanel); // Chanels cached in server.
             Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
         }

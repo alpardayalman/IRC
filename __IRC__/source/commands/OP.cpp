@@ -31,7 +31,7 @@ int Server::Op(std::string &s, Client &cli) {
         Client newOp = cha.getClient(cmd[2]);
         Client oldOp = cha.getClient(cli.nick);
 
-        std::cout << YELLOW << "cmd:" << cmd[2] << " s:" << s << RESET << std::endl;
+        // std::cout << YELLOW << "cmd:" << cmd[2] << " s:" << s << RESET << std::endl;
         if (isClientIn(oldOp, cmd[0]) && isClientIn(newOp, cmd[0])) {//if oldop and newop same channel
             for (ChanelIterator it = chanels.begin(); it != chanels.end(); it++) {
                 if (cmd[0] == it->name && getClientPos(*it, oldOp) != -1 && getClientPos(*it, newOp) != -1) {

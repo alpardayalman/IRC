@@ -7,7 +7,7 @@ int    Server::List(std::string &s, Client& cli) {
         if (!it->topic.length())
             Utilities::writeRpl(cli.cliFd, RPL_LIST(cli.nick, it->name, Utilities::intToString(it->clients.size()), " Empty"));
         else
-            Utilities::writeRpl(cli.cliFd, RPL_LIST(cli.nick, it->name, Utilities::intToString(it->clients.size()), it->topic));
+            Utilities::writeRpl(cli.cliFd, RPL_LIST(cli.nick, it->name, Utilities::intToString(it->clients.size()), " "+it->topic));
     }
     Utilities::writeRpl(cli.cliFd, RPL_LISTEND(cli.nick));
     return 1;

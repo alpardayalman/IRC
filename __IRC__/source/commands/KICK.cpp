@@ -11,7 +11,7 @@ int Server::Kick(std::string &s, Client &cli) {
     if (cha.name.empty()){
         return 0;
     }
-
+    // std::cout << s << std::endl;
     if(cha.op->nick == cmd[1] || cha.op->nick != cli.nick) {
         if(cha.op->nick != cli.nick) {
             Utilities::writeRpl(cli.cliFd, ERR_CHANOPRIVSNEEDED(cli.getPrefix(), kick));
