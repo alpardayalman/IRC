@@ -69,6 +69,7 @@ int    Server::Join(std::string &s, Client& cli) {
                             }
                             else {
                                 (*it).clients.push_back(cli);
+                                (*it).op = &(*it).clients[0];
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                                 if (!(*it).topic.empty())
                                     Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
@@ -80,6 +81,7 @@ int    Server::Join(std::string &s, Client& cli) {
                             }
                             else {
                                 (*it).clients.push_back(cli);
+                                (*it).op = &(*it).clients[0];
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                                 if (!(*it).topic.empty())
                                     Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
@@ -91,6 +93,7 @@ int    Server::Join(std::string &s, Client& cli) {
                             }
                             else {
                                 (*it).clients.push_back(cli);
+                                (*it).op = &(*it).clients[0];
                                 Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                                 if (!(*it).topic.empty())
                                     Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
@@ -98,6 +101,7 @@ int    Server::Join(std::string &s, Client& cli) {
                         }
                         else {
                             (*it).clients.push_back(cli);
+                            (*it).op = &(*it).clients[0];
                             Utilities::writeRpl(cli.cliFd, RPL_JOIN(cli.nick, cli.ipAddr, chaName));
                             if (!(*it).topic.empty())
                                 Utilities::writeRpl(cli.cliFd, RPL_TOPIC(cli.nick, cli.ipAddr, chaName, (*it).topic));
