@@ -92,6 +92,7 @@ void Server::run(void) {
             std::string welcomemsg = Utilities::write_ascii_art();
             Utilities::writeRpl(tmp.cliFd, RPL_WELCOME(tmp.nick, welcomemsg));
             state = 0;
+            continue;
         }
 
         // read event.

@@ -43,8 +43,8 @@ int    Server::Join(std::string &s, Client& cli) {
     std::string chaName, key;
     std::string msg;
     if (!s.empty()) {
-        if(cli.nick.empty()) {
-            cli.messageBox.push_back("you cannot joined chanel cause you don't have a nickname");
+        if(cli.nick.empty() || cli.user.empty()) {
+            cli.messageBox.push_back("You cannot joined chanel cause you don't have a nickname or username\n");
             FD_SET(cli.cliFd, &this->writeFds);
             return 0;
         }
