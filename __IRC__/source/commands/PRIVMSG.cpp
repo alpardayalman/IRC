@@ -10,7 +10,7 @@ int     Server::PrivMsg(std::string &s, Client& cli) {
     {
         if (it->cliFd != cli.cliFd && isClientIn((*it), params[0]))//if you are not yourself and client(it) is in this chanel 
         {
-            if (!isClientIn(cli, params[0])) // sen chanelde misin.
+            if (!isClientIn(cli, params[0])) //are you in chanel.
                 return 1;
             (*it).messageBox.push_back(RPL_PRIVMSG(cli.getPrefix(), params[0], (params[1][0]==':'?params[1].substr(1, params[1].length()) : params[1])));
             FD_SET((*it).cliFd, &this->writeFds);
